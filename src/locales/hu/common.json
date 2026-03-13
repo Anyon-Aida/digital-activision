@@ -1,0 +1,217 @@
+{
+  "nav": {
+    "contact": "Kapcsolat"
+  },
+  "hero": {
+    "title": "Weboldalak, amik ügyfelet hoznak",
+    "subtitle": "Gyors, átlátható és szép oldalak. Kézzelfogható eredmény: több megkeresés, jobb Google-pozíció.",
+    "ctaPrimary": "Kérj ajánlatot",
+    "ctaSecondary": "Nézd meg a munkáimat",
+    "points": ["Hazai csapat", "Határidő-garancia", "Mérhető eredmények"],
+    "code": "const DigitalActivision = {\n  goal: \"gyors + szép + érthető\",\n  delivers: [\"weboldal\",\"webshop\",\"design\",\"SEO\",\"üzemeltetés\"],\n  promise: \"átlátható folyamat, tiszta kommunikáció\"\n};"
+  },
+  "features": {
+    "title": "Miért jó neked?",
+    "subtitle": "Röviden és érthetően: az online céljaidat támogatjuk.",
+    "items": [
+      { "title": "Gyors", "text": "Hamar betölt, nem veszíted el a látogatókat." },
+      { "title": "Keresőbarát", "text": "Úgy építjük, hogy a Google is értse." },
+      { "title": "Szép és egységes", "text": "Tiszta, modern design, mobilon is kiváló." },
+      { "title": "Mérhető", "text": "Analitika, célok, konverzió – döntéshez adat." }
+    ]
+  },
+    "services": {
+    "title": "Szolgáltatásaink",
+    "subtitle": "Mindig a célodhoz igazítva. Modulárisan bővíthető.",
+    "items": [
+      {
+        "title": "Weboldal & Webshop",
+        "lead": "Egyedi megjelenés, gyors betöltés, könnyű kezelés.",
+        "points": ["Űrlapok, ajánlatkérés", "Alap integrációk"]
+      },
+      {
+        "title": "Arculat & UI",
+        "lead": "Logó, színek, tipográfia. Egységes kinézet minden felületen.",
+        "points": ["Gombok, kártyák, komponensek", "Rövid használati"]
+      },
+      {
+        "title": "SEO-alapozás",
+        "lead": "Technikai rend, gyors oldal, jó mobilélmény.",
+        "points": ["Alap kulcsszó-térkép", "Mérési beállítások"]
+      },
+      {
+        "title": "Üzemeltetés & támogatás",
+        "lead": "Biztonsági mentés, frissítések, hibajavítás.",
+        "points": ["Reakcióidő vállalással", "Apró módosítások"]
+      },
+      {
+        "title": "Audit & tanácsadás",
+        "lead": "Gyors felmérés és 10–15 pontos javaslatlista.",
+        "points": ["Azonnal bevethető ötletek", "Prioritás szerint rendezve"]
+      },
+      {
+        "title": "Tartalomkészítés & Blog",
+        "lead": "Pontos és precíz.",
+        "points": ["Cikkek, termékleírások, blogposztok", "SEO-barát szövegírás, képek"]
+      }
+    ]
+  },
+    "works": {
+    "title": "Munkáim (ízelítő)",
+    "subtitle": "Esettanulmányokkal mutatjuk meg a különbséget.",
+    "projects": [
+      {
+        "title": "Alba Medence – 3D tervező",
+        "desc": "Prémium élmény, interaktív medence-tervező, modern vizuálokkal.",
+        "tags": ["Next.js", "3D", "UX/UI"],
+        "image": "/projects/alba_pool.png",
+        "link": "https://albamedence.hu/"
+      },
+      {
+        "title": "Burger Shop – étvágygerjesztő landing",
+        "desc": "Erőteljes kontraszt, középpontban a termék: ízélményt sugall.",
+        "tags": ["Landing Page", "Branding", "CTA"],
+        "image": "/projects/burgers.png",
+        "link": "/works/hamburger/"
+      },
+      {
+        "title": "Home Garden – webshop dizájn",
+        "desc": "Tiszta kategóriák, gyors keresés, piros-fehér profi megjelenés.",
+        "tags": ["E-commerce", "Next.js", "Responsive"],
+        "image": "/projects/home_gadren.png",
+        "link": "https://figma.com/design/oLaMbQnU4HVBS2Ueho2T9W/Untitled?t=qhX9fA8TEwzVlbfH-0"
+      },
+      {
+        "title": "Lion Gym – sport & motiváció",
+        "desc": "Fekete-piros dinamika, erő és lendület egy fitnesz brandnek.",
+        "tags": ["Branding", "Sport", "Landing"],
+        "image": "/projects/lion.png",
+        "link": "/works/boxer-hero/"
+      },
+      {
+        "title": "Nati AI Chat – ügyfélszolgálat",
+        "desc": "Innovatív chatbot, futurisztikus lila dizájnnal.",
+        "tags": ["AI", "Next.js", "Chatbot"],
+        "image": "/projects/nati_chat.png",
+        "link": "/works/nati/"
+      }
+    ]
+  },
+    "process": {
+    "title": "Hogyan dolgozunk?",
+    "subtitle": "Pillantson be a színfalak mögé, és fedezze fel csapatunk egyedi webdesign folyamatát. Minden méretű márka számára készítünk egyedi weboldalakat, amelyek mérhető eredményeket hoznak.",
+    "steps": [
+      {
+        "title": "Felderítés",
+        "img": "/process/1-discovery.png",
+        "body": [
+          "Rövid beszélgetéssel és mini-brief kérdőívvel indulunk.",
+          "Az üzleti célokat lefordítjuk webes célokra (milyen konverziót vársz, kit akarunk meggyőzni).",
+          "Meghatározzuk a sikermérő számokat, és felrajzoljuk a kockázatokat/korlátokat."
+        ],
+        "bullets": ["Fájdalompontok és UVP-k feltárása", "KPI-k, mérőpontok, dashboard", "Roadmap és erőforrásbecslés"]
+      },
+      {
+        "title": "Irány & ütem",
+        "img": "/process/2-plan.png",
+        "body": [
+          "Összerakjuk a scope-ot, az oldaltérképet és az ütemezést.",
+          "Rögzítjük a mérföldköveket, felelősöket és a kommunikációs ritmust."
+        ],
+        "bullets": ["Oldaltérkép (IA), fő user-flowk", "Mérföldkövek, határidők, felelősségek", "Csatornák: státusz, demo linkek, visszajelzés"]
+      },
+      {
+        "title": "Vázlat & prototípus",
+        "img": "/process/3-wire.png",
+        "body": [
+          "Mobil-first drótvázakból kattintható protót készítünk.",
+          "A működést itt teszteljük, a logika még design előtt finomítható."
+        ],
+        "bullets": ["Wireframe mobil/desktop nézetekhez", "Kritikus folyamatok: keresés, űrlap, kosár/CTA", "1–2 iteráció fókuszált visszajelzéssel"]
+      },
+      {
+        "title": "Design rendszer",
+        "img": "/process/4-design.png",
+        "body": ["Egységes vizuális nyelvet adunk: színek, tipó, komponensek.", "Kulcsoldalakat végleges látványban, állapotokkal."],
+        "bullets": ["Színpaletta, tipográfia, ikonok", "Gombok/kártyák/űrlapok mintakönyvtár", "Kulcsképernyők: hero, szolgáltatás, cikk/termék"]
+      },
+      {
+        "title": "Fejlesztés & integráció",
+        "img": "/process/5-dev.png",
+        "body": ["Gyors, keresőbarát kód; minden integráció a helyén.", "Folyamatos staging link, hogy lásd a haladást."],
+        "bullets": ["Reszponzív build, Core Web Vitals fókusz", "CMS/űrlap/analitika integrációk", "Tartalomfeltöltés és minőségellenőrzés"]
+      },
+      {
+        "title": "Teszt, indítás, gondozás",
+        "img": "/process/6-launch.png",
+        "body": ["Eszköz-tesztek, sebesség-finomhangolás, SEO-alapok.", "Indítás után betanítás és rövid gardírozás."],
+        "bullets": ["Lighthouse/Device teszt, hozzáférhetőség", "Sitemap, meta, monitorozás, backup", "Betanítás + 2 hét finomhangolás"]
+      }
+    ]
+  },
+    "pricing": {
+    "title": "Árazás",
+    "subtitle": "Átlátható csomagok — projekthez igazítva.",
+    "disclaimer": "Az árak nettóban értendők; végleges ár és ütemezés az igényfelmérés után. Az időtartam függ a tartalom rendelkezésre állásától és a visszajelzések gyorsaságától.",
+    "plans": [
+      {
+        "name": "Starter",
+        "price": "490 000 Ft-tól",
+        "note": "Időtartam: 4–6 hét",
+        "features": [
+          "1–3 oldalas site",
+          "Egyedi kinézet, gyors betöltés",
+          "Alap SEO, 1 kör módosítás",
+          "Rövid betanítás"
+        ],
+        "cta": { "label": "Érdekel", "href": "#contact", "variant": "ghost" }
+      },
+      {
+        "name": "Growth",
+        "price": "1 190 000 Ft-tól",
+        "note": "Időtartam: 8–12 hét",
+        "features": [
+          "Több aloldal + blog/CMS",
+          "Teljes designcsomag és sablonok",
+          "Keresőbarát felépítés, mérés",
+          "2 hónap támogatás"
+        ],
+        "cta": { "label": "Legyen ez", "href": "#contact", "variant": "primary" },
+        "accent": true
+      },
+      {
+        "name": "Scale",
+        "price": "Egyedi ajánlat",
+        "note": "Ütemezés egyeztetés szerint",
+        "features": [
+          "Webapp / integrációk / SLA",
+          "Üzemeltetés, monitorozás",
+          "Vállalt reakcióidők"
+        ],
+        "cta": { "label": "Kapcsolat", "href": "#contact", "variant": "ghost" }
+      }
+    ]
+  },
+  "contact": {
+    "topTitle": "Van egy célod a webeddel?",
+    "topSubtitle": "Beszéljük át röviden, és kapsz egy tiszta, pontokba szedett tervet.",
+    "topButton": "Ingyenes 15 perces mini-audit",
+
+    "title": "Kezdjük el!",
+    "subtitle": "Írj 2–3 mondatot a céljaidról — <strong>1 munkanapon belül</strong> válaszolunk.",
+
+    "fields": {
+      "name": "Név",
+      "namePh": "Teljes neved",
+      "email": "E-mail",
+      "emailPh": "valaki@email.com",
+      "message": "Üzenet",
+      "messagePh": "Pár mondat a céljaidról, elvárt eredmény, határidő…",
+      "consent": "Hozzájárulok az adataim feldolgozásához"
+    },
+
+    "send": "Küldés",
+    "sending": "Küldés…",
+    "success": "Üzenet elküldve — hamarosan válaszolunk köszönjük! 💌"
+  }
+}

@@ -1,0 +1,217 @@
+{
+  "nav": {
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Websites that bring you clients",
+    "subtitle": "Fast, clear and beautiful sites. Tangible outcomes: more inquiries, better Google rankings.",
+    "ctaPrimary": "Get a quote",
+    "ctaSecondary": "See my work",
+    "points": ["Local team", "On-time guarantee", "Measurable results"],
+    "code": "const DigitalActivision = {\n  goal: \"fast + beautiful + clear\",\n  delivers: [\"website\",\"webshop\",\"design\",\"SEO\",\"operation\"],\n  promise: \"transparent process, clear communication\"\n};"
+  },
+  "features": {
+    "title": "Why is this good for you?",
+    "subtitle": "In short: we support your online goals.",
+    "items": [
+      { "title": "Fast", "text": "Loads quickly so you don't lose visitors." },
+      { "title": "SEO-friendly", "text": "Built so Google can understand it." },
+      { "title": "Beautiful & consistent", "text": "Clean, modern design that shines on mobile." },
+      { "title": "Measurable", "text": "Analytics, goals, conversions — data for decisions." }
+    ]
+  },
+    "services": {
+    "title": "Our services",
+    "subtitle": "Always aligned to your goal. Modular and scalable.",
+    "items": [
+      {
+        "title": "Website & Webshop",
+        "lead": "Custom look, fast loading, easy to manage.",
+        "points": ["Forms & quote requests", "Basic integrations"]
+      },
+      {
+        "title": "Branding & UI",
+        "lead": "Logo, colors, typography. Consistent look across platforms.",
+        "points": ["Buttons, cards, components", "Quick guidelines"]
+      },
+      {
+        "title": "SEO foundation",
+        "lead": "Clean tech, fast site, great mobile experience.",
+        "points": ["Basic keyword map", "Analytics setup"]
+      },
+      {
+        "title": "Operations & support",
+        "lead": "Backups, updates, bug fixes.",
+        "points": ["Committed response times", "Small tweaks included"]
+      },
+      {
+        "title": "Audit & consulting",
+        "lead": "Quick assessment with a 10–15 point action list.",
+        "points": ["Actionable ideas", "Prioritized by impact"]
+      },
+      {
+        "title": "Content & Blog",
+        "lead": "Accurate and on-point.",
+        "points": ["Articles, product copy, posts", "SEO-friendly writing, images"]
+      }
+    ]
+  },
+    "works": {
+    "title": "Selected work",
+    "subtitle": "We show the difference through case studies.",
+    "projects": [
+      {
+        "title": "Alba Pool – 3D configurator",
+        "desc": "Premium experience with an interactive pool configurator and modern visuals.",
+        "tags": ["Next.js", "3D", "UX/UI"],
+        "image": "/projects/alba_pool.png",
+        "link": "https://albamedence.hu/"
+      },
+      {
+        "title": "Burger Shop – mouth-watering landing",
+        "desc": "Bold contrast, product in focus: it communicates flavour.",
+        "tags": ["Landing Page", "Branding", "CTA"],
+        "image": "/projects/burgers.png",
+        "link": "/works/hamburger/"
+      },
+      {
+        "title": "Home Garden – storefront design",
+        "desc": "Clear categories, fast search, crisp red-white professional look.",
+        "tags": ["E-commerce", "Next.js", "Responsive"],
+        "image": "/projects/home_gadren.png",
+        "link": "https://figma.com/design/oLaMbQnU4HVBS2Ueho2T9W/Untitled?t=qhX9fA8TEwzVlbfH-0"
+      },
+      {
+        "title": "Lion Gym – sport & motivation",
+        "desc": "Black-red dynamics: strength and momentum for a fitness brand.",
+        "tags": ["Branding", "Sport", "Landing"],
+        "image": "/projects/lion.png",
+        "link": "/works/boxer-hero/"
+      },
+      {
+        "title": "Nati AI Chat – customer support",
+        "desc": "Innovative chatbot with a futuristic purple look.",
+        "tags": ["AI", "Next.js", "Chatbot"],
+        "image": "/projects/nati_chat.png",
+        "link": "/works/nati/"
+      }
+    ]
+  },
+    "process": {
+    "title": "How we work",
+    "subtitle": "Take a peek behind the scenes and discover our custom web-design process. We build bespoke websites for brands of any size that deliver measurable results.",
+    "steps": [
+      {
+        "title": "Discovery",
+        "img": "/process/1-discovery.png",
+        "body": [
+          "We start with a short call and a mini-brief questionnaire.",
+          "We translate business goals into web goals (what conversion we expect, who we must convince).",
+          "We define success metrics and map risks/constraints."
+        ],
+        "bullets": ["Pain points & UVPs", "KPIs, tracking, dashboard", "Roadmap and effort estimate"]
+      },
+      {
+        "title": "Direction & cadence",
+        "img": "/process/2-plan.png",
+        "body": [
+          "We assemble scope, sitemap and timeline.",
+          "We fix milestones, owners and the communication rhythm."
+        ],
+        "bullets": ["Sitemap (IA), key user flows", "Milestones, deadlines, responsibilities", "Channels: status, demo links, feedback"]
+      },
+      {
+        "title": "Wireframe & prototype",
+        "img": "/process/3-wire.png",
+        "body": [
+          "Mobile-first wireframes turned into a clickable prototype.",
+          "We test behavior here; logic can be refined before visual design."
+        ],
+        "bullets": ["Wireframes for mobile/desktop", "Critical flows: search, forms, cart/CTA", "1–2 iterations with focused feedback"]
+      },
+      {
+        "title": "Design system",
+        "img": "/process/4-design.png",
+        "body": ["A coherent visual language: colors, type, components.", "Key pages in final visuals with states."],
+        "bullets": ["Palette, typography, icons", "Buttons/cards/forms component library", "Key screens: hero, services, article/product"]
+      },
+      {
+        "title": "Development & integration",
+        "img": "/process/5-dev.png",
+        "body": ["Fast, SEO-friendly code with all integrations in place.", "Continuous staging link so you can follow progress."],
+        "bullets": ["Responsive build, Core Web Vitals focus", "CMS/form/analytics integrations", "Content upload and QA"]
+      },
+      {
+        "title": "Test, launch, care",
+        "img": "/process/6-launch.png",
+        "body": ["Device tests, performance tuning, SEO basics.", "After launch we train you and fine-tune."],
+        "bullets": ["Lighthouse/device tests, accessibility", "Sitemap, meta, monitoring, backup", "Training + 2 weeks of tuning"]
+      }
+    ]
+  },
+    "pricing": {
+    "title": "Pricing",
+    "subtitle": "Transparent packages — tailored to your project.",
+    "disclaimer": "Prices are net; final price and timeline follow discovery. Duration depends on content readiness and feedback turnaround.",
+    "plans": [
+      {
+        "name": "Starter",
+        "price": "from 490,000 HUF",
+        "note": "Timeline: 4–6 weeks",
+        "features": [
+          "1–3 page site",
+          "Custom look, fast loading",
+          "Basic SEO, 1 round of revisions",
+          "Short handover training"
+        ],
+        "cta": { "label": "I’m interested", "href": "#contact", "variant": "ghost" }
+      },
+      {
+        "name": "Growth",
+        "price": "from 1,190,000 HUF",
+        "note": "Timeline: 8–12 weeks",
+        "features": [
+          "Multiple pages + blog/CMS",
+          "Full design kit and templates",
+          "SEO-friendly structure, analytics",
+          "2 months of support"
+        ],
+        "cta": { "label": "Choose this", "href": "#contact", "variant": "primary" },
+        "accent": true
+      },
+      {
+        "name": "Scale",
+        "price": "Custom quote",
+        "note": "Scheduling by agreement",
+        "features": [
+          "Web app / integrations / SLA",
+          "Operations & monitoring",
+          "Committed response times"
+        ],
+        "cta": { "label": "Contact", "href": "#contact", "variant": "ghost" }
+      }
+    ]
+  },
+  "contact": {
+    "topTitle": "Got a goal for your website?",
+    "topSubtitle": "Let’s chat briefly and you’ll get a clear, bullet-point plan.",
+    "topButton": "Free 15-minute mini-audit",
+
+    "title": "Let’s start!",
+    "subtitle": "Write 2–3 sentences about your goals — we reply within <strong>1 business day</strong>.",
+
+    "fields": {
+      "name": "Name",
+      "namePh": "Your full name",
+      "email": "E-mail",
+      "emailPh": "someone@email.com",
+      "message": "Message",
+      "messagePh": "A few lines about your goals, expected outcome, deadline…",
+      "consent": "I consent to the processing of my data"
+    },
+
+    "send": "Send",
+    "sending": "Sending…",
+    "success": "Message sent — soon we will reply, thank you! 💌"
+  }
+}

@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <base href="/projects/nati/">
+  <title>NATI • Helpdesk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Rounded:opsz,wght,FILL,GRAD@24,400,0,0" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#e9eaee;          /* háttér */
+      --panel:#fff;          /* fő panelek */
+      --left:#f2f3f7;        /* bal sáv */
+      --ink:#1b2346;         /* sötét szöveg */
+      --muted:#5e6787;       /* kiegészítő szöveg */
+      --brand:#5a35ff;       /* lila akcentus */
+      --green:#23c15a;       /* online pötty */
+      --blue:#4086ff;        /* jobboldali buborék */
+      --bubble:#f1f3f7;      /* ai buborék */
+      --radius:22px;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{margin:0;background:var(--bg);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif;color:var(--ink)}
+
+    /* FRAME */
+    .frame{ height: min(92vh, 920px); width: min(1400px, 96vw); margin: 3vh auto; 
+            background: var(--panel); border-radius:24px; overflow:hidden; box-shadow:0 30px 80px rgba(0,0,0,.25)}
+
+    .app{ display:grid; grid-template-columns: 260px 360px 1fr; height:100% }
+
+    /* LEFT NAV */
+    .nav{ background:var(--left); padding:18px 14px; display:flex; flex-direction:column; gap:14px }
+    .brand{ display:flex; justify-content: center; align-items:center; gap:10px; padding:10px 10px 18px }
+    .brand .logo{ width:52px; height:52px; display:grid; place-items:center; background:#e8e5ff; color:var(--brand); border-radius:12px }
+    .group{ margin-top:8px }
+    .group h6{ margin:14px 8px 6px; font-size:12px; letter-spacing:.08em; color:#7a81a3; text-transform:uppercase }
+    .item{ display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:12px; color:#333a66; cursor:pointer; white-space:nowrap }
+    .item:hover{ background:#e6e8f2 }
+    .item .mi{ width:20px; height:20px }
+    .item.active{ background:#e7e9ff; color:var(--brand); font-weight:600 }
+
+    /* MIDDLE LIST */
+    .list{ background:#fff; border-right:1px solid #eef1f6; flex-direction:column; min-width:0 }
+    .tabs{ display:flex; gap:18px; padding:16px 18px; align-items:center; border-bottom:1px solid #eef1f6; flex:0 0 auto }
+    .tabs .tab{ color:#7a81a3; font-weight:600; cursor:pointer; display:flex; align-items:center; gap:8px }
+    .tabs .tab.active{ color:var(--ink) }
+    .tabs .pill{ background:var(--brand); color:#fff; border-radius:999px; padding:2px 8px; font-size:12px }
+
+    .search{ padding:12px 18px; border-bottom:1px solid #eef1f6 }
+    .search input{ width:100%; padding:12px 14px; border-radius:12px; border:1px solid #e5e8f1; background:#f6f7fb; outline:none }
+
+    .threads{ overflow:auto; padding:8px 8px 16px; display:grid; gap:4px; flex:1 }
+    .thread{ display:grid; grid-template-columns:24px 40px 1fr; align-items:center; gap:10px; padding:10px; border-radius:12px; cursor:pointer }
+    .thread:hover{ background:#f6f7fb }
+    .thread .star{ border:0; background:transparent; padding:0; margin:0; width:24px; height:24px; color:#c2c6de; cursor:pointer }
+    .thread .star.filled{ color:#ffb300 }
+    .thread .avatar{ width:40px; height:40px; border-radius:50%; overflow:hidden; display:grid; place-items:center; background:#eee }
+    .thread .avatar img{ width:32px; height:32px; object-fit:contain }
+    .thread .title{ font-weight:700 }
+    .thread .snippet{ color:#6c7393; font-size:13px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap }
+
+    /* RIGHT CHAT */
+    .chat{ display:flex; flex-direction:column; min-width:0 }
+    .chat-head{ padding:16px 22px; border-bottom:1px solid #eef1f6; display:flex; align-items:center; gap:12px; flex:0 0 auto }
+    .chat-head .avatar{ width:34px; height:34px; border-radius:50%; background:#f2f3f7; display:grid; place-items:center; overflow:hidden }
+    .chat-head img{ width:28px; height:28px }
+    .status{ display:flex; align-items:center; gap:8px; color:#6c7393 }
+    .status .dot{ width:10px; height:10px; border-radius:50%; background:var(--green) }
+    .chat-head .fav{ margin-left:2px; color:#c2c6de; background:transparent; border:0; width:24px; height:24px; cursor:pointer }
+    .chat-head .fav.filled{ color:#ffb300 }
+
+    .board{ flex:1; background:#fff; padding:18px 22px; overflow:auto; display:flex; flex-direction:column; gap:14px; min-width:0 }
+    .line{ display:flex; align-items:flex-end; gap:10px }
+    .line.ai{ justify-content:flex-start }
+    .line.user{ justify-content:flex-end }
+
+    .avatar.small{ width:28px; height:28px; border-radius:50%; background:#f2f3f7; display:grid; place-items:center; overflow:hidden; flex:0 0 auto }
+    .avatar.small img{ width:22px; height:22px; object-fit:contain }
+    .avatar.small.user{ background:#e6e9ff; color:var(--brand) }
+
+    .msg{ max-width:560px; padding:12px 16px; border-radius:18px; position:relative; line-height:1.35 }
+    .msg.ai{ background:var(--bubble); color:#1c2544 }
+    .msg.user{ background:var(--blue); color:#fff }
+    .msg.ai::after{ content:""; position:absolute; left:-6px; bottom:10px; width:12px; height:12px; background:var(--bubble); border-bottom-left-radius:10px; transform:rotate(45deg) }
+    .msg.user::after{ content:""; position:absolute; right:-6px; bottom:10px; width:12px; height:12px; background:var(--blue); border-bottom-right-radius:10px; transform:rotate(45deg) }
+
+    .composer{ border-top:1px solid #eef1f6; padding:14px; background:#fff; flex:0 0 auto }
+    .composer .bar{ display:flex; align-items:center; gap:10px; border:1px solid #e5e8f1; border-radius:20px; padding:12px 12px; background:#fff }
+    .composer input{ flex:1; border:0; outline:0; padding:12px 8px; font-size:14px }
+    .tools{ display:flex; gap:8px }
+    .btn{ background:#f3f5fb; color:#5b66a2; border:0; padding:10px 12px; border-radius:10px; cursor:pointer }
+    .btn.primary{ background: #e8e5ff; color: var(--brand); font-weight:700 }
+
+    /* material icons helper */
+    .mi{font-family:"Material Symbols Rounded";font-weight:normal;font-style:normal;line-height:1;letter-spacing:normal;text-transform:none;display:inline-flex;align-items:center;justify-content:center;white-space:nowrap;user-select:none;font-size:20px;vertical-align:middle;font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24}
+    .filled{font-variation-settings:'FILL' 1,'wght' 600,'GRAD' 0,'opsz' 24}
+  /* === Composer redesign (textarea + icons + floating Reply) === */
+    .composer{ border-top:1px solid #eef1f6; background:#fff; padding:16px; }
+    .composer .writebox{ position:relative; border:2px solid #a9c8ff; border-radius:12px; background:#fff; min-height:120px; transition:border-color .15s ease, box-shadow .15s ease }
+    .composer .writebox:focus-within{ border-color:#7faaff; box-shadow:0 0 0 3px rgba(127,170,255,.2) }
+    .composer textarea{ width:100%; min-height:120px; height:120px; resize:none; border:0; outline:0; background:transparent; font: 400 16px/1.5 Inter, system-ui, sans-serif; color:var(--ink); padding:24px 140px 48px 20px }
+    .composer textarea::placeholder{ color:#98a2bd }
+    .compose-tools{ position:absolute; left:12px; bottom:10px; display:flex; gap:14px }
+    .compose-tools .ico{ width:28px; height:28px; border:0; background:transparent; color:#9aa4c3; display:grid; place-items:center; cursor:pointer }
+    .compose-tools .ico .mi{ font-size:22px }
+    .reply{ position:absolute; right:12px; bottom:12px; border:0; border-radius:12px; padding:10px 14px; display:inline-flex; align-items:center; gap:8px; background:#84a9f9; color:#fff; font-weight:600; cursor:pointer; box-shadow:0 8px 18px rgba(132,169,249,.45) }
+    .reply .mi{ font-size:18px }
+  </style>
+</head>
+<body>
+  <div class="frame">
+    <div class="app">
+      <!-- NAV -->
+      <aside class="nav">
+        <div class="brand">
+          <div class="logo"><img src="./assets/Asset 3.svg" alt="avatar"></div>
+        </div>
+        <div class="group">
+          <h6>Messages</h6>
+          <div class="item"><span class="mi">inbox</span><span>Inbox</span></div>
+          <div class="item"><span class="mi">outgoing_mail</span><span>Outbound</span></div>
+          <div class="item"><span class="mi">contacts</span><span>Contacts</span></div>
+          <div class="item"><span class="mi">insights</span><span>Statistic</span></div>
+          <div class="item active"><span class="mi">support</span><span>Helpdesk</span></div>
+        </div>
+        <div class="group">
+          <h6>Tools</h6>
+          <div class="item"><span class="mi">chat</span><span>Chat editor</span></div>
+          <div class="item"><span class="mi">lock</span><span>Authorization</span></div>
+          <div class="item"><span class="mi">build</span><span>Site tools</span></div>
+        </div>
+        <div class="group">
+          <h6>Settings</h6>
+          <div class="item"><span class="mi">settings</span><span>General</span></div>
+          <div class="item"><span class="mi">account_circle</span><span>Account</span></div>
+          <div class="item"><span class="mi">credit_card</span><span>Billing</span></div>
+        </div>
+      </aside>
+
+      <!-- LIST -->
+      <section class="list">
+        <div class="tabs">
+          <div class="tab">Open <span class="pill">2</span></div>
+          <div class="tab active">Resolved</div>
+        </div>
+        <div class="search"><input placeholder="Search chats ..."/></div>
+        <div class="threads">
+          <article class="thread">
+            <button class="star mi" aria-pressed="false" title="Favorite">star</button>
+            <div class="avatar"><img src="./assets/Asset 1.svg" alt="avatar"></div>
+            <div>
+              <div class="title">Bejelentkezési probléma</div>
+              <div class="snippet">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</div>
+            </div>
+          </article>
+          <article class="thread">
+            <button class="star mi" aria-pressed="false" title="Favorite">star</button>
+            <div class="avatar"><img src="./assets/Asset 1.svg" alt="avatar"></div>
+            <div>
+              <div class="title">Regisztrációs problémák</div>
+              <div class="snippet">Sed do eiusmod tempor incididunt ut magna aliqua.</div>
+            </div>
+          </article>
+          <article class="thread">
+            <button class="star mi" aria-pressed="false" title="Favorite">star</button>
+            <div class="avatar"><img src="./assets/Asset 1.svg" alt="avatar"></div>
+            <div>
+              <div class="title">Elfelejtett jelszó</div>
+              <div class="snippet">Ut enim ad minim veniam, ullamco laboris nisi ut aliquip.</div>
+            </div>
+          </article>
+          <article class="thread">
+            <button class="star mi" aria-pressed="false" title="Favorite">star</button>
+            <div class="avatar"><img src="./assets/Asset 1.svg" alt="avatar"></div>
+            <div>
+              <div class="title">Oldal betöltési hiba</div>
+              <div class="snippet">Ex ea commodo. Duis aute irure dolor in reprehenderit.</div>
+            </div>
+          </article>
+        </div>
+      </section>
+
+      <!-- CHAT -->
+      <section class="chat">
+        <header class="chat-head">
+          <div class="avatar"><img src="./assets/Asset 1.svg" alt="Nati"></div>
+          <div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-weight:800">Nati</span>
+              <button class="fav mi" aria-pressed="false" title="Favorite">star</button>
+            </div>
+            <div class="status"><span class="dot"></span>Online</div>
+          </div>
+          <div style="margin-left:auto; color:#8b91b2">Monday Nov 20, 2023</div>
+        </header>
+        <main class="board">
+          <div class="line ai">
+            <div class="avatar small"><img src="./assets/Asset 1.svg" alt="Nati"></div>
+            <div class="msg ai">Excepteur sint occaecat cupidatat</div>
+          </div>
+          <div class="line user">
+            <div class="msg user">Quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.<br/><small style="opacity:.85">Duis aute irure dolor</small></div>
+            <div class="avatar small user"><span class="mi">person</span></div>
+          </div>
+          <div class="line ai">
+            <div class="avatar small"><img src="./assets/Asset 1.svg" alt="Nati"></div>
+            <div class="msg ai">Sed do eiusmod tempor incididunt ut magna aliqua?</div>
+          </div>
+        </main>
+        <footer class="composer">
+          <div class="writebox">
+            <textarea id="compose" placeholder="Reply to live chat"></textarea>
+            <div class="compose-tools">
+              <button class="ico" title="Templates"><span class="mi">text_snippet</span></button>
+              <button class="ico" title="Attach"><span class="mi">attach_file</span></button>
+              <button class="ico" title="Emoji"><span class="mi">mood</span></button>
+            </div>
+            <button class="reply" id="replyBtn"><span class="mi">chat</span> Reply <span class="mi">expand_less</span></button>
+          </div>
+        </footer>
+      </section>
+    </div>
+  </div>
+
+  <script>
+    // toggle favorites
+    document.addEventListener('click', function(e){
+      if(e.target.classList.contains('star') || e.target.classList.contains('fav')){
+        e.target.classList.toggle('filled');
+        const pressed = e.target.classList.contains('filled');
+        e.target.setAttribute('aria-pressed', pressed ? 'true' : 'false');
+      }
+    });
+  </script>
+<script>
+  (function(){
+    const ta = document.getElementById('compose');
+    const btn = document.getElementById('replyBtn');
+    const board = document.querySelector('.board');
+    if(!ta || !btn || !board) return;
+    function autoresize(){
+      ta.style.height = 'auto';
+      const h = Math.max(120, Math.min(240, ta.scrollHeight));
+      ta.style.height = h + 'px';
+    }
+    ta.addEventListener('input', autoresize);
+    autoresize();
+    btn.addEventListener('click', ()=>{
+      const v = ta.value.trim();
+      if(!v) return;
+      const line = document.createElement('div');
+      line.className = 'line user';
+      const msg = document.createElement('div'); msg.className='msg user'; msg.textContent = v;
+      const av = document.createElement('div'); av.className='avatar small user'; av.innerHTML = '<span class="mi">person</span>';
+      line.appendChild(msg); line.appendChild(av); board.appendChild(line);
+      board.scrollTop = board.scrollHeight; ta.value=''; autoresize();
+    });
+  })();
+</script>
+</body>
+</html>

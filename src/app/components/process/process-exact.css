@@ -1,0 +1,19 @@
+/* neon glow változatlan */
+.neon-line{
+  box-shadow:
+    0 0 8px rgba(0,220,255,.95),
+    0 0 16px rgba(0,220,255,.55),
+    0 0 22px rgba(0,220,255,.35);
+}
+.neon-dot{
+  box-shadow:
+    0 0 10px rgba(0,220,255,.85),
+    0 0 18px rgba(0,220,255,.45);
+}
+
+/* full-bleed wrapper: a szakasz szélességét kiterjeszti 100vw-ra */
+
+
+.touch-pan-y {
+  touch-action: pan-y;
+}

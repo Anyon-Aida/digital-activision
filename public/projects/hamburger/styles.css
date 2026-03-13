@@ -1,0 +1,584 @@
+/* =========================================================
+   VARIABLES
+========================================================= */
+:root{
+  --bg: #1E1E1E;
+  --panel: #d9f15a;
+  --yellow: #ffd100;
+  --text: #E9E3DC;
+  --muted: #bcbcbc;
+
+  --container: min(1160px, 92vw);
+  --topbar-h: 86px;
+}
+
+/* =========================================================
+   BASE
+========================================================= */
+*{ box-sizing:border-box }
+html,body{
+  margin:0; padding:0;
+  background:var(--bg); color:var(--text);
+  overflow-x:hidden;  /* vízszintes csorgás ellen */
+}
+img{ display:block; max-width:100%; height:auto }
+a{ color:inherit; text-decoration:none }
+.container{ width:var(--container); margin-inline:auto }
+
+/* =========================================================
+   TOPBAR / NAV
+   (bal: MENÜ • közép: brand • jobb: RÓLUNK + CTA)
+========================================================= */
+.nav-toggle {
+  display:none;
+  flex-direction: column; /* gyerekek egymás alá kerülnek */
+  justify-content: center;
+  gap: 5px; /* sávok közti térköz */
+  width: 40px;
+  height: 40px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-toggle .bar {
+  display: block;
+  width: 100%;
+  height: 3px;       /* sáv vastagsága */
+  background-color: var(--text);
+  border-radius: 2px; /* lekerekítés, hogy szebb legyen */
+}
+.topbar{
+  position:fixed; inset:0 0 auto 0; z-index:40;
+  background:#1b1b1b;
+  height:var(--topbar-h);
+  box-shadow:0 2px 0 rgba(255,255,255,.04) inset;
+}
+.topbar.has-panel-shadow{ box-shadow:0 8px 24px rgba(0,0,0,.35) }
+
+.nav{
+  position:relative;
+  height:var(--topbar-h);
+  display:flex; align-items:center;
+}
+.topbar .container{ width:var(--container) }
+
+/* nav row – a márka abszolút középen */
+.nav-row{
+  position:relative; width:100%;
+  display:flex; align-items:center; gap:16px;
+  font-family:"Bowlby One", system-ui, sans-serif;
+}
+.nav-row a{
+  text-transform:uppercase; letter-spacing:.03em;
+  font-size:18px;
+}
+.nav-row .brand{
+  color:#E9E3DC; font-size:28px; letter-spacing:.1em;
+  position:absolute; left:50%; transform:translateX(-50%);
+}
+/* JOBB oldal: RÓLUNK tolja el, a CTA a szélhez */
+.nav-row a:nth-child(3){ margin-left:auto } /* RÓLUNK */
+.nav-row a:last-child{ margin-left:36px }   /* CTA */
+.btn-yellow{ font-family:"Bowlby One", system-ui, sans-serif; background:var(--yellow); color:#1E1E1E; padding:12px 18px; display:inline-block }
+
+/* ------- Mobil hamburger gomb ------- */
+.hamburger{
+  display:none; background:none; border:0; padding:8px;
+  position:absolute; left:12px; top:50%; transform:translateY(-50%);
+}
+.hamburger span{ display:block; width:26px; height:2px; background:#fff; margin:5px 0; border-radius:2px }
+
+/* ------- Lenyíló panel (#nav-panel) – mobil + desktop dropdown ------- */
+#nav-panel{
+  position:fixed; left:0; right:0; top:var(--topbar-h);
+  background:#101010; border-top:1px solid rgba(255,255,255,.06);
+  max-height:0; overflow:hidden;
+  transform:translateY(-6px); opacity:0;
+  transition:max-height .28s ease, transform .28s ease, opacity .2s ease;
+  z-index:39;
+}
+#nav-panel.open{ max-height:420px; transform:translateY(0); opacity:1 }
+#nav-panel .panel-list{
+  list-style:none; margin:0; padding:16px;
+  display:grid; gap:10px;
+}
+#nav-panel .panel-list a{
+  font-family:"Bowlby One", system-ui, sans-serif;
+  letter-spacing:.04em; text-transform:uppercase;
+  padding:8px 4px;
+}
+
+/* =========================================================
+   HERO
+   - képek együtt, átfedéssel
+   - nincs túlcsordulás mobilon
+========================================================= */
+.hero{ padding-top:var(--topbar-h); position:relative; background:#1c1c1c;}
+.hero-inner{ padding:200px 0 80px }
+.divider{ height:50px; background:#d9d9d9 }
+
+.hero-images{
+  display:flex; flex-wrap:nowrap; justify-content:center; align-items:flex-end;
+  gap:0;
+  overflow-x:clip;               /* biztos ami biztos */
+  padding-inline:min(16px, 4vw); /* pici puffer a széleken */
+}
+.hero-images img{
+  flex:0 0 auto; width:auto; max-width:none;
+  position:relative;
+  filter:drop-shadow(0 18px 16px rgba(0,0,0,.35));
+}
+
+/* Átfedések TRANSFORM-mal (nem növeli a layout-szélességet) */
+.hero-images .fries{
+  z-index:1;
+  transform:translateX(clamp(180px, -7vw, -32px)) translateY(0px) scale(1.3);
+}
+.hero-images .burger-left{
+  z-index:2;
+  transform:translateX(clamp(80px, -5vw, -16px)) translateY(6px) scale(1.3);
+}
+.hero-images .burger-right{
+  z-index:3;
+  transform:translateX(clamp(-60px, -3vw, -4px)) translateY(24px) scale(1.2);
+}
+
+/* =========================================================
+   BEST BURGERS
+========================================================= */
+.best{ padding:72px 0 96px; background:#1E1E1E; position:relative; overflow:hidden }
+.title-xl{
+  margin:0 0 56px; text-align:center; padding-top:80px; padding-bottom:80px;
+  font-family:"Bowlby One", sans-serif; font-size:clamp(36px,5vw,52px); letter-spacing:.08em;
+}
+.grid {
+  display: grid;
+  --stripe: rgba(116,198,41,.35);
+  --stripe-w: 2px;   
+  grid-template-columns: 1fr 90px 1fr;
+  gap: 24px;
+  align-items: end;
+  padding: 64px 28px 76px;
+  border-radius: 4px;
+
+  background:
+    linear-gradient(45deg,
+      /* fontos: induljon átlátszóval, különben háromszög lesz! */
+      transparent 0, transparent 1.8vw,
+
+      var(--stripe) 1.8vw,  var(--stripe) calc(1.8vw + var(--stripe-w)),  transparent calc(1.8vw + var(--stripe-w)),  transparent 6.2vw,
+      var(--stripe) 6.2vw,  var(--stripe) calc(6.2vw + var(--stripe-w)),  transparent calc(6.2vw + var(--stripe-w)),  transparent 9.8vw,
+      var(--stripe) 9.8vw,  var(--stripe) calc(9.8vw + var(--stripe-w)),  transparent calc(9.8vw + var(--stripe-w)),  transparent 13.9vw,
+      var(--stripe) 13.9vw, var(--stripe) calc(13.9vw + var(--stripe-w)), transparent calc(13.9vw + var(--stripe-w)), transparent 17.5vw,
+      var(--stripe) 17.5vw, var(--stripe) calc(17.5vw + var(--stripe-w)), transparent calc(17.5vw + var(--stripe-w)), transparent 21.7vw,
+      var(--stripe) 21.7vw, var(--stripe) calc(21.7vw + var(--stripe-w)), transparent calc(21.7vw + var(--stripe-w)), transparent 24.3vw,
+      var(--stripe) 24.3vw, var(--stripe) calc(24.3vw + var(--stripe-w)), transparent calc(24.3vw + var(--stripe-w)), transparent 28.9vw,
+      var(--stripe) 28.9vw, var(--stripe) calc(28.9vw + var(--stripe-w)), transparent calc(28.9vw + var(--stripe-w)), transparent 33vw,
+      var(--stripe) 33vw,   var(--stripe) calc(33vw + var(--stripe-w)),   transparent calc(33vw + var(--stripe-w)),   transparent 36.8vw,
+      var(--stripe) 36.8vw, var(--stripe) calc(36.8vw + var(--stripe-w)), transparent calc(36.8vw + var(--stripe-w)), transparent 41.5vw,
+      var(--stripe) 41.5vw, var(--stripe) calc(41.5vw + var(--stripe-w)), transparent calc(41.5vw + var(--stripe-w)), transparent 45.3vw,
+      var(--stripe) 45.3vw, var(--stripe) calc(45.3vw + var(--stripe-w)), transparent calc(45.3vw + var(--stripe-w)), transparent 49.9vw,
+      var(--stripe) 49.9vw, var(--stripe) calc(49.9vw + var(--stripe-w)), transparent calc(49.9vw + var(--stripe-w)), transparent 53vw,
+      var(--stripe) 53vw,   var(--stripe) calc(53vw + var(--stripe-w)),   transparent calc(53vw + var(--stripe-w)),   transparent 57.6vw,
+      var(--stripe) 57.6vw, var(--stripe) calc(57.6vw + var(--stripe-w)), transparent calc(57.6vw + var(--stripe-w)), transparent 62.9vw,
+      var(--stripe) 62.9vw, var(--stripe) calc(62.9vw + var(--stripe-w)), transparent calc(62.9vw + var(--stripe-w)), transparent 66.2vw,
+      var(--stripe) 66.2vw, var(--stripe) calc(66.2vw + var(--stripe-w)), transparent calc(66.2vw + var(--stripe-w)), transparent 70.8vw,
+      var(--stripe) 70.8vw, var(--stripe) calc(70.8vw + var(--stripe-w)), transparent calc(70.8vw + var(--stripe-w)), transparent 75.1vw,
+      var(--stripe) 75.1vw, var(--stripe) calc(75.1vw + var(--stripe-w)), transparent calc(75.1vw + var(--stripe-w)), transparent 79.6vw,
+      var(--stripe) 79.6vw, var(--stripe) calc(79.6vw + var(--stripe-w)), transparent calc(79.6vw + var(--stripe-w)), transparent 83vw,
+      var(--stripe) 83vw,   var(--stripe) calc(83vw + var(--stripe-w)),   transparent calc(83vw + var(--stripe-w)),   transparent 88.2vw,
+      var(--stripe) 88.2vw, var(--stripe) calc(88.2vw + var(--stripe-w)), transparent calc(88.2vw + var(--stripe-w)), transparent 92.5vw,
+      var(--stripe) 92.5vw, var(--stripe) calc(92.5vw + var(--stripe-w)), transparent calc(92.5vw + var(--stripe-w)), transparent 96.7vw,
+      var(--stripe) 96.7vw, var(--stripe) calc(96.7vw + var(--stripe-w)), transparent calc(96.7vw + var(--stripe-w)), transparent 105vw
+    );
+  background-repeat:no-repeat;
+  background-size:100% 100%;
+}
+.card{ display:grid; gap:10px }
+.card img{ width:min(420px, 92%) }
+.card.left{ justify-items:start }
+.card.right{ justify-items:end }
+.meta{ font-family:Bowlby One, system-ui, sans-serif; color:#fff; background:var(--bg); padding-top:24px; padding-bottom:24px; padding-right:36px; padding-left:36px;}
+.meta strong{ display:block; font-size:24px }
+.meta .name{font-size:24px }
+.tiny-link{ display:inline-block; margin-top:6px; color:var(--yellow); font-size:16px; text-transform:uppercase; letter-spacing:.04em }
+
+.mid-lines {
+  display: flex;
+  justify-content: center;   /* vízszintesen középre */
+  align-items: center;       /* függőlegesen középre */
+  gap: 50px;                 /* távolság a két vonal között */
+}
+
+.mid-lines span {
+  display: block;
+  width: 4px;                /* vastagság */
+  height: 400px;             /* magasság (állítható igény szerint) */
+  background: #fff;          /* fehér szín */
+  border-radius: 2px;        /* kicsi lekerekítés, hogy ne legyen recés */
+}
+
+.menu-cta{ display:flex; justify-content:flex-end; padding-top:60px; font-family:Bowlby One, system-ui, sans-serif;}
+.btn-ghost{
+  background:var(--text); color:#1E1E1E; padding:15px 30px; border-radius:0;
+  box-shadow:9px 9px 0 #000; text-transform:uppercase; letter-spacing:.09em;
+  font-weight:500; font-size:20px;
+}
+
+/* =========================================================
+   CTA
+========================================================= */
+.cta{ background:#1E1E1E; padding:96px 0; position:relative; overflow:hidden }
+.cta-inner{ position:relative; z-index:1; display:flex; flex-direction:column; align-items:center; gap:28px }
+.title-cta{
+  margin:0; text-align:center;
+  font:500 clamp(28px,6vw,56px)/1.04 "Bowlby One", sans-serif; letter-spacing:.03em; color:#ece7e2;
+}
+.cta-actions{ display:flex; align-items:center; gap:28px; justify-content:center; }
+
+/* Demo gomb stílus (használd a sajátod, ha már van) */
+.btn-yellow.big{
+  display:inline-block; padding:18px 22px; font-size:20px; font-weight:500; margin-top:10px;
+  background:#F2C111; color:#151515; text-decoration:none; border:none; cursor:pointer;
+}
+
+/* ====== Sárga ferde csíkok (bal alsó dísz) ====== */
+.slashes{
+  /* könnyen állítható változók */
+  top: 155px;
+  --line-color: #ffd400;   /* csík színe   */
+  --thickness: 2px;        /* csík vastag  */
+  --gap: 14px;             /* csík távolság*/
+  --angle: -63deg;         /* dőlésszög    */
+  --curve-depth: 58%;      /* ív mélység   */
+  
+  position:absolute;
+  left:clamp(12px, 5vw, 40px);
+  bottom:clamp(22px, 5vw, 48px);
+  z-index:0;
+
+  display:block;
+  width:250px;
+  height:100px;
+
+  /* minta */
+  background:
+    repeating-linear-gradient(var(--angle),
+      var(--line-color) 0 calc(var(--thickness)),
+      transparent       0 calc(var(--gap))
+    );
+
+  /* íves kivágás (maszk) */
+  -webkit-mask:
+    radial-gradient(120% 220% at 50% -70%,
+      black var(--curve-depth), transparent calc(var(--curve-depth) + 1%));
+          mask:
+    radial-gradient(120% 220% at 50% -70%,
+      black var(--curve-depth), transparent calc(var(--curve-depth) + 1%));
+}
+
+/* opcionális: jobb-felső „TELJES MENÜ” ghost gomb */
+.menu-float{ position:absolute; right:calc(50% - var(--container)/2 + 10px); top:16px }
+@media (max-width: 1160px){ .menu-float{ right:10px } }
+
+/* =========================================================
+   FOOTER
+========================================================= */
+/* ====== Footer környezet ====== */
+.footer{ background:#1E1E1E; padding:56px 0 96px }
+.foot-wrap{ display:flex; justify-content:center }
+
+/* ====== Kártya ====== */
+:root{
+  --foot-bg: #CCE52C;      /* lime-sárga panel */
+  --ink:    #1E1E1E;       /* sötét szöveg */
+}
+.foot-card{
+  width:min(1120px, 94vw);
+  background:var(--foot-bg);
+  color:var(--ink);
+  border-radius:28px;
+  padding:80px 28px 28px;
+  box-shadow:0 18px 44px rgba(0,0,0,.35);
+
+  /* 4 oszlopos rács a képen látott kiosztással */
+  display:grid;
+  grid-template-columns: 1.1fr 0.8fr 1.3fr 2fr !important;
+  grid-template-rows: auto auto;
+  gap:28px 48px;
+}
+
+/* ====== Oszlopok ====== */
+.foot-col{ display:flex; flex-direction:column;}
+.brand-col{ align-self:start }
+.foot-brand{
+  font:500 clamp(28px,4.2vw,32px)/.94 "Bowlby One", system-ui, sans-serif;
+  letter-spacing:.02em;
+  text-align:center;
+}
+
+/* Címek + linkek + bekezdések */
+.foot-card h4{
+  margin:0 0 6px;
+  font:500 20px/1.1 Bowlby One, system-ui, sans-serif;
+  text-transform:uppercase;
+  white-space: nowrap;
+}
+.foot-card a{ color:inherit; text-decoration:none; font:600 18px/1.5 Blinker, system-ui, sans-serif; }
+.foot-card a:hover{ text-decoration:underline; font:600 18px/1.5 Blinker, system-ui, sans-serif; }
+.foot-card p{ margin:0; font-size:15px; line-height:1.5; font:600 18px/1.5 Blinker, system-ui, sans-serif; }
+.foot-card small{ font-size:12px; padding-top:10px; text-align:center; letter-spacing:.02em; font:600 18px/1.5 Blinker, system-ui, sans-serif; }
+
+/* ====== Iratkozó űrlap (jobb oszlop) ====== */
+.subscribe{
+  display:flex;
+  width:100%;
+  height:48px;
+  border:2px solid #111;
+  border-radius:6px;
+  overflow:hidden; /* hogy az input+gomb szépen összeérjen */
+  background:transparent; /* panel színe */
+}
+
+.subscribe input{
+  flex:1;
+  border:0;
+  padding:10px 12px;
+  font:500 14px/1.2 Blinker, system-ui, sans-serif;
+  background:transparent;
+  color:var(--ink);
+  outline:0;
+}
+
+.subscribe input::placeholder{ color:var(--ink);}
+
+.subscribe button{
+  border:0;
+  background:transparent;
+  color:var(--ink);
+  font:500 12px/1 Bowlby One, system-ui, sans-serif;
+  text-transform:uppercase;
+  padding:0 14px;
+  cursor:pointer;
+}
+
+.subscribe button:hover{
+  background:rgba(0,0,0,.05);
+}
+
+
+/* ====== Alsó sor (© balra, link jobbra) ====== */
+.foot-bottom{
+  grid-column:1 / -1;
+  margin-bottom:20px;
+  padding-left:28px;
+  display:flex; align-items:center; justify-content:space-between;
+}
+.foot-bottom a{ color:inherit; text-decoration:none; font:600 18px/1.5 Blinker, system-ui, sans-serif;  }
+.foot-bottom a:hover{ text-decoration:underline }
+.foot-bottom small{ font:600 18px/1.5 Blinker, system-ui, sans-serif; }
+
+/* nagyobb képernyőn oszlopos rács */
+@media (min-width: 880px){
+  .foot-card{ display:grid; grid-template-columns:1.1fr 1fr 1fr 1.4fr !important; gap:28px }
+  .brand-col{ align-self:flex-start }
+}
+
+/* =========================================================
+   RESPONSIVE BREAKPOINTS
+========================================================= */
+@media (max-width: 960px){
+  /* a topbar konténer menjen ki teljes szélességre, hamburger bal szélhez igazítva */
+  .topbar .container{ width:100%; max-width:none; margin:0; padding-inline:12px }
+  .nav-toggle{ display:flex; }
+  .hamburger{ display:block }
+  /* csak a brand marad fent, a linkek menjenek a panelbe */
+  .nav-row > a{ display:none }
+  .nav-row .brand{ display:block; white-space: nowrap; }
+
+  /* hero panel részek */
+  .hero-inner{ padding:80px 0 20px }
+
+  /* panel tipó */
+  #nav-panel .panel-list a{ font-size:16px }
+}
+
+@media (max-width: 880px){
+  .grid{ grid-template-columns:1fr 60px 1fr; padding:44px 18px 62px }
+  .mid-lines span{ height:140px }
+}
+
+@media (max-width: 560px){
+  .title-xl{ font-size:34px; }
+  .btn-ghost{ box-shadow:4px 4px 0 #111;}
+  .cta-actions{ flex-direction:column; gap:14px }
+  .menu-cta{ justify-content:center; }
+  .grid{
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto auto;
+    align-items: center;          /* <<< ez hozza fel középre, nem az aljára */
+    justify-items: center;
+    row-gap: 24px;
+    padding: 40px 16px 56px;
+    position: relative; 
+    overflow: hidden;
+    /* a zöld csíkok – ugyanaz a háttér, csak ide tesszük a mobil-gridhez */
+    --stripe: rgba(116,198,41,.35);
+    --stripe-w: 2px;
+    --top-gap: 22vw;      /* mekkora legyen az üres rész a tetején – nyugodtan állítsd 18–28vw között */
+    background-repeat:no-repeat;
+    background-size:100% 100%;
+  }
+
+  /* sorrend: bal blokk felül, középen a két vonal, alul a jobb blokk */
+  .left  { order: 1; }
+  .mid-lines  { order: 2; }
+  .right { order: 3; }
+
+  /* a két fehér vonal a KÖZEPÉN, egymás mellett, fix vastagsággal */
+  .mid-lines {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+  }
+  .mid-lines span {
+    width: min(50vh, 400px);    /* vízszintes vonal */
+    height: 4px;                /* magasság: vékony csík */
+    background: #fff;
+    border-radius: 2px;
+    margin: 0;                  /* nincs extra margó */
+    transform: none;
+  }
+
+  /* védőháló: a grid-gyerekek ne nyomják szét a sort */
+  .grid > *{ min-width:0; }
+}
+
+/* extra kis mobilokra – óvatosabb átfedés, még kisebb marginok */
+@media (max-width: 420px){
+  .hero-images{ padding-inline:10px }
+  .hero-images .fries{       transform:translateX(300px) translateY(0px) scale(0.7)}
+  .hero-images .burger-left{ transform:translateX(60px) translateY(20px) scale(0.7)}
+  .hero-images .burger-right{transform:translateX(-200px) translateY(40px) scale(0.66) }
+  .slashes{
+    width:260px;
+    top:210px;
+    height:80px;
+    left:48px;
+  }
+}
+
+
+
+/* ========= MOBIL LAYOUT FIX ========= */
+/* 640px alatt: 1 oszlopos, rendezett footer */
+@media (max-width: 640px){
+
+  .footer{ padding:28px 0 44px }
+
+  .foot-card{
+    width:min(560px, 92vw);
+    padding:24px 16px 16px;
+    border-radius:22px;
+    display:grid !important;
+    grid-template-columns: 1fr !important;
+    grid-auto-flow: row;
+    row-gap:18px;
+    column-gap:0;
+  }
+
+  /* címek és tipók – letisztítva */
+  .foot-brand{
+    text-align:center;
+    font:800 28px/1 "Bowlby One", system-ui, sans-serif;
+    letter-spacing:.02em;
+  }
+
+  .foot-card h4{
+    margin:2px 0 6px;
+    text-align:center;
+    font:800 16px/1.1 Inter, system-ui, sans-serif;
+    text-transform:uppercase;
+    white-space:normal;      /* fontos: NE legyen nowrap mobilon */
+  }
+
+  .foot-card a,
+  .foot-card p{
+    font:600 14px/1.45 Blinker, system-ui, sans-serif;
+    text-align:center;
+    margin:0;
+    word-break:normal;
+    hyphens:auto;
+  }
+
+  /* Nyitvatartás: egy sorban maradjon, ne darabolódjon csúnyán */
+  .foot-card .foot-col:nth-of-type(3) p{
+    white-space:nowrap;
+    overflow:hidden;
+    text-overflow:ellipsis;
+  }
+
+  /* Feliratkozó blokk: teljes szélességű kapszula */
+  .subscribe{
+    width:100%;
+    height:44px;
+    border:2px solid #111;
+    border-radius:10px;
+    overflow:hidden;
+    background:transparent;
+    display:flex;
+  }
+  .subscribe input{
+    flex:1;
+    min-width:0;
+    border:0;
+    padding:0 12px;
+    font:500 14px/1.2 Blinker, system-ui, sans-serif;
+    background:transparent;
+    color:var(--ink);
+    outline:0;
+  }
+  .subscribe input::placeholder{ color:var(--ink) }
+  .subscribe button{
+    flex:0 0 auto;
+    padding:0 12px;
+    border:0;
+    background:transparent;
+    color:var(--ink);
+    font:800 12px/1 Inter, system-ui, sans-serif;
+    text-transform:uppercase;
+    cursor:pointer;
+  }
+
+  /* linklista és copyright blokk középre */
+  .foot-col{ align-items:center }
+  .foot-bottom{
+    grid-column:1 / -1;
+    margin-top:4px;
+    padding:12px 0 0;
+    border-top:2px dashed rgba(0,0,0,.25);
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    justify-content:center;
+    align-items:center;
+  }
+  .foot-bottom a,
+  .foot-bottom small{
+    font:600 14px/1.45 Blinker, system-ui, sans-serif;
+    text-align:center;
+  }
+}
+
+/* Extra kicsi telefonok (<=380px): apró finomhangolás */
+@media (max-width: 380px){
+  .foot-card{ padding:20px 12px 12px }
+  .foot-brand{ font-size:26px }
+  .foot-card h4{ font-size:15px }
+  .foot-card a, .foot-card p, .foot-bottom a, .foot-bottom small{ font-size:13px }
+  .subscribe{ height:42px }
+}
+

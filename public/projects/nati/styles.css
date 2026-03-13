@@ -1,0 +1,121 @@
+/* ========== TOKENS (a két SVG palettája) ========== */
+:root{
+  /* háttér-szürkék a gradientből: #1d1d1d → #212121 */
+  --bg-900:#0f0f0f;
+  --bg-800:#121212;
+  --bg-700:#151515;
+  --bg-600:#1a1a1a;
+  --bg-500:#1d1d1d;
+  --bg-400:#212121;
+  --line:#262626;
+
+  /* tipó */
+  --ink:#edf0f5;         /* világos felirat a chat bubiban is szerepel */
+  --muted:#a8a8a8;
+
+  /* akcentusok az SVG-ből */
+  --violet:#3e22cd;      /* ibolya (pill, fejlécek) */
+  --blue:#408fec;        /* gomb / link */
+  --green:#74dd30;       /* “online” pont */
+
+  /* méretek */
+  --wrap:max(68ch, min(1240px, 92vw));
+  --radius:14px;
+}
+
+/* ========== BASE ========== */
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg-900);color:var(--ink);font:16px/1.45 Inter,system-ui,Segoe UI,Roboto,Arial}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.wrap{width:var(--wrap);margin-inline:auto}
+
+/* ========== TOPBAR (letisztult, ibolya pötty) ========== */
+.topbar{position:sticky;top:0;z-index:10;background:var(--bg-800);border-bottom:1px solid var(--line)}
+.topbar .wrap{display:flex;align-items:center;gap:16px;min-height:70px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .dot{width:10px;height:10px;border-radius:50%;background:var(--violet);box-shadow:0 0 16px rgba(62,34,205,.6)}
+.brand .logo{font-weight:900;letter-spacing:.08em}
+.brand small{color:var(--muted)}
+.topnav{margin-left:auto}
+.btn{border:1px solid transparent;border-radius:10px;padding:10px 14px;font-weight:800}
+.btn.primary{background:var(--blue);color:#0e1220}
+.btn.ghost{background:var(--bg-700);border-color:var(--line);color:var(--ink)}
+.btn.sm{padding:8px 10px;font-size:12px}
+
+/* ========== HERO (a két referenciakártya) ========== */
+.hero{padding:24px 0;background:var(--bg-800)}
+.hero-grid{display:grid;grid-template-columns:1.2fr 1fr;gap:18px}
+.hero-card{background:var(--bg-700);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.hero-card img{width:100%;height:auto;display:block}
+
+/* ========== APP (card_chat.svg UI – élő) ========== */
+.app{padding:30px 0 90px;background:linear-gradient(180deg,var(--bg-800),var(--bg-900) 40%)}
+.app-grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
+
+/* ---- bal rail ---- */
+.rail{background:var(--bg-700);border:1px solid var(--line);border-radius:var(--radius);padding:14px;display:grid;grid-template-rows:auto auto 1fr;gap:12px}
+
+/* MESSAGES/TOOLS/SETTINGS – ibolya pill bar */
+.pillbar{display:grid;grid-auto-flow:column;gap:8px;background:linear-gradient(180deg,#1d1d1d,#212121);padding:6px;border:1px solid var(--line);border-radius:999px}
+.pill{background:transparent;border:0;color:var(--muted);padding:10px 14px;border-radius:999px;font-weight:700}
+.pill.active{background:var(--violet);color:#fff}
+
+/* rail nav + lista */
+.rail-nav{display:grid;gap:6px}
+.rail-nav h6{margin:10px 4px 4px;color:var(--muted);font-weight:700;font-size:12px}
+.rail-nav .item{display:flex;align-items:center;gap:8px;padding:10px;border-radius:10px;border:1px solid transparent}
+.rail-nav .item:hover{background:#181818}
+.rail-nav .item.active{background:#191933;border-color:#2a2a55}
+.badge{margin-left:auto;background:var(--blue);color:#0e1220;border-radius:8px;padding:2px 8px;font-size:12px;font-weight:800}
+
+/* rail list (jegyek) */
+.rail-list{margin-top:4px;background:var(--bg-600);border:1px solid var(--line);border-radius:12px;padding:10px;display:grid;gap:10px}
+.list-head{display:flex;align-items:baseline;justify-content:space-between;padding:6px 6px 10px;border-bottom:1px solid var(--line)}
+.list-head .big{font-weight:800}
+.muted{color:var(--muted);font-size:12px}
+
+.ticket{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px;border-radius:10px;border:1px solid var(--line);background:#171717}
+.ticket.unread{background:#191a20;border-color:#2a2a55}
+.ticket .who{display:flex;align-items:center;gap:10px}
+.avatar{width:32px;height:32px;border-radius:8px;display:grid;place-items:center;font-weight:800}
+.a1{background:#a0caf7;color:#0f2547}
+.a2{background:#8caded;color:#0f2547}
+.a3{background:#e9edf0;color:#0f2547}
+.reply{color:var(--blue);font-weight:800}
+
+/* ---- jobb: chat ---- */
+.chat{background:var(--bg-700);border:1px solid var(--line);border-radius:var(--radius);display:grid;grid-template-rows:auto 1fr auto;overflow:hidden;min-height:560px}
+.chat-head{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;background:linear-gradient(180deg,#1d1d1d,#212121);border-bottom:1px solid var(--line)}
+.chat-head .who{display:flex;align-items:center;gap:10px}
+.avatar.nati{background:var(--violet);color:#fff}
+.name{font-weight:800}
+.online{color:var(--green)}
+
+/* üzenetek */
+.messages{padding:16px;display:flex;flex-direction:column;gap:12px;overflow:auto;scroll-behavior:smooth}
+.msg{display:flex}
+.msg.user{justify-content:flex-end}
+.bubble{max-width:min(70ch,92%);padding:12px 14px;border-radius:14px;line-height:1.35;border:1px solid var(--line);white-space:pre-wrap;word-wrap:break-word}
+.bubble.ai{background:#e9edf0;color:#111;border-color:#d7dbe0}   /* világos – mint az SVG-n */
+.bubble.user{background:#1f1f1f}
+
+/* komponáló */
+.composer{display:grid;grid-template-columns:1fr auto;gap:10px;padding:12px;border-top:1px solid var(--line);background:var(--bg-700)}
+.composer input{height:44px;background:#101010;border:1px solid var(--line);border-radius:10px;color:var(--ink);padding:0 12px}
+.composer .btn{border-radius:10px}
+
+/* ========== RESPONSIVE ========== */
+@media (max-width: 1100px){
+  .app-grid{grid-template-columns:320px 1fr}
+}
+@media (max-width: 940px){
+  .hero-grid{grid-template-columns:1fr}
+  .app-grid{grid-template-columns:1fr}
+}
+@media (max-width: 560px){
+  .topbar .wrap{min-height:64px}
+  .pillbar{grid-auto-flow:row}
+  .composer{grid-template-columns:1fr}
+  .composer .btn{width:100%}
+}

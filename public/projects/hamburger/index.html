@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <base href="/projects/hamburger/">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Burger Shop</title>
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@400;600;700;800&family=Bowlby+One&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&family=Calistoga&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- HEADER -->
+<header class="topbar"> 
+  <div class="container nav">
+    <!-- Mobil: balra hamburger -->
+    <button class="nav-toggle" aria-label="Menü megnyitása" aria-expanded="false" aria-controls="nav-panel">
+      <span class="bar" aria-hidden="true"></span>
+      <span class="bar" aria-hidden="true"></span>
+      <span class="bar" aria-hidden="true"></span>
+    </button>
+
+    <!-- Eredeti nav-sorod – a szövegeken nem változtatok -->
+    <nav class="nav-row" aria-label="Fő navigáció">
+      <a href="#menu" class="menu-trigger" aria-controls="nav-panel" aria-expanded="false">Menu</a>
+      <a href="#" class="brand">BURGER SHOP</a>
+      <a href="#about" class="about-link">Rólunk</a>
+      <a href="#order" class="btn-yellow cta-link">Rendelés most</a>
+    </nav>
+  </div>
+
+  <!-- A közös legördülő/lecúszó panel (mobil + desktop is ezt használja) -->
+  <div id="nav-panel" class="nav-panel" hidden>
+    <ul class="panel-list" role="menu">
+      <!-- Kitalált menüpontok (közösek: mobilon és asztalin is látszanak) -->
+      <li role="none"><a role="menuitem" href="#burgerek">Burgerek</a></li>
+      <li role="none"><a role="menuitem" href="#koretek">Köretek</a></li>
+      <li role="none"><a role="menuitem" href="#szoszok">Szószok</a></li>
+      <li role="none"><a role="menuitem" href="#akciok">Akciók</a></li>
+
+      <!-- Csak mobilon jelenjen meg a panelben (asztalin kívül marad jobbra) -->
+      <li role="none" class="only-mobile"><a role="menuitem" href="#about">Rólunk</a></li>
+      <li role="none" class="only-mobile"><a role="menuitem" href="#order" class="btn-yellow">Rendelés most</a></li>
+    </ul>
+  </div>
+</header>
+
+
+  <!-- HERO -->
+  <section class="hero" id="home">
+    <div class="container hero-inner">
+      <div class="hero-images">
+        <img src="assets/french_fries.png" alt="Sült krumpli" class="fries">
+        <img src="assets/salad_burger.png" alt="Hamburger" class="burger-left">
+        <img src="assets/chesse_burger.png" alt="Dupla húsos hamburger" class="burger-right">
+      </div>
+    </div>
+    <div class="divider"></div>
+  </section>
+
+  <!-- BEST BURGERS -->
+  <section class="best">
+    <div class="container">
+      <h2 class="title-xl">EZEK A LEGJOBB BURGEREK</h2>
+
+      <div class="grid">
+        <article class="card left">
+          <img src="assets/chesse_burger.png" alt="Dupla húsos hamburger">
+          <div class="meta">
+            <strong>2800FT</strong>
+            <div class="name">DUPLA HÚSOS HAMBURGER</div>
+            <a href="#order" class="tiny-link">RENDELÉS MOST</a>
+          </div>
+        </article>
+
+        <div class="mid-lines" aria-hidden="true">
+          <span></span><span></span>
+        </div>
+
+        <article class="card right">
+          <img src="assets/salad_burger.png" alt="Csirke húsos hamburger">
+          <div class="meta">
+            <strong>2100FT</strong>
+            <div class="name">CSIRKE HÚSOS HAMBURGER</div>
+            <a href="#order" class="tiny-link">RENDELÉS MOST</a>
+          </div>
+        </article>
+      </div>
+
+      <div class="menu-cta">
+        <a href="#menu" class="btn-ghost">TELJES MENÜ</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER CTA -->
+  <section class="cta" id="order">
+    <div class="container cta-inner">
+      <h3 class="title-cta">RENDELD MEG A LEGINOMABB<br>HAMBURGERT MA</h3>
+      <div class="cta-actions">
+        <span class="slashes" aria-hidden="true"></span>
+        <a href="#" class="btn-yellow big">RENDELÉS MOST</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container foot-wrap">
+      <div class="foot-card">
+        <div class="foot-col brand-col">
+          <div class="foot-brand">BURGER<br>SHOP</div>
+        </div>
+
+        <div class="foot-col">
+          <h4>Továbbiak</h4>
+          <a href="#menu">Menü</a>
+          <a href="#about">Rólunk</a>
+        </div>
+
+        <div class="foot-col">
+          <h4>Nyitvatartás</h4>
+          <p>Hétfő – Péntek | 10:00–21:00</p>
+          <p>Szombat | 10:00–23:00</p>
+          <p>Vasárnap | Zárva</p>
+        </div>
+
+        <div class="foot-col">
+          <h4>Feliratkozás a hírlevelünkre</h4>
+          <form class="subscribe" onsubmit="event.preventDefault(); alert('Köszi!');">
+            <input type="email" placeholder="Enter your email" required>
+            <button type="submit">FELIRATKOZÁS</button>
+          </form>
+          <small>IRATKOZZ FEL A LEGÚJABB AKCIÓKÉRT</small>
+        </div>
+
+        <div class="foot-bottom">
+          <small>©2023 Burger Shop. Minden jog fenntartva.</small>
+          <a href="#">Adatvédelmi nyilatkozat</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+</html>
