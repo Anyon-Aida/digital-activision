@@ -11,7 +11,7 @@ const nextConfig: NextConfig = {
     return [
       {
         source: "/works/:slug",
-        destination: "/projects/:slug",
+        destination: "/projects/:slug/",
       },
     ];
   },
