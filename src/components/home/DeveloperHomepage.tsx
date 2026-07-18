@@ -11,6 +11,7 @@ import {
   Surface,
 } from "@/components/ui";
 import { SystemMap } from "./SystemMap";
+import { ContactForm } from "./ContactForm";
 import { LegacyStudioAnchorRedirect } from "@/components/studio/LegacyStudioAnchorRedirect";
 
 type DeveloperHomepageProps = {
@@ -359,36 +360,22 @@ export function DeveloperHomepage({
       </Section>
 
       <Section id="contact" spacing="spacious">
-        <div className="grid gap-10 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] lg:items-start">
-          <div>
-            <SectionHeading
-              description={content.contact.description}
-              eyebrow={content.contact.eyebrow}
-              title={content.contact.title}
-            />
-            <ButtonLink
-              className="mt-8"
-              href="mailto:digitalactivision@gmail.com"
-              size="large"
-            >
-              {content.contact.action}
-            </ButtonLink>
-            <p className="mt-4 max-w-xl text-xs text-[var(--color-text-secondary)]">
-              {content.contact.privacyNote}{" "}
-              <a className="underline underline-offset-4" href={`/${locale}/privacy`}>
-                {content.chrome.privacyLabel}
-              </a>
-            </p>
-          </div>
+        <SectionHeading
+          description={content.contact.description}
+          eyebrow={content.contact.eyebrow}
+          title={content.contact.title}
+        />
+        <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] lg:items-start">
+          <ContactForm content={content.contact} locale={locale} />
           <Surface padding="large" variant="subtle">
             <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">
               {content.contact.topicsLabel}
             </h3>
             <ul className="mt-5 grid gap-3">
-              {content.contact.topics.map((topic) => (
-                <li className="flex gap-3 border-b border-[var(--color-border-subtle)] pb-3 last:border-0 last:pb-0" key={topic}>
+              {content.contact.topicOptions.map((topic) => (
+                <li className="flex gap-3 border-b border-[var(--color-border-subtle)] pb-3 last:border-0 last:pb-0" key={topic.value}>
                   <span aria-hidden="true" className="text-[var(--color-accent-secondary)]">→</span>
-                  {topic}
+                  {topic.label}
                 </li>
               ))}
             </ul>

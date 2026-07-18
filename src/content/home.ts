@@ -35,6 +35,11 @@ export type StandardItem = {
   state: "implemented" | "planned";
 };
 
+export type ContactTopic = {
+  value: "career-engineering" | "studio" | "other";
+  label: string;
+};
+
 export type HomeContent = {
   chrome: {
     brand: string;
@@ -124,9 +129,33 @@ export type HomeContent = {
     title: string;
     description: string;
     topicsLabel: string;
-    topics: readonly string[];
-    action: string;
+    topicOptions: readonly ContactTopic[];
+    nameLabel: string;
+    emailLabel: string;
+    topicLabel: string;
+    topicPlaceholder: string;
+    messageLabel: string;
+    messageDescription: string;
+    privacyConsentLabel: string;
+    privacyLinkLabel: string;
+    submitLabel: string;
+    submittingLabel: string;
+    mailtoFallbackIntro: string;
+    mailtoFallbackLabel: string;
     privacyNote: string;
+    botVerificationLabel: string;
+    successMessage: string;
+    genericErrorMessage: string;
+    rateLimitMessage: string;
+    disabledMessage: string;
+    requestIdLabel: string;
+    errors: {
+      name: string;
+      email: string;
+      topic: string;
+      message: string;
+      privacy: string;
+    };
   };
 };
 
@@ -262,8 +291,8 @@ export const homeContent = {
         { title: "Review-ready changes", description: "Kis, tematikus commitok és explicit rebuild branch workflow.", state: "implemented" },
         { title: "Automated tests", description: "Lint, typecheck, unit, production build, E2E, axe és visual regression.", state: "implemented" },
         { title: "Accessibility", description: "WCAG-alapú axe gate, keyboard/fókuszteszt, reduced motion és 44 px célméret.", state: "implemented" },
-        { title: "Secure defaults", description: "Preview noindex, dependency audit és fail-closed delivery policy; a kontakt hardening még következik.", state: "implemented" },
-        { title: "Observable production", description: "PII-mentes telemetry és safe health endpoint a WP-08 része.", state: "planned" },
+        { title: "Secure defaults", description: "Preview noindex, dependency audit, strict kontaktvalidáció és fail-closed delivery policy.", state: "implemented" },
+        { title: "Observable production", description: "PII-mentes strukturált kontaktlog és safe, no-store health endpoint.", state: "implemented" },
         { title: "Performance budgets", description: "Lighthouse after-mérés és bundle budget a végső QA-ban zárul.", state: "planned" },
         { title: "Reversible deployment", description: "Preview-only bemutatás, külön major upgrade commit és dokumentált revert út.", state: "implemented" },
       ],
@@ -280,9 +309,37 @@ export const homeContent = {
       title: "Beszéljünk a problémáról, nem csak a feature-listáról.",
       description: "Állásról, szakmai együttműködésről vagy engineering projektről beszélnél? Írd meg röviden a kontextust.",
       topicsLabel: "Hasznos kontextus",
-      topics: ["Karrierlehetőség", "Engineering együttműködés", "Weboldal vagy digitális termék", "Egyéb"],
-      action: "E-mail írása",
-      privacyNote: "A sajá, validált kontaktfolyam a WP-08-ban lép a statikus mailto helyére.",
+      topicOptions: [
+        { value: "career-engineering", label: "Karrier vagy engineering együttműködés" },
+        { value: "studio", label: "Studio, weboldal vagy digitális termék" },
+        { value: "other", label: "Egyéb" },
+      ],
+      nameLabel: "Név",
+      emailLabel: "E-mail-cím",
+      topicLabel: "Téma",
+      topicPlaceholder: "Válassz témát",
+      messageLabel: "Üzenet",
+      messageDescription: "Legalább 20 karakterben írd le röviden a kontextust.",
+      privacyConsentLabel: "Elolvastam az adatkezelési tájékoztatót, és hozzájárulok az üzenetem kezeléséhez.",
+      privacyLinkLabel: "Adatkezelési tájékoztató megnyitása",
+      submitLabel: "Üzenet küldése",
+      submittingLabel: "Küldés folyamatban…",
+      mailtoFallbackIntro: "Ha az űrlap nem érhető el, e-mailben is írhatsz:",
+      mailtoFallbackLabel: "E-mail írása",
+      privacyNote: "Az űrlap a saját, szerveroldalon validált kontaktfolyamot használja.",
+      botVerificationLabel: "Automatikus visszaélés-védelem",
+      successMessage: "Köszönöm, az üzenetet fogadtam.",
+      genericErrorMessage: "Az üzenetet most nem sikerült elküldeni. Próbáld újra később, vagy használd az e-mailes lehetőséget.",
+      rateLimitMessage: "Túl sok küldési kísérlet történt. Várj egy kicsit, majd próbáld újra, vagy írj e-mailt.",
+      disabledMessage: "A kontaktűrlap ebben a környezetben jelenleg nem érhető el. Az e-mailes lehetőség továbbra is működik.",
+      requestIdLabel: "Kérésazonosító",
+      errors: {
+        name: "Adj meg legalább két karakterből álló nevet.",
+        email: "Adj meg egy érvényes e-mail-címet.",
+        topic: "Válassz témát.",
+        message: "Az üzenet legalább 20, legfeljebb 5000 karakter lehet.",
+        privacy: "Az üzenet küldéséhez fogadd el az adatkezelési feltételt.",
+      },
     },
   },
   en: {
@@ -400,8 +457,8 @@ export const homeContent = {
         { title: "Review-ready changes", description: "Small thematic commits and an explicit rebuild-branch workflow.", state: "implemented" },
         { title: "Automated tests", description: "Lint, typecheck, unit, production build, E2E, axe and visual regression.", state: "implemented" },
         { title: "Accessibility", description: "WCAG-oriented axe gates, keyboard/focus tests, reduced motion and 44px targets.", state: "implemented" },
-        { title: "Secure defaults", description: "Preview noindex, dependency audits and fail-closed delivery policy; contact hardening is still ahead.", state: "implemented" },
-        { title: "Observable production", description: "PII-free telemetry and a safe health endpoint arrive in WP-08.", state: "planned" },
+        { title: "Secure defaults", description: "Preview noindex, dependency audits, strict contact validation and a fail-closed delivery policy.", state: "implemented" },
+        { title: "Observable production", description: "PII-free structured contact logs and a safe, no-store health endpoint.", state: "implemented" },
         { title: "Performance budgets", description: "The Lighthouse after-measurement and bundle budget close in final QA.", state: "planned" },
         { title: "Reversible deployment", description: "Preview-only delivery, a separate major-upgrade commit and a documented revert path.", state: "implemented" },
       ],
@@ -418,9 +475,37 @@ export const homeContent = {
       title: "Let’s discuss the problem, not only the feature list.",
       description: "Want to discuss a role, an engineering collaboration or a product project? Share the context briefly.",
       topicsLabel: "Useful context",
-      topics: ["Career opportunity", "Engineering collaboration", "Website or digital product", "Other"],
-      action: "Write an email",
-      privacyNote: "The validated first-party contact flow replaces this static mailto in WP-08.",
+      topicOptions: [
+        { value: "career-engineering", label: "Career or engineering collaboration" },
+        { value: "studio", label: "Studio, website or digital product" },
+        { value: "other", label: "Other" },
+      ],
+      nameLabel: "Name",
+      emailLabel: "Email address",
+      topicLabel: "Topic",
+      topicPlaceholder: "Choose a topic",
+      messageLabel: "Message",
+      messageDescription: "Share the context in at least 20 characters.",
+      privacyConsentLabel: "I have read the privacy notice and consent to the handling of my message.",
+      privacyLinkLabel: "Open the privacy notice",
+      submitLabel: "Send message",
+      submittingLabel: "Sending…",
+      mailtoFallbackIntro: "If the form is unavailable, you can still email:",
+      mailtoFallbackLabel: "Write an email",
+      privacyNote: "The form uses the first-party contact flow with server-side validation.",
+      botVerificationLabel: "Automated abuse protection",
+      successMessage: "Thank you. Your message has been accepted.",
+      genericErrorMessage: "Your message could not be sent right now. Try again later or use the email option.",
+      rateLimitMessage: "There have been too many submission attempts. Wait a little, then try again or use email.",
+      disabledMessage: "The contact form is currently unavailable in this environment. The email option still works.",
+      requestIdLabel: "Request ID",
+      errors: {
+        name: "Enter a name with at least two characters.",
+        email: "Enter a valid email address.",
+        topic: "Choose a topic.",
+        message: "The message must contain between 20 and 5000 characters.",
+        privacy: "Accept the privacy condition before sending your message.",
+      },
     },
   },
 } satisfies Record<Locale, HomeContent>;
