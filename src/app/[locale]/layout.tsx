@@ -5,6 +5,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Footer from "../components/footer/Footer";
 import StickyNav from "../components/header/StickyNav";
+import { buildLocaleMetadata } from "@/lib/seo";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
@@ -17,19 +18,6 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
 }
 
-const metadataByLocale = {
-  hu: {
-    title: "Digital Activision · Webfejlesztés",
-    description:
-      "Egyedi weboldalak, webalkalmazások és digitális termékek tervezése és fejlesztése.",
-  },
-  en: {
-    title: "Digital Activision · Web development",
-    description:
-      "Design and development for custom websites, web applications and digital products.",
-  },
-} as const;
-
 export async function generateMetadata({
   params,
 }: Pick<LocaleLayoutProps, "params">): Promise<Metadata> {
@@ -39,7 +27,7 @@ export async function generateMetadata({
     return {};
   }
 
-  return metadataByLocale[locale];
+  return buildLocaleMetadata({ locale });
 }
 
 export default async function LocaleLayout({
