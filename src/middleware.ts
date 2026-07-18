@@ -14,8 +14,8 @@ export default function middleware(request: NextRequest) {
     request.nextUrl.pathname.length > 1 &&
     request.nextUrl.pathname.endsWith("/")
   ) {
-    const canonicalUrl = request.nextUrl.clone();
-    canonicalUrl.pathname = canonicalUrl.pathname.slice(0, -1);
+    const canonicalUrl = new URL(request.url);
+    canonicalUrl.pathname = request.nextUrl.pathname.slice(0, -1);
     return NextResponse.redirect(canonicalUrl, 308);
   }
 
