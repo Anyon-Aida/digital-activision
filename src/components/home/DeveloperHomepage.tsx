@@ -11,6 +11,7 @@ import {
   Surface,
 } from "@/components/ui";
 import { SystemMap } from "./SystemMap";
+import { LegacyStudioAnchorRedirect } from "@/components/studio/LegacyStudioAnchorRedirect";
 
 type DeveloperHomepageProps = {
   content: HomeContent;
@@ -67,6 +68,7 @@ export function DeveloperHomepage({
 }: DeveloperHomepageProps) {
   return (
     <>
+      <LegacyStudioAnchorRedirect locale={locale} />
       <Section
         className="relative isolate overflow-hidden border-b border-[var(--color-border-subtle)]"
         id="hero"
@@ -346,7 +348,7 @@ export function DeveloperHomepage({
             <p className="mt-5 text-[var(--color-text-secondary)]">{content.studio.description}</p>
             <p className="mt-3 text-xs text-[var(--color-text-secondary)]">{content.studio.migrationNote}</p>
           </div>
-          <ButtonLink href="#contact" size="large" variant="secondary">
+          <ButtonLink href={`/${locale}/studio`} size="large" variant="secondary">
             {content.studio.action}
           </ButtonLink>
         </Surface>
