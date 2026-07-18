@@ -1,26 +1,89 @@
+@import "../styles/tokens.css";
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
+/* Tailwind utility names intentionally map to semantic tokens, never palette values. */
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-page-surface: var(--color-page);
+  --color-content-surface: var(--color-surface);
+  --color-subtle-surface: var(--color-surface-subtle);
+  --color-content-primary: var(--color-text-primary);
+  --color-content-secondary: var(--color-text-secondary);
+  --color-content-muted: var(--color-text-muted);
+  --color-ui-border: var(--color-border-subtle);
+  --color-ui-border-strong: var(--color-border-strong);
+  --color-brand: var(--color-accent);
+  --color-brand-hover: var(--color-accent-hover);
+  --color-brand-contrast: var(--color-on-accent);
+  --font-sans: var(--font-family-sans);
+  --font-mono: var(--font-family-mono);
+  --radius-ui-control: var(--radius-control);
+  --radius-ui-surface: var(--radius-surface);
+  --radius-ui-card: var(--radius-card);
+  --shadow-ui-surface: var(--shadow-surface);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: var(--color-page);
+  color: var(--color-text-primary);
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-width: 20rem;
+  background: var(--color-page);
+  color: var(--color-text-primary);
+  font-family: var(--font-family-sans);
+  font-size: var(--font-size-body);
+  line-height: var(--line-height-body);
+}
+
+::selection {
+  background: var(--color-selection);
+  color: var(--color-text-primary);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-focus-ring);
+  outline-offset: 3px;
+}
+
+.ui-dialog {
+  margin: 0;
+  padding: 0;
+  border: 1px solid var(--color-border-subtle);
+  background: var(--color-surface-elevated);
+  color: var(--color-text-primary);
+  box-shadow: var(--shadow-surface);
+}
+
+.ui-dialog::backdrop {
+  background: rgb(8 17 31 / 0.56);
+  backdrop-filter: blur(2px);
+}
+
+.ui-dialog--modal {
+  position: fixed;
+  inset: 50% auto auto 50%;
+  width: min(calc(100vw - 2rem), 42rem);
+  max-height: calc(100dvh - 2rem);
+  transform: translate(-50%, -50%);
+  overflow: auto;
+  border-radius: var(--radius-surface);
+}
+
+.ui-dialog--sheet {
+  position: fixed;
+  inset: 0 0 0 auto;
+  width: min(calc(100vw - 1.25rem), 24rem);
+  max-width: none;
+  height: 100dvh;
+  max-height: 100dvh;
+  overflow: auto;
+  border-radius: var(--radius-surface) 0 0 var(--radius-surface);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }

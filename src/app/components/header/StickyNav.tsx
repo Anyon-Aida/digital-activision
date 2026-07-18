@@ -1,134 +1,170 @@
-'use client'
-import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { useLocale } from 'next-intl'
-import { Menu, X } from 'lucide-react'
-import logo from '../../../../public/logo.svg'
-import { usePortfolioMessages } from '@/i18n/messages'
-import { Link, usePathname } from '@/i18n/navigation'
-import { isLocale, routing } from '@/i18n/routing'
+"use client";
+
+import Image from "next/image";
+import { Menu } from "lucide-react";
+import { useEffect, useState } from "react";
+import { useLocale } from "next-intl";
+import logo from "../../../../public/logo.svg";
+import { Sheet } from "@/components/ui";
+import { usePortfolioMessages } from "@/i18n/messages";
+import { Link, usePathname } from "@/i18n/navigation";
+import { isLocale, routing } from "@/i18n/routing";
 
 const NAV = [
-  { href: '#services', label: { hu: 'Szolgáltatások', en: 'Services' } },
-  { href: '#works',    label: { hu: 'Munkáink',       en: 'Work' } },
-  { href: '#pricing',  label: { hu: 'Árak',           en: 'Pricing' } },
-  { href: '#process',  label: { hu: 'Folyamat',       en: 'Process' } },
-]
+  { href: "#services", label: { hu: "Szolgáltatások", en: "Services" } },
+  { href: "#works", label: { hu: "Munkáink", en: "Work" } },
+  { href: "#pricing", label: { hu: "Árak", en: "Pricing" } },
+  { href: "#process", label: { hu: "Folyamat", en: "Process" } },
+] as const;
 
 const DICT = {
-  contact: { hu: 'Kapcsolat', en: 'Contact' },
-  ariaNav: { hu: 'Fő navigáció', en: 'Primary navigation' },
-}
+  closeMenu: { hu: "Navigáció bezárása", en: "Close navigation" },
+  menuTitle: { hu: "Navigáció", en: "Navigation" },
+  openMenu: { hu: "Navigáció megnyitása", en: "Open navigation" },
+  primaryNavigation: { hu: "Fő navigáció", en: "Primary navigation" },
+} as const;
 
-const grad = 'bg-[linear-gradient(90deg,_#6E46E5_0%,_#4666E5_50%,_#04E4FF_100%)]'
+const grad =
+  "bg-[linear-gradient(90deg,_#6E46E5_0%,_#4666E5_50%,_#04E4FF_100%)]";
+const mobileNavigationId = "mobile-navigation";
 
 export default function StickyNav() {
-  const [scrolled, setScrolled] = useState(false)
-  const [open, setOpen] = useState(false)
-  const pathname = usePathname()
-  const requestedLocale = useLocale()
-  const locale = isLocale(requestedLocale) ? requestedLocale : routing.defaultLocale
-  const nextLocale = locale === 'hu' ? 'en' : 'hu'
-  const messages = usePortfolioMessages()
+  const [scrolled, setScrolled] = useState(false);
+  const [open, setOpen] = useState(false);
+  const pathname = usePathname();
+  const requestedLocale = useLocale();
+  const locale = isLocale(requestedLocale)
+    ? requestedLocale
+    : routing.defaultLocale;
+  const nextLocale = locale === "hu" ? "en" : "hu";
+  const messages = usePortfolioMessages();
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 8)
-    onScroll()
-    window.addEventListener('scroll', onScroll)
-    return () => window.removeEventListener('scroll', onScroll)
-  }, [])
+    const onScroll = () => setScrolled(window.scrollY > 8);
+    onScroll();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
-  const handleJump = () => setOpen(false)
-
-  const maxHClosed = 96
-  const maxHOpen = 330
+  const handleJump = () => setOpen(false);
 
   return (
     <header
+      aria-label={DICT.primaryNavigation[locale]}
       className={[
-        'fixed inset-x-0 top-0 z-50 transition-shadow',
-        'supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:backdrop-blur-md',
-        scrolled ? 'shadow-md' : ''
-      ].join(' ')}
-      role="navigation"
-      aria-label={DICT.ariaNav[locale]}
-      style={{ maxHeight: open ? `${maxHOpen}px` : `${maxHClosed}px`, transition: 'max-height 220ms ease' }}
+        "fixed inset-x-0 top-0 z-50 transition-shadow",
+        "bg-white/95 supports-[backdrop-filter]:bg-white/60 supports-[backdrop-filter]:backdrop-blur-md",
+        scrolled ? "shadow-md" : "",
+      ].join(" ")}
     >
       <div className="mx-auto max-w-7xl px-4">
-        <div className="flex h-16 md:h-20 items-center justify-between">
-          <a href="#hero" onClick={handleJump} className="flex items-center gap-3 font-semibold">
-            <Image src={logo} alt="Digital Activision" className="h-10 w-auto md:h-12" priority />
+        <div className="flex h-16 items-center justify-between md:h-20">
+          <a
+            className="flex min-h-[var(--target-min)] items-center gap-3 rounded-[var(--radius-control)] font-semibold"
+            href="#hero"
+            onClick={handleJump}
+          >
+            <Image
+              alt="Digital Activision"
+              className="h-10 w-auto md:h-12"
+              priority
+              src={logo}
+            />
             <span className="hidden sm:inline">Digital Activision</span>
           </a>
 
-          {/* Desktop */}
-          <nav className="hidden md:flex items-center gap-6">
-            {NAV.map(item => (
-              <a key={item.href} href={item.href} onClick={handleJump} className="text-sm hover:opacity-80">
+          <nav className="hidden items-center gap-6 md:flex" aria-label={DICT.primaryNavigation[locale]}>
+            {NAV.map((item) => (
+              <a
+                className="rounded-[var(--radius-control)] text-sm hover:opacity-80"
+                href={item.href}
+                key={item.href}
+                onClick={handleJump}
+              >
                 {item.label[locale]}
               </a>
             ))}
             <a
+              className={[
+                "ml-2 inline-flex min-h-[var(--target-min)] items-center rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90",
+                grad,
+              ].join(" ")}
               href="#contact"
               onClick={handleJump}
-              className={['ml-2 inline-flex rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90', grad].join(' ')}
             >
               {messages.nav.contact}
             </a>
-            <div className="ml-4 h-5 w-px bg-neutral-300" />
-              <Link href={pathname} locale={nextLocale} className="text-sm font-medium" prefetch={false}>
-                {nextLocale.toUpperCase()}
-              </Link>
+            <div aria-hidden="true" className="ml-4 h-5 w-px bg-neutral-300" />
+            <Link
+              className="rounded-[var(--radius-control)] text-sm font-medium"
+              href={pathname}
+              locale={nextLocale}
+              prefetch={false}
+            >
+              {nextLocale.toUpperCase()}
+            </Link>
           </nav>
 
-          {/* Mobile hamburger */}
           <button
-            className="md:hidden inline-flex h-10 w-10 items-center justify-center rounded-lg hover:bg-black/5"
-            aria-label="Menü"
-            onClick={() => setOpen(v => !v)}
+            aria-controls={mobileNavigationId}
+            aria-expanded={open}
+            aria-label={DICT.openMenu[locale]}
+            className="inline-flex min-h-[var(--target-min)] min-w-[var(--target-min)] items-center justify-center rounded-[var(--radius-control)] transition-colors hover:bg-black/5 md:hidden"
+            onClick={() => setOpen(true)}
+            type="button"
           >
-            {open ? <X /> : <Menu />}
+            <Menu aria-hidden="true" size={22} />
           </button>
         </div>
+      </div>
 
-        {/* Mobile nav */}
-        <nav className={['md:hidden overflow-hidden', open ? 'mt-1 pb-4' : 'h-0'].join(' ')} aria-hidden={!open}>
-          <ul className="flex flex-col gap-1">
-            {NAV.map(item => (
+      <Sheet
+        closeLabel={DICT.closeMenu[locale]}
+        id={mobileNavigationId}
+        onOpenChange={setOpen}
+        open={open}
+        title={DICT.menuTitle[locale]}
+      >
+        <nav aria-label={DICT.primaryNavigation[locale]}>
+          <ul className="flex flex-col gap-2">
+            {NAV.map((item) => (
               <li key={item.href}>
-                <a href={item.href} onClick={handleJump} className="block rounded-lg px-3 py-2 text-sm hover:bg-black/5">
+                <a
+                  className="flex min-h-[var(--target-min)] items-center rounded-[var(--radius-control)] px-3 py-2 text-base transition-colors hover:bg-[var(--color-surface-subtle)]"
+                  href={item.href}
+                  onClick={handleJump}
+                >
                   {item.label[locale]}
                 </a>
               </li>
             ))}
-            <li className="pt-1">
+            <li className="pt-2">
               <a
+                className={[
+                  "flex min-h-[var(--target-min)] items-center justify-center rounded-full px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:opacity-90",
+                  grad,
+                ].join(" ")}
                 href="#contact"
                 onClick={handleJump}
-                className={['block text-center rounded-full px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:opacity-90', grad].join(' ')}
               >
                 {messages.nav.contact}
               </a>
             </li>
-            <li>
-              <div className="my-1 h-px bg-neutral-200" />
-              {/* <Link
-                href={switchHref}
+            <li className="pt-2">
+              <div aria-hidden="true" className="mb-2 h-px bg-[var(--color-border-subtle)]" />
+              <Link
+                className="flex min-h-[var(--target-min)] items-center rounded-[var(--radius-control)] px-3 py-2 text-sm font-medium transition-colors hover:bg-[var(--color-surface-subtle)]"
+                href={pathname}
+                locale={nextLocale}
                 onClick={handleJump}
-                className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-black/5"
                 prefetch={false}
-                scroll={false}
               >
                 {nextLocale.toUpperCase()}
-              </Link> */}
-              <Link href={pathname} locale={nextLocale} className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-black/5" prefetch={false} onClick={handleJump}>
-                {nextLocale.toUpperCase()}
               </Link>
-
             </li>
           </ul>
         </nav>
-      </div>
+      </Sheet>
     </header>
-  )
+  );
 }

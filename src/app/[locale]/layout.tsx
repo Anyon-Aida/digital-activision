@@ -1,6 +1,7 @@
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
+import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import Footer from "../components/footer/Footer";
@@ -8,6 +9,18 @@ import StickyNav from "../components/header/StickyNav";
 import { buildLocaleMetadata } from "@/lib/seo";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
+
+const geistSans = Geist({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-geist-sans",
+});
+
+const geistMono = Geist_Mono({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-geist-mono",
+});
 
 type LocaleLayoutProps = {
   children: ReactNode;
@@ -45,7 +58,9 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale}>
-      <body className="min-h-dvh bg-white text-neutral-900 antialiased">
+      <body
+        className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-page-surface font-sans text-content-primary antialiased`}
+      >
         <NextIntlClientProvider>
           <a
             href="#main"
@@ -54,7 +69,7 @@ export default async function LocaleLayout({
             {t("skipToContent")}
           </a>
           <StickyNav />
-          <main id="main" className="pt-0 md:pt-0">
+          <main className="outline-none" id="main" tabIndex={-1}>
             {children}
           </main>
           <Footer />
