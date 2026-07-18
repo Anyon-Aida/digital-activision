@@ -66,6 +66,24 @@ export const caseStudySectionLabels: Record<
   },
 };
 
+export const caseStudyStatusLabels: Record<CaseStudy["status"], LocalizedText> = {
+  production: { hu: "Production rendszer", en: "Production system" },
+  demo: { hu: "Publikus bemutató", en: "Public demo" },
+  "private-case-study": {
+    hu: "Privát esettanulmány",
+    en: "Private case study",
+  },
+  "in-progress": { hu: "Fejlesztés alatt", en: "In progress" },
+};
+
+export const caseStudyVisibilityLabels: Record<
+  CaseStudy["visibility"],
+  LocalizedText
+> = {
+  public: { hu: "Publikus", en: "Public" },
+  anonymized: { hu: "Anonimizált", en: "Anonymized" },
+};
+
 const entries = caseStudies.map((study) => [study.slug, study] as const);
 
 export const caseStudyBySlug = Object.freeze(
@@ -96,7 +114,12 @@ export const getCaseStudyCard = (
     slug,
     href: getCaseStudyPath(slug, locale),
     status: study.status,
+    statusLabel: localize(caseStudyStatusLabels[study.status], locale),
     visibility: study.visibility,
+    visibilityLabel: localize(
+      caseStudyVisibilityLabels[study.visibility],
+      locale,
+    ),
     title: localize(study.title, locale),
     summary: localize(study.summary, locale),
     role: localize(study.role, locale),
@@ -108,6 +131,23 @@ export const getCaseStudyCards = (
   locale: CaseStudyLocale,
   order: readonly CaseStudySlug[] = workCaseStudyOrder,
 ) => order.map((slug) => getCaseStudyCard(slug, locale));
+
+export const getFeaturedCaseStudies = (locale: CaseStudyLocale) =>
+  homepageCaseStudyOrder.map((slug) => {
+    const study = getCaseStudy(slug);
+    const sections = new Map(study.sections.map((section) => [section.id, section]));
+    const firstParagraph = (sectionId: CaseStudySectionId) => {
+      const paragraph = sections.get(sectionId)?.content.at(0);
+      return paragraph ? localize(paragraph, locale) : "";
+    };
+
+    return {
+      ...getCaseStudyCard(slug, locale),
+      problem: firstParagraph("context"),
+      ownership: firstParagraph("ownership"),
+      result: localize(study.results[0].claim, locale),
+    };
+  });
 
 export const getCaseStudySeo = (
   slug: CaseStudySlug,

@@ -8,6 +8,7 @@ import {
   caseStudySectionStates,
   caseStudySlugs,
   getCaseStudyCards,
+  getFeaturedCaseStudies,
   getCaseStudySections,
   homepageCaseStudyOrder,
   workCaseStudyOrder,
@@ -103,6 +104,14 @@ describe("case-study registry", () => {
     expect(getCaseStudyCards("hu", homepageCaseStudyOrder).map(({ slug }) => slug)).toEqual(
       homepageCaseStudyOrder,
     );
+    expect(getFeaturedCaseStudies("en").map(({ slug }) => slug)).toEqual(
+      homepageCaseStudyOrder,
+    );
+    expect(getFeaturedCaseStudies("hu")[0]).toMatchObject({
+      href: "/hu/work/samsung-smart-gate-analytics",
+      statusLabel: "Privát esettanulmány",
+      visibilityLabel: "Anonimizált",
+    });
   });
 
   it("resolves every related project and every evidence reference", () => {
