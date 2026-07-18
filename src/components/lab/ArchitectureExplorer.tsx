@@ -360,7 +360,13 @@ function PermissionMatrix({ content }: { content: PermissionContent }) {
                     const allowed = action.allowedRoles.includes(role.id);
 
                     return (
-                      <td key={role.id} className="p-4 text-center">
+                      <td
+                        key={role.id}
+                        aria-label={`${role.label}: ${
+                          allowed ? content.allowedLabel : content.deniedLabel
+                        }`}
+                        className="p-4 text-center"
+                      >
                         <span
                           aria-hidden="true"
                           className={
@@ -370,9 +376,6 @@ function PermissionMatrix({ content }: { content: PermissionContent }) {
                           }
                         >
                           {allowed ? "✓" : "—"}
-                        </span>
-                        <span className="sr-only">
-                          {role.label}: {allowed ? content.allowedLabel : content.deniedLabel}
                         </span>
                       </td>
                     );

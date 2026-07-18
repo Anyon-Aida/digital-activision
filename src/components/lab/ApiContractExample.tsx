@@ -31,7 +31,7 @@ export function ApiContractExample({ content }: ApiContractExampleProps) {
       </div>
 
       <div className="mt-10 grid gap-6 xl:grid-cols-2">
-        <Card as="div" variant="elevated">
+        <Card as="div" className="min-w-0" variant="elevated">
           <p className="text-sm font-semibold text-[var(--color-text-muted)]">
             {content.endpointLabel}
           </p>
@@ -44,7 +44,7 @@ export function ApiContractExample({ content }: ApiContractExampleProps) {
           </pre>
         </Card>
 
-        <Card as="div" variant="elevated">
+        <Card as="div" className="min-w-0" variant="elevated">
           <h3 className="text-lg font-bold">{content.responseLabel}</h3>
           <pre className="mt-3 overflow-x-auto rounded-[var(--radius-control)] bg-[var(--color-page)] p-4 text-sm leading-6 text-[var(--color-text-primary)]">
             <code>{content.responseExample}</code>
