@@ -1,6 +1,7 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
 import { legacyRedirects } from "./src/lib/legacy-routes";
+import { getGlobalSecurityHeaders } from "./src/lib/security-headers";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -12,11 +13,13 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        source: "/:path*",
+        headers: getGlobalSecurityHeaders(),
+      },
+      {
         source: "/projects/:path*",
         headers: [
           { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
-          { key: "X-Content-Type-Options", value: "nosniff" },
-          { key: "Referrer-Policy", value: "strict-origin-when-cross-origin" },
         ],
       },
     ];
