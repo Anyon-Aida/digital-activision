@@ -10,6 +10,7 @@
 
   --container: min(1160px, 92vw);
   --topbar-h: 86px;
+  --concept-banner-h: 42px;
 }
 
 /* =========================================================
@@ -24,6 +25,22 @@ html,body{
 img{ display:block; max-width:100%; height:auto }
 a{ color:inherit; text-decoration:none }
 .container{ width:var(--container); margin-inline:auto }
+
+.concept-banner{
+  position:fixed;
+  inset:0 0 auto 0;
+  z-index:50;
+  min-height:var(--concept-banner-h);
+  display:grid;
+  place-items:center;
+  padding:8px 16px;
+  background:var(--yellow);
+  color:#111;
+  font:800 14px/1.2 Inter, system-ui, sans-serif;
+  letter-spacing:.04em;
+  text-align:center;
+  text-transform:uppercase;
+}
 
 /* =========================================================
    TOPBAR / NAV
@@ -49,7 +66,7 @@ a{ color:inherit; text-decoration:none }
   border-radius: 2px; /* lekerekítés, hogy szebb legyen */
 }
 .topbar{
-  position:fixed; inset:0 0 auto 0; z-index:40;
+  position:fixed; inset:var(--concept-banner-h) 0 auto 0; z-index:40;
   background:#1b1b1b;
   height:var(--topbar-h);
   box-shadow:0 2px 0 rgba(255,255,255,.04) inset;
@@ -91,7 +108,7 @@ a{ color:inherit; text-decoration:none }
 
 /* ------- Lenyíló panel (#nav-panel) – mobil + desktop dropdown ------- */
 #nav-panel{
-  position:fixed; left:0; right:0; top:var(--topbar-h);
+  position:fixed; left:0; right:0; top:calc(var(--concept-banner-h) + var(--topbar-h));
   background:#101010; border-top:1px solid rgba(255,255,255,.06);
   max-height:0; overflow:hidden;
   transform:translateY(-6px); opacity:0;
@@ -114,7 +131,7 @@ a{ color:inherit; text-decoration:none }
    - képek együtt, átfedéssel
    - nincs túlcsordulás mobilon
 ========================================================= */
-.hero{ padding-top:var(--topbar-h); position:relative; background:#1c1c1c;}
+.hero{ padding-top:calc(var(--concept-banner-h) + var(--topbar-h)); position:relative; background:#1c1c1c;}
 .hero-inner{ padding:200px 0 80px }
 .divider{ height:50px; background:#d9d9d9 }
 

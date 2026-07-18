@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <base href="/projects/hamburger/">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Burger Shop</title>
+  <title>Burger Shop – UI concept</title>
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,6 +15,9 @@
   <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+  <aside class="concept-banner" role="note">
+    UI concept — no real orders
+  </aside>
 
   <!-- HEADER -->
 <header class="topbar"> 
@@ -26,27 +29,23 @@
       <span class="bar" aria-hidden="true"></span>
     </button>
 
-    <!-- Eredeti nav-sorod – a szövegeken nem változtatok -->
     <nav class="nav-row" aria-label="Fő navigáció">
-      <a href="#menu" class="menu-trigger" aria-controls="nav-panel" aria-expanded="false">Menu</a>
-      <a href="#" class="brand">BURGER SHOP</a>
-      <a href="#about" class="about-link">Rólunk</a>
-      <a href="#order" class="btn-yellow cta-link">Rendelés most</a>
+      <a href="#nav-panel" class="menu-trigger" aria-controls="nav-panel" aria-expanded="false">Menu</a>
+      <a href="#home" class="brand">BURGER SHOP</a>
+      <a href="#concept" class="about-link">A koncepcióról</a>
+      <a href="#concept" class="btn-yellow cta-link">UI-koncepció</a>
     </nav>
   </div>
 
   <!-- A közös legördülő/lecúszó panel (mobil + desktop is ezt használja) -->
   <div id="nav-panel" class="nav-panel" hidden>
     <ul class="panel-list" role="menu">
-      <!-- Kitalált menüpontok (közösek: mobilon és asztalin is látszanak) -->
-      <li role="none"><a role="menuitem" href="#burgerek">Burgerek</a></li>
-      <li role="none"><a role="menuitem" href="#koretek">Köretek</a></li>
-      <li role="none"><a role="menuitem" href="#szoszok">Szószok</a></li>
-      <li role="none"><a role="menuitem" href="#akciok">Akciók</a></li>
+      <li role="none"><a role="menuitem" href="#home">Kezdőlap</a></li>
+      <li role="none"><a role="menuitem" href="#sample-menu">Menü UI-minta</a></li>
+      <li role="none"><a role="menuitem" href="#concept">A koncepcióról</a></li>
 
       <!-- Csak mobilon jelenjen meg a panelben (asztalin kívül marad jobbra) -->
-      <li role="none" class="only-mobile"><a role="menuitem" href="#about">Rólunk</a></li>
-      <li role="none" class="only-mobile"><a role="menuitem" href="#order" class="btn-yellow">Rendelés most</a></li>
+      <li role="none" class="only-mobile"><a role="menuitem" href="#concept" class="btn-yellow">UI-koncepció</a></li>
     </ul>
   </div>
 </header>
@@ -65,7 +64,7 @@
   </section>
 
   <!-- BEST BURGERS -->
-  <section class="best">
+  <section class="best" id="sample-menu">
     <div class="container">
       <h2 class="title-xl">EZEK A LEGJOBB BURGEREK</h2>
 
@@ -75,7 +74,7 @@
           <div class="meta">
             <strong>2800FT</strong>
             <div class="name">DUPLA HÚSOS HAMBURGER</div>
-            <a href="#order" class="tiny-link">RENDELÉS MOST</a>
+            <span class="tiny-link">MINTAKÁRTYA</span>
           </div>
         </article>
 
@@ -88,24 +87,24 @@
           <div class="meta">
             <strong>2100FT</strong>
             <div class="name">CSIRKE HÚSOS HAMBURGER</div>
-            <a href="#order" class="tiny-link">RENDELÉS MOST</a>
+            <span class="tiny-link">MINTAKÁRTYA</span>
           </div>
         </article>
       </div>
 
       <div class="menu-cta">
-        <a href="#menu" class="btn-ghost">TELJES MENÜ</a>
+        <span class="btn-ghost" aria-disabled="true">MENÜ UI-MINTA</span>
       </div>
     </div>
   </section>
 
-  <!-- ORDER CTA -->
-  <section class="cta" id="order">
+  <!-- CONCEPT STATUS -->
+  <section class="cta" id="concept">
     <div class="container cta-inner">
-      <h3 class="title-cta">RENDELD MEG A LEGINOMABB<br>HAMBURGERT MA</h3>
+      <h3 class="title-cta">VIZUÁLIS UI-KONCEPCIÓ<br>NEM VALÓDI ÉTTEREM</h3>
       <div class="cta-actions">
         <span class="slashes" aria-hidden="true"></span>
-        <a href="#" class="btn-yellow big">RENDELÉS MOST</a>
+        <span class="btn-yellow big" aria-disabled="true">NINCS VALÓDI RENDELÉS</span>
       </div>
     </div>
   </section>
@@ -120,29 +119,24 @@
 
         <div class="foot-col">
           <h4>Továbbiak</h4>
-          <a href="#menu">Menü</a>
-          <a href="#about">Rólunk</a>
+          <a href="#sample-menu">Menü UI-minta</a>
+          <a href="#concept">A koncepcióról</a>
         </div>
 
         <div class="foot-col">
-          <h4>Nyitvatartás</h4>
-          <p>Hétfő – Péntek | 10:00–21:00</p>
-          <p>Szombat | 10:00–23:00</p>
-          <p>Vasárnap | Zárva</p>
+          <h4>Státusz</h4>
+          <p>Statikus portfólió-prototípus.</p>
+          <p>Az árak és a termékek csak vizuális minták.</p>
         </div>
 
         <div class="foot-col">
-          <h4>Feliratkozás a hírlevelünkre</h4>
-          <form class="subscribe" onsubmit="event.preventDefault(); alert('Köszi!');">
-            <input type="email" placeholder="Enter your email" required>
-            <button type="submit">FELIRATKOZÁS</button>
-          </form>
-          <small>IRATKOZZ FEL A LEGÚJABB AKCIÓKÉRT</small>
+          <h4>Demo korlát</h4>
+          <p>Nincs rendelés, fizetés, hírlevél vagy adatbeküldés.</p>
+          <small>UI concept — no real orders</small>
         </div>
 
         <div class="foot-bottom">
-          <small>©2023 Burger Shop. Minden jog fenntartva.</small>
-          <a href="#">Adatvédelmi nyilatkozat</a>
+          <small>Fiktív Burger Shop vizuális koncepció portfólióbemutatóhoz.</small>
         </div>
       </div>
     </div>
