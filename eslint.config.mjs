@@ -18,6 +18,11 @@ const eslintConfig = [
       "out/**",
       "build/**",
       "next-env.d.ts",
+      // Self-contained, framework-agnostic demos kept as published legacy assets.
+      "public/projects/**",
+      "playwright-report/**",
+      "test-results/**",
+      "coverage/**",
     ],
   },
 ];

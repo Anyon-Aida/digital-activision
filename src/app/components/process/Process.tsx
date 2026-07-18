@@ -1,6 +1,7 @@
 'use client'
 
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
+import Image from 'next/image'
 import { dict, Locale } from '@/lib/i18n'
 import './process-exact.css'
 
@@ -170,7 +171,7 @@ export default function ProcessExact({ locale }: { locale: Locale }) {
 
     return () => {
       el.removeEventListener('touchstart', onStart)
-      el.removeEventListener('touchmove', onMove as any)
+      el.removeEventListener('touchmove', onMove)
       el.removeEventListener('touchend', onEnd)
       el.removeEventListener('touchcancel', onEnd)
     }
@@ -201,9 +202,12 @@ export default function ProcessExact({ locale }: { locale: Locale }) {
               {STEPS.map((s, i) => (
                 <div key={`img-${i}`} className="shrink-0" style={{ width: `${COL_W}px` }}>
                   <div className="h-[172px] md:h-[182px] flex items-center justify-start">
-                    <img
+                    <Image
                       src={s.img}
                       alt={s.title}
+                      width={600}
+                      height={300}
+                      sizes="(max-width: 767px) 100vw, 520px"
                       className="max-h-[150px] md:max-h-[200px] object-contain mr-auto"
                       draggable={false}
                     />
@@ -250,7 +254,14 @@ export default function ProcessExact({ locale }: { locale: Locale }) {
                   <ul className="mt-4 space-y-2">
                     {s.bullets.map((b, ix) => (
                       <li key={`bl-${i}-${ix}`} className="flex items-start gap-2 text-[#475569]">
-                        <img src="/process/Vector.svg" alt="" aria-hidden="true" className="mt-[3px] w-5 h-5" />
+                        <Image
+                          src="/process/Vector.svg"
+                          alt=""
+                          aria-hidden="true"
+                          width={20}
+                          height={20}
+                          className="mt-[3px] h-5 w-5"
+                        />
                         <span className="text-[18px]">{b}</span>
                       </li>
                     ))}

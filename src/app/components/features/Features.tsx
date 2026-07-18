@@ -92,7 +92,7 @@ export default function Features({ locale }: { locale: Locale }) {
           <h2 className="text-3xl md:text-4xl font-extrabold tracking-tight text-neutral-900">
             {t.features.title}
           </h2>
-          <p className="mt-3 text-[#475569] text-xl opacity-80 pt-6">
+          <p className="mt-3 pt-6 text-xl text-[#475569]">
             {t.features.subtitle}
           </p>
         </div>

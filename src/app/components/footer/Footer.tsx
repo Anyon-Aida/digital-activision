@@ -2,6 +2,7 @@
 
 import { FormEvent, useMemo, useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { usePathname } from 'next/navigation'
 import { Instagram, Linkedin, Mail, Phone } from 'lucide-react'
 
@@ -91,9 +92,11 @@ export default function Footer() {
           {/* Bal – logo, leírás, social */}
           <div className="min-w-0">
             <div className="flex items-center gap-3">
-              <img
+              <Image
                 src="/logo.svg"
                 alt=""
+                width={40}
+                height={40}
                 className="h-10 w-10 rounded-xl shadow-sm"
               />
               <div>

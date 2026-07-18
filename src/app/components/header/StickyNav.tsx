@@ -1,6 +1,7 @@
 'use client'
 import Link from 'next/link'
-import { useEffect, useMemo, useState } from 'react'
+import Image from 'next/image'
+import { useEffect, useState } from 'react'
 import { usePathname } from 'next/navigation'
 import { Menu, X } from 'lucide-react'
 import logo from '../../../../public/logo.svg'
@@ -29,15 +30,6 @@ export default function StickyNav() {
 
   // 1) Locale meghatározása az URL első szegmense alapján
   const locale: Locale = pathname.startsWith('/en') ? 'en' : 'hu'
-  const nextLocale: Locale = locale === 'hu' ? 'en' : 'hu'
-
-  // 2) Nyelvváltásnál tartsuk meg az aktuális útvonalat és hash-t
-  const switchHref = useMemo(() => {
-    // levágjuk a /hu vagy /en prefixet
-    const pathWithoutLocale = pathname.replace(/^\/(hu|en)(?=\/|$)/, '') || '/'
-    const hash = typeof window !== 'undefined' ? window.location.hash : ''
-    return `/${nextLocale}${pathWithoutLocale}${hash}`
-  }, [pathname, nextLocale])
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -65,7 +57,7 @@ export default function StickyNav() {
       <div className="mx-auto max-w-7xl px-4">
         <div className="flex h-16 md:h-20 items-center justify-between">
           <a href="#hero" onClick={handleJump} className="flex items-center gap-3 font-semibold">
-            <img src={logo.src} alt="Digital Activision" className="h-10 w-auto md:h-12" />
+            <Image src={logo} alt="Digital Activision" className="h-10 w-auto md:h-12" priority />
             <span className="hidden sm:inline">Digital Activision</span>
           </a>
 

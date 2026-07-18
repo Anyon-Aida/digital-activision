@@ -108,7 +108,7 @@ function PricingCard({
           style={{
             background: 'linear-gradient(120deg,#6E46E5, #4666E5 45%, #04E4FF 100%)',
             WebkitMask: 'linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0)',
-            WebkitMaskComposite: 'xor' as any,
+            WebkitMaskComposite: 'xor',
             maskComposite: 'exclude',
           }}
           initial={{ opacity: 0.8, filter: 'blur(0px)' }}
