@@ -6,6 +6,7 @@ for (const locale of ["hu", "en"] as const) {
     page,
   }) => {
     await page.goto(`/${locale}/privacy`);
+    await expect(page).toHaveTitle(/\S+/);
 
     const results = await new AxeBuilder({ page })
       .withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa"])
