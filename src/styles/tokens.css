@@ -1,0 +1,135 @@
+:root {
+  color-scheme: light;
+
+  /* Palette values live here so components only consume semantic tokens. */
+  --palette-paper-50: #faf9f6;
+  --palette-white: #ffffff;
+  --palette-slate-50: #f4f6f8;
+  --palette-slate-100: #e9edf2;
+  --palette-slate-300: #c9d1dc;
+  --palette-slate-600: #475467;
+  --palette-slate-700: #344054;
+  --palette-navy-900: #101828;
+  --palette-navy-950: #08111f;
+  --palette-graphite-800: #17202e;
+  --palette-graphite-900: #101722;
+  --palette-violet-50: #f2f0ff;
+  --palette-violet-600: #5146d9;
+  --palette-violet-700: #4038b5;
+  --palette-cyan-100: #cff7ff;
+  --palette-cyan-600: #087d99;
+  --palette-emerald-700: #047857;
+  --palette-amber-700: #9a5700;
+  --palette-red-700: #b42318;
+  --palette-blue-600: #2563eb;
+
+  /* Semantic color roles. */
+  --color-page: var(--palette-paper-50);
+  --color-surface: var(--palette-white);
+  --color-surface-subtle: var(--palette-slate-50);
+  --color-surface-elevated: var(--palette-white);
+  --color-text-primary: var(--palette-navy-900);
+  --color-text-secondary: var(--palette-slate-600);
+  --color-text-muted: var(--palette-slate-700);
+  --color-border-subtle: var(--palette-slate-100);
+  --color-border-strong: var(--palette-slate-300);
+  --color-accent: var(--palette-violet-600);
+  --color-accent-hover: var(--palette-violet-700);
+  --color-accent-soft: var(--palette-violet-50);
+  --color-accent-secondary: var(--palette-cyan-600);
+  --color-success: var(--palette-emerald-700);
+  --color-warning: var(--palette-amber-700);
+  --color-danger: var(--palette-red-700);
+  --color-focus-ring: var(--palette-blue-600);
+  --color-selection: var(--palette-cyan-100);
+  --color-on-accent: var(--palette-white);
+
+  /* Type is supplied by next/font when the tokens are wired into the layout. */
+  --font-family-sans: var(--font-geist-sans, "Segoe UI"), Arial, sans-serif;
+  --font-family-mono: var(--font-geist-mono, "SFMono-Regular"), Consolas,
+    monospace;
+  --font-size-body: clamp(1rem, 0.97rem + 0.15vw, 1.0625rem);
+  --font-size-small: 0.875rem;
+  --font-size-display: clamp(2.75rem, 1.8rem + 4.75vw, 6rem);
+  --line-height-body: 1.65;
+  --line-height-heading: 1.05;
+  --letter-spacing-heading: -0.035em;
+
+  /* Layout and spacing. */
+  --layout-content-max: 80rem;
+  --layout-wide-max: 96rem;
+  --layout-readable-max: 46rem;
+  --layout-gutter: clamp(1rem, 4vw, 2rem);
+  --section-space-compact: clamp(3rem, 7vw, 5rem);
+  --section-space-default: clamp(4.5rem, 10vw, 8rem);
+  --section-space-spacious: clamp(6rem, 13vw, 11rem);
+  --space-control-x: 1.125rem;
+  --space-control-y: 0.75rem;
+  --target-min: 2.75rem;
+
+  /* Shape and elevation. */
+  --radius-control: 0.75rem;
+  --radius-surface: 1.25rem;
+  --radius-card: 1.5rem;
+  --radius-pill: 999px;
+  --shadow-surface: 0 1px 2px rgb(8 17 31 / 0.05),
+    0 16px 40px rgb(8 17 31 / 0.08);
+  --shadow-focus: 0 0 0 4px color-mix(in srgb, var(--color-focus-ring) 22%, transparent);
+
+  /* Motion primitives. */
+  --motion-duration-fast: 160ms;
+  --motion-duration-default: 240ms;
+  --motion-duration-slow: 420ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-distance: 0.5rem;
+}
+
+[data-theme="dark"],
+[data-tone="dark"] {
+  color-scheme: dark;
+  --color-page: var(--palette-navy-950);
+  --color-surface: var(--palette-graphite-900);
+  --color-surface-subtle: var(--palette-graphite-800);
+  --color-surface-elevated: #202b3a;
+  --color-text-primary: #f7f9fc;
+  --color-text-secondary: #b7c1cf;
+  --color-text-muted: #d2d8e2;
+  --color-border-subtle: #2d3949;
+  --color-border-strong: #536176;
+  --color-accent: #8d86ff;
+  --color-accent-hover: #aaa5ff;
+  --color-accent-soft: #27234e;
+  --color-accent-secondary: #67e8f9;
+  --color-success: #6ee7b7;
+  --color-warning: #fbbf24;
+  --color-danger: #fda29b;
+  --color-focus-ring: #67e8f9;
+  --color-selection: #164e63;
+  --color-on-accent: var(--palette-navy-950);
+  --shadow-surface: 0 1px 2px rgb(0 0 0 / 0.2),
+    0 20px 48px rgb(0 0 0 / 0.28);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-fast: 1ms;
+    --motion-duration-default: 1ms;
+    --motion-duration-slow: 1ms;
+    --motion-distance: 0px;
+  }
+
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
+}
