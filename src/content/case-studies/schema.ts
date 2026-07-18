@@ -1,4 +1,8 @@
 import { z } from "zod";
+import {
+  caseStudySlugs,
+  type CaseStudySlug,
+} from "@/lib/case-study-routes";
 
 export const caseStudySectionIds = [
   "summary",
@@ -19,13 +23,6 @@ export const caseStudySectionIds = [
   "related",
 ] as const;
 
-export const caseStudySlugs = [
-  "samsung-smart-gate-analytics",
-  "adott-enterprise-project-workflow",
-  "alba-medence-3d-configurator",
-  "questlog-offline-first-pwa",
-] as const;
-
 export const caseStudySectionStates = [
   "documented",
   "not-applicable",
@@ -39,7 +36,8 @@ export const locales = ["hu", "en"] as const;
 export type CaseStudyLocale = (typeof locales)[number];
 export type CaseStudySectionId = (typeof caseStudySectionIds)[number];
 export type CaseStudySectionState = (typeof caseStudySectionStates)[number];
-export type CaseStudySlug = (typeof caseStudySlugs)[number];
+export { caseStudySlugs };
+export type { CaseStudySlug };
 
 const nonEmptyTextSchema = z.string().trim().min(1);
 
