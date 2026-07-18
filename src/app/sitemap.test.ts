@@ -12,10 +12,20 @@ describe("locale-aware sitemap", () => {
     expect(entries.map(({ url }) => url)).toEqual([
       "https://portfolio.example.com/hu",
       "https://portfolio.example.com/en",
+      "https://portfolio.example.com/hu/work",
+      "https://portfolio.example.com/en/work",
+      "https://portfolio.example.com/hu/work/samsung-smart-gate-analytics",
+      "https://portfolio.example.com/en/work/samsung-smart-gate-analytics",
+      "https://portfolio.example.com/hu/work/adott-enterprise-project-workflow",
+      "https://portfolio.example.com/en/work/adott-enterprise-project-workflow",
+      "https://portfolio.example.com/hu/work/alba-medence-3d-configurator",
+      "https://portfolio.example.com/en/work/alba-medence-3d-configurator",
+      "https://portfolio.example.com/hu/work/questlog-offline-first-pwa",
+      "https://portfolio.example.com/en/work/questlog-offline-first-pwa",
       "https://portfolio.example.com/hu/privacy",
       "https://portfolio.example.com/en/privacy",
     ]);
-    expect(entries[2].alternates?.languages).toMatchObject({
+    expect(entries.at(-2)?.alternates?.languages).toMatchObject({
       hu: "https://portfolio.example.com/hu/privacy",
       en: "https://portfolio.example.com/en/privacy",
       "x-default": "https://portfolio.example.com/hu/privacy",

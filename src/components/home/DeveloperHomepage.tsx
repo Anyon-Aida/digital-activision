@@ -1,5 +1,6 @@
 import type { ReactNode } from "react";
 import type { HomeContent } from "@/content/home";
+import type { getFeaturedCaseStudies } from "@/content/case-studies";
 import type { Locale } from "@/i18n/routing";
 import {
   Badge,
@@ -13,6 +14,7 @@ import { SystemMap } from "./SystemMap";
 
 type DeveloperHomepageProps = {
   content: HomeContent;
+  featuredProjects: ReturnType<typeof getFeaturedCaseStudies>;
   locale: Locale;
 };
 
@@ -58,7 +60,11 @@ function TagList({ items }: { items: readonly string[] }) {
   );
 }
 
-export function DeveloperHomepage({ content, locale }: DeveloperHomepageProps) {
+export function DeveloperHomepage({
+  content,
+  featuredProjects,
+  locale,
+}: DeveloperHomepageProps) {
   return (
     <>
       <Section
@@ -178,14 +184,14 @@ export function DeveloperHomepage({ content, locale }: DeveloperHomepageProps) {
           title={content.featuredWork.title}
         />
         <div className="mt-12 grid gap-5 lg:grid-cols-2">
-          {content.featuredWork.projects.map((project, index) => (
+          {featuredProjects.map((project, index) => (
             <Card className="group flex h-full flex-col" key={project.slug} variant="elevated">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <div className="flex flex-wrap gap-2">
-                  <Badge tone={project.visibility === "Publikus" || project.visibility === "Public" ? "success" : "warning"}>
-                    {project.status}
+                  <Badge tone={project.visibility === "public" ? "success" : "warning"}>
+                    {project.statusLabel}
                   </Badge>
-                  <Badge>{project.visibility}</Badge>
+                  <Badge>{project.visibilityLabel}</Badge>
                 </div>
                 <span className="font-mono text-sm text-[var(--color-text-secondary)]">0{index + 1}</span>
               </div>
@@ -213,10 +219,13 @@ export function DeveloperHomepage({ content, locale }: DeveloperHomepageProps) {
                 </div>
               </dl>
               <div className="mt-auto pt-7">
-                <TagList items={project.stack} />
-                <p className="mt-5 border-t border-[var(--color-border-subtle)] pt-5 text-xs text-[var(--color-text-secondary)]">
-                  {content.featuredWork.availabilityLabel}
-                </p>
+                <TagList items={project.technologies.map(({ name }) => name)} />
+                <a
+                  className="mt-5 inline-flex min-h-[var(--target-min)] items-center border-t border-[var(--color-border-subtle)] pt-5 font-semibold text-[var(--color-accent-secondary)] underline-offset-4 hover:underline"
+                  href={project.href}
+                >
+                  {content.featuredWork.actionLabel} →
+                </a>
               </div>
             </Card>
           ))}

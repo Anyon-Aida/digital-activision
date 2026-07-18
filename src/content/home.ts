@@ -12,17 +12,6 @@ export type SystemMapNode = {
   detail: string;
 };
 
-export type FeaturedProject = {
-  slug: string;
-  title: string;
-  status: string;
-  visibility: string;
-  problem: string;
-  ownership: string;
-  stack: readonly string[];
-  result: string;
-};
-
 export type CapabilityGroup = {
   title: string;
   items: readonly string[];
@@ -97,8 +86,7 @@ export type HomeContent = {
     problemLabel: string;
     ownershipLabel: string;
     resultLabel: string;
-    availabilityLabel: string;
-    projects: readonly FeaturedProject[];
+    actionLabel: string;
   };
   capabilities: {
     eyebrow: string;
@@ -233,13 +221,7 @@ export const homeContent = {
       problemLabel: "Probléma",
       ownershipLabel: "Felelősség",
       resultLabel: "Eredmény / állapot",
-      availabilityLabel: "A typed case-study route a következő munkacsomagban kapcsolódik be.",
-      projects: [
-        { slug: "samsung-smart-gate-analytics", title: "Samsung – Smart Gate Analytics", status: "Privát esettanulmány", visibility: "Anonimizált", problem: "Valós idejű kaputerhelési nézet és egy PHP-alapú folyamat React/Node.js modernizációja.", ownership: "A modernizációban való részvétel igazolt; a pontos egyéni scope nem publikus.", stack: ["React", "Node.js", "PHP", "Analytics"], result: "A rendszám-ellenőrzési folyamat pontossága 20%-kal javult." },
-        { slug: "adott-enterprise-project-workflow", title: "Adott Solution – Enterprise Project Workflow", status: "Privát esettanulmány", visibility: "Anonimizált", problem: "Inquiry → Spec → SoW → Quote/Order workflow szerepköralapú review-val és auditálással.", ownership: "Önálló architektúra- és projektfelelősség.", stack: ["React", "API", "Token auth", "RBAC", "Audit"], result: "A workflow capability igazolt; publikus mérőszám nem áll rendelkezésre." },
-        { slug: "alba-medence-3d-configurator", title: "Alba Medence – Interactive 3D Configurator", status: "Publikus bemutató", visibility: "Publikus", problem: "Interaktív 3D medencekonfigurátor modern vizuális iránnyal.", ownership: unavailable.hu, stack: ["Next.js", "3D", "UX", "UI"], result: "A technikai architektúra és az eredmény még igazolásra vár." },
-        { slug: "questlog-offline-first-pwa", title: "QuestLog – Offline-First PWA", status: "Fejlesztés alatt", visibility: "Publikus koncepció", problem: "Napi küldetéskezelés XP- és szintrendszerrel, telepíthető és offline fallback iránnyal.", ownership: unavailable.hu, stack: ["PWA", "localStorage", "Offline", "Product"], result: "Roadmap, nem kész production rendszer; live link nincs." },
-      ],
+      actionLabel: "Esettanulmány megnyitása",
     },
     capabilities: {
       eyebrow: "Engineering capabilities",
@@ -377,13 +359,7 @@ export const homeContent = {
       problemLabel: "Problem",
       ownershipLabel: "Ownership",
       resultLabel: "Outcome / state",
-      availabilityLabel: "The typed case-study route is connected in the next work package.",
-      projects: [
-        { slug: "samsung-smart-gate-analytics", title: "Samsung – Smart Gate Analytics", status: "Private case study", visibility: "Anonymized", problem: "Real-time gate-load analytics and the React/Node.js modernization of a PHP-based workflow.", ownership: "Participation in the modernization is verified; exact individual scope is not public.", stack: ["React", "Node.js", "PHP", "Analytics"], result: "Licence-plate verification accuracy improved by 20%." },
-        { slug: "adott-enterprise-project-workflow", title: "Adott Solution – Enterprise Project Workflow", status: "Private case study", visibility: "Anonymized", problem: "An Inquiry → Spec → SoW → Quote/Order workflow with role-based review and auditability.", ownership: "Independent architecture and project ownership.", stack: ["React", "API", "Token auth", "RBAC", "Audit"], result: "The workflow capability is verified; no public impact metric is available." },
-        { slug: "alba-medence-3d-configurator", title: "Alba Medence – Interactive 3D Configurator", status: "Public demo", visibility: "Public", problem: "An interactive 3D pool configurator with a modern visual direction.", ownership: unavailable.en, stack: ["Next.js", "3D", "UX", "UI"], result: "The architecture and outcome still require source verification." },
-        { slug: "questlog-offline-first-pwa", title: "QuestLog – Offline-First PWA", status: "In progress", visibility: "Public concept", problem: "Daily quests with XP and levels, installability and an offline-fallback direction.", ownership: unavailable.en, stack: ["PWA", "localStorage", "Offline", "Product"], result: "A roadmap, not a finished production system; no live link is claimed." },
-      ],
+      actionLabel: "Open case study",
     },
     capabilities: {
       eyebrow: "Engineering capabilities",
