@@ -30,9 +30,8 @@ const sharedSources = {
   commission:
     "https://commission.europa.eu/law/law-topic/data-protection/information-individuals_en",
   naih: "https://www.naih.hu/erintetti-jogok",
-  formspree: "https://formspree.io/legal/privacy-policy",
-  vercel: "https://vercel.com/legal/privacy-policy",
-  openStreetMap: "https://osmfoundation.org/wiki/Privacy_Policy",
+  vercel: "https://vercel.com/legal/privacy-notice",
+  cloudflare: "https://www.cloudflare.com/privacypolicy/",
 } as const;
 
 export const privacyContent = {
@@ -61,47 +60,48 @@ export const privacyContent = {
         id: "contact",
         title: "2. Kapcsolatfelvétel",
         paragraphs: [
-          "A kapcsolatfelvételi űrlap a megadott nevet, e-mail-címet és üzenetet kezeli azért, hogy az adatkezelő válaszolhasson a megkeresésre és előkészíthesse az esetleges együttműködést.",
-          "A tervezett jogalap a megkereső kérésére történő, szerződéskötést megelőző lépések megtétele, illetve szükség szerint a válaszadáshoz és a szolgáltatás biztonságához fűződő jogos érdek. A végleges jogalapot a folyamat és a szolgáltató véglegesítésekor jogilag ellenőrizni kell.",
+          "A kapcsolatfelvételi űrlap a megadott nevet, e-mail-címet, témakört, üzenetet és a választott nyelvet kezeli azért, hogy az adatkezelő válaszolhasson a megkeresésre és előkészíthesse az esetleges együttműködést.",
+          "Az elküldéshez kötelező adatkezelési jelölőnégyzet rögzíti, hogy a megkereső elolvasta a tájékoztatót és hozzájárul az üzenete kezeléséhez. A hozzájárulás jelzése is bekerül a kérésbe. Annak jogi felülvizsgálata még szükséges, hogy az egyes megkereséseknél a hozzájárulás, a szerződéskötést megelőző lépések vagy más jogalap alkalmazandó-e.",
         ],
       },
       {
         id: "current-delivery",
-        title: "3. Az űrlap jelenlegi technikai útja",
+        title: "3. Saját kapcsolatfelvételi folyamat",
         paragraphs: [
-          "A jelenlegi felület a kapcsolatfelvételi adatokat közvetlenül a Formspree szolgáltatásnak továbbítja. A repository saját e-mail végpontot is tartalmaz, de a felület jelenleg nem azt használja. A V2 contact-hardening során egyetlen, dokumentált és validált feldolgozási út maradhat.",
-          "A szolgáltatóváltással együtt ezt a tájékoztatót, az adatfeldolgozói szerződést, az adattovábbítás helyét és az alkalmazott garanciákat is felül kell vizsgálni.",
+          "A böngésző a kapcsolatfelvételi adatokat az oldal azonos eredetű, saját /api/contact végpontjára küldi. A végpont korlátozza a kérés méretét, ellenőrzi az eredetet és a mezőket, majd a konfigurált SMTP-kiszolgálón keresztül továbbítja a nevet, e-mail-címet, témakört, nyelvet, üzenetet és egy technikai kérésazonosítót a konfigurált címzett postaládájába.",
+          "Az alkalmazás kódja nem írja az űrlap tartalmát saját adatbázisba. Az e-mail-szolgáltató és a címzett postaládája ugyanakkor a saját, ténylegesen beállított megőrzési szabályai szerint kezelheti a továbbított üzenetet. Hiányos konfiguráció esetén a végpont nem küld üzenetet, hanem zárt állapotban marad.",
         ],
       },
       {
         id: "technical-data",
-        title: "4. Technikai adatok és tárhely",
+        title: "4. Visszaélés-megelőzési és naplóadatok",
         paragraphs: [
-          "A tárhely- és hálózati szolgáltató a webhely kiszolgálásakor technikai naplóadatokat kezelhet, például IP-címet, időpontot, kért útvonalat, böngésző- vagy eszközinformációt. A webhely Vercel környezetben fut; a tényleges naplózási beállításokat és megőrzési időket production előtt ellenőrizni kell.",
-          "E technikai adatkezelés célja a biztonságos és megbízható működés, a hibakeresés és a visszaélések megelőzése.",
+          "Az űrlap egy rejtett csalimezőt, a kitöltés kezdetének időpontját és – ha a környezetben aktiválva van – Cloudflare Turnstile tokent küld a visszaélések kiszűréséhez. A szerver a kérés IP-címéből titkos kulccsal HMAC-azonosítót képez a gyakoriságkorlátozáshoz; a kapcsolatfelvételi alkalmazásnapló nem rögzíti a nyers IP-címet, a nevet, az e-mail-címet vagy az üzenetet.",
+          "A strukturált alkalmazásnapló csak technikai kérésazonosítót, környezetet, futási időt, eseményt és szükség esetén általános hibaokot tartalmaz. A Vercel tárhely- és hálózati rétege ettől függetlenül kezelhet IP-címet és más technikai kérésadatokat; a tényleges production naplózási és megőrzési beállításokat indulás előtt ellenőrizni kell.",
         ],
       },
       {
         id: "third-parties",
-        title: "5. Külső szolgáltatók és beágyazott tartalom",
+        title: "5. Feltételes szolgáltatók és címzettek",
         paragraphs: [
-          "A jelenlegi lábléc OpenStreetMap térképet ágyaz be. A beágyazás betöltésekor a látogató böngészője közvetlen kapcsolatot létesíthet az OpenStreetMap szolgáltatásával, amely technikai adatokat kaphat.",
-          "A külső LinkedIn- és Instagram-linkek csak megnyitás után viszik a látogatót az adott szolgáltatóhoz. Az ottani adatkezelésre a szolgáltatók saját szabályai vonatkoznak.",
+          "A webhely Vercel környezetben fut. Az űrlap bekapcsolásakor a konfigurált SMTP-szolgáltató kézbesíti az üzenetet. Preview és production környezetben egy konfigurált külső, elosztott rate limiter kapja meg a HMAC-azonosítót, a korlátot, az időablakot és a technikai kérésazonosítót; az űrlap tartalma nem kerül ebbe a kérésbe.",
+          "Ha a kapcsolatfelvételi folyamat preview vagy production környezetben engedélyezett, a visszaélés elleni ellenőrzés Cloudflare Turnstile-t használ. Aktivált kliensoldali widget esetén a böngésző közvetlenül is kapcsolatba léphet a Cloudflare-rel, a szerver pedig a tokent a Cloudflare ellenőrző végpontján validálja. A konkrét SMTP- és rate-limit szolgáltató neve nincs a repositoryban rögzítve: ezeket, szerződéses szerepüket, feldolgozási helyüket és adattovábbítási garanciáikat a valódi production konfiguráció alapján kell a közzététel előtt megnevezni.",
         ],
       },
       {
-        id: "newsletter",
-        title: "6. Hírlevél",
+        id: "hosting-links",
+        title: "6. Tárhely és külső hivatkozások",
         paragraphs: [
-          "A jelenlegi láblécben látható hírlevélmező nincs szerveroldali szolgáltatáshoz kötve: a beírt e-mail-címet a webhely nem továbbítja és nem menti el. A félreérthető próbafelületet a V2 migráció során el kell távolítani, vagy csak külön, dokumentált hozzájárulási és leiratkozási folyamattal szabad aktiválni.",
+          "A tárhely- és hálózati szolgáltató a webhely kiszolgálásakor technikai adatokat kezelhet, például IP-címet, időpontot, kért útvonalat, böngésző- vagy eszközinformációt. Ennek célja a biztonságos és megbízható működés, a hibakeresés és a visszaélések megelőzése.",
+          "A külső GitHub- és LinkedIn-hivatkozások csak megnyitás után viszik a látogatót az adott szolgáltatóhoz. Az ottani adatkezelésre a szolgáltatók saját szabályai vonatkoznak.",
         ],
       },
       {
         id: "retention",
         title: "7. Megőrzés és címzettek",
         paragraphs: [
-          "A kapcsolatfelvételi adatokat csak a megkeresés kezeléséhez, az esetleges együttműködés előkészítéséhez és a kapcsolódó jogi igények kezeléséhez szükséges ideig szabad megőrizni.",
-          "A pontos határidőket, törlési folyamatot, hozzáférési köröket, adatfeldolgozókat és az EGT-n kívüli adattovábbítás esetleges garanciáit a production indulás előtt a tényleges konfiguráció alapján kell rögzíteni. A jelen munkaváltozat nem állít ellenőrizetlen megőrzési időt vagy adattovábbítási mechanizmust.",
+          "A kapcsolatfelvételi adatokat csak a megkeresés kezeléséhez, az esetleges együttműködés előkészítéséhez és a kapcsolódó jogi igények kezeléséhez szükséges ideig szabad megőrizni. Az üzenet a kézbesítés után a címzett postaládájában, valamint a tényleges SMTP-szolgáltató rendszerében annak beállításai szerint maradhat meg.",
+          "A pontos határidők, törlési folyamatok, hozzáférési körök, a Vercel naplóinak megőrzése, a külső rate limiter adatkezelése, az SMTP-szolgáltató és az EGT-n kívüli adattovábbítás esetleges garanciái még nincsenek igazolva. Ezeket a production indulás előtt a tényleges konfiguráció alapján kell rögzíteni; a jelen munkaváltozat nem állít ellenőrizetlen időtartamot vagy adattovábbítási mechanizmust.",
         ],
       },
       {
@@ -124,7 +124,7 @@ export const privacyContent = {
         id: "security-updates",
         title: "10. Biztonság és a tájékoztató változásai",
         paragraphs: [
-          "Az adatkezelőnek megfelelő technikai és szervezési intézkedésekkel kell védenie az adatokat. A V2 megvalósítás része a validáció, a visszaélés elleni védelem, a titokmentes naplózás és a szükséges hozzáférés elve.",
+          "Az adatkezelőnek megfelelő technikai és szervezési intézkedésekkel kell védenie az adatokat. A megvalósítás szerveroldali sémavalidációt, méret- és eredetellenőrzést, gyakoriságkorlátozást, feltételes botvédelmet, személyesadat-mentes alkalmazásnaplózást és hiányos konfigurációnál zárt működést használ.",
           "A tájékoztatót minden olyan változáskor frissíteni kell, amely érinti az adatokat, a célokat, a jogalapot, a szolgáltatókat, a megőrzést vagy az érintetti jogok gyakorlását.",
         ],
       },
@@ -133,9 +133,8 @@ export const privacyContent = {
     sources: [
       { label: "Európai Bizottság – adatvédelmi jogok", href: sharedSources.commission },
       { label: "NAIH – érintetti jogok", href: sharedSources.naih },
-      { label: "Formspree – Privacy Policy", href: sharedSources.formspree },
-      { label: "Vercel – Privacy Policy", href: sharedSources.vercel },
-      { label: "OpenStreetMap Foundation – Privacy Policy", href: sharedSources.openStreetMap },
+      { label: "Vercel – Privacy Notice", href: sharedSources.vercel },
+      { label: "Cloudflare – Privacy Policy", href: sharedSources.cloudflare },
     ],
     homeLabel: "Vissza a főoldalra",
   },
@@ -164,47 +163,48 @@ export const privacyContent = {
         id: "contact",
         title: "2. Contact requests",
         paragraphs: [
-          "The contact form processes the name, email address and message you provide so the controller can answer your request and prepare a possible engagement.",
-          "The intended legal basis is taking steps at your request before entering into a contract and, where necessary, legitimate interests in responding and keeping the service secure. The final legal basis must be reviewed when the process and provider are finalised.",
+          "The contact form processes the name, email address, topic, message and selected language you provide so the controller can answer your request and prepare a possible engagement.",
+          "A required privacy checkbox records that the sender has read this notice and consents to the handling of the message; that consent signal is included in the request. Legal review is still required to determine whether consent, steps requested before entering into a contract, or another legal basis applies to each type of request.",
         ],
       },
       {
         id: "current-delivery",
-        title: "3. Current technical delivery path",
+        title: "3. First-party contact flow",
         paragraphs: [
-          "The current interface sends contact data directly to Formspree. The repository also contains its own email endpoint, but the interface does not currently use it. The V2 contact-hardening phase must leave one documented and validated processing path.",
-          "Any provider change must trigger a review of this notice, the data-processing terms, the processing location and the safeguards used for transfers.",
+          "The browser sends contact data to the site's same-origin, first-party /api/contact endpoint. The endpoint limits request size, validates the origin and fields, then uses the configured SMTP server to deliver the name, email address, topic, language, message and a technical request identifier to the configured recipient mailbox.",
+          "The application code does not write the form content to its own database. The email provider and recipient mailbox may nevertheless handle the delivered message according to their actual retention settings. If configuration is incomplete, the endpoint fails closed and does not send a message.",
         ],
       },
       {
         id: "technical-data",
-        title: "4. Technical data and hosting",
+        title: "4. Abuse-prevention and log data",
         paragraphs: [
-          "The hosting and network provider may process technical log data while serving the site, such as IP address, timestamp, requested path, browser or device information. The site runs on Vercel; actual logging settings and retention periods must be verified before Production.",
-          "The purpose of this technical processing is reliable and secure operation, troubleshooting and abuse prevention.",
+          "For abuse prevention, the form sends a hidden honeypot field, the time at which completion started and, when enabled in the environment, a Cloudflare Turnstile token. The server derives a secret-keyed HMAC identifier from the request IP address for rate limiting; the contact application's logs do not record the raw IP address, name, email address or message.",
+          "Structured application logs contain only a technical request identifier, environment, duration, event and, where needed, a general failure reason. Independently, Vercel's hosting and network layer may process the IP address and other technical request data; the actual Production logging and retention settings must be verified before launch.",
         ],
       },
       {
         id: "third-parties",
-        title: "5. External services and embedded content",
+        title: "5. Conditional providers and recipients",
         paragraphs: [
-          "The current footer embeds an OpenStreetMap map. Loading the embed can make the visitor's browser connect directly to OpenStreetMap, which may receive technical data.",
-          "External LinkedIn and Instagram links take visitors to those providers only after activation. Their own policies govern processing on those services.",
+          "The site runs on Vercel. When the form is enabled, the configured SMTP provider delivers the message. In Preview and Production, a configured external distributed rate limiter receives the HMAC identifier, limit, time window and technical request identifier; the form content is not included in that request.",
+          "When the contact flow is enabled in Preview or Production, it uses Cloudflare Turnstile for abuse checks. When its client widget is enabled, the browser may connect directly to Cloudflare, and the server validates the token with Cloudflare's verification endpoint. The specific SMTP and rate-limit provider names are not recorded in the repository: their identities, contractual roles, processing locations and transfer safeguards must be documented from the real Production configuration before publication.",
         ],
       },
       {
-        id: "newsletter",
-        title: "6. Newsletter",
+        id: "hosting-links",
+        title: "6. Hosting and external links",
         paragraphs: [
-          "The newsletter field currently shown in the footer is not connected to a server-side service: the website does not transmit or store the entered email address. The misleading prototype must be removed during the V2 migration, or activated only with a separately documented consent and unsubscribe flow.",
+          "The hosting and network provider may process technical data while serving the site, such as IP address, timestamp, requested path, browser or device information. The purpose is reliable and secure operation, troubleshooting and abuse prevention.",
+          "External GitHub and LinkedIn links take visitors to those providers only after activation. Their own policies govern processing on those services.",
         ],
       },
       {
         id: "retention",
         title: "7. Retention and recipients",
         paragraphs: [
-          "Contact data may be retained only for as long as needed to handle the request, prepare a possible engagement and manage related legal claims.",
-          "Exact periods, deletion procedures, access roles, processors and any safeguards for transfers outside the EEA must be recorded from the real Production configuration before launch. This working draft does not assert an unverified retention period or transfer mechanism.",
+          "Contact data may be retained only for as long as needed to handle the request, prepare a possible engagement and manage related legal claims. After delivery, the message may remain in the recipient mailbox and in the actual SMTP provider's systems according to their settings.",
+          "Exact periods, deletion procedures, access roles, Vercel log retention, external rate-limiter processing, the SMTP provider and any safeguards for transfers outside the EEA have not yet been verified. They must be recorded from the real Production configuration before launch; this working draft does not assert an unverified duration or transfer mechanism.",
         ],
       },
       {
@@ -227,7 +227,7 @@ export const privacyContent = {
         id: "security-updates",
         title: "10. Security and updates to this notice",
         paragraphs: [
-          "The controller must protect data with appropriate technical and organisational measures. V2 implementation includes validation, abuse protection, secret-free logging and least-necessary access.",
+          "The controller must protect data with appropriate technical and organisational measures. The implementation uses server-side schema validation, size and origin checks, rate limiting, conditional bot protection, personal-data-free application logging and fail-closed behaviour when configuration is incomplete.",
           "This notice must be updated whenever a change affects the data, purposes, legal basis, providers, retention or the way people can exercise their rights.",
         ],
       },
@@ -236,9 +236,8 @@ export const privacyContent = {
     sources: [
       { label: "European Commission – data protection rights", href: sharedSources.commission },
       { label: "NAIH – data subject rights (Hungarian)", href: sharedSources.naih },
-      { label: "Formspree – Privacy Policy", href: sharedSources.formspree },
-      { label: "Vercel – Privacy Policy", href: sharedSources.vercel },
-      { label: "OpenStreetMap Foundation – Privacy Policy", href: sharedSources.openStreetMap },
+      { label: "Vercel – Privacy Notice", href: sharedSources.vercel },
+      { label: "Cloudflare – Privacy Policy", href: sharedSources.cloudflare },
     ],
     homeLabel: "Back to the homepage",
   },
