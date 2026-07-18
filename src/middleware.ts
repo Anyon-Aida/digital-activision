@@ -10,6 +10,15 @@ export default function middleware(request: NextRequest) {
     return NextResponse.next();
   }
 
+  if (
+    request.nextUrl.pathname.length > 1 &&
+    request.nextUrl.pathname.endsWith("/")
+  ) {
+    const canonicalUrl = request.nextUrl.clone();
+    canonicalUrl.pathname = canonicalUrl.pathname.slice(0, -1);
+    return NextResponse.redirect(canonicalUrl, 308);
+  }
+
   const firstSegment = request.nextUrl.pathname.split("/")[1];
 
   if (isUnsupportedLocaleSegment(firstSegment)) {

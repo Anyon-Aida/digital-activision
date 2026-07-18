@@ -8,6 +8,17 @@ test('redirects the root route to the default Hungarian locale', async ({ page }
 })
 
 for (const locale of ['hu', 'en'] as const) {
+  test(`canonicalizes the trailing slash for ${locale.toUpperCase()}`, async ({
+    request,
+  }) => {
+    const response = await request.get(`/${locale}/`, { maxRedirects: 0 })
+
+    expect(response.status()).toBe(308)
+    expect(response.headers().location).toBe(`/${locale}`)
+  })
+}
+
+for (const locale of ['hu', 'en'] as const) {
   test(`renders the ${locale.toUpperCase()} homepage`, async ({ page }) => {
     await page.goto(`/${locale}`)
 
