@@ -1,7 +1,7 @@
 import type { Locale } from "@/i18n/routing";
 
 export type NavigationItem = {
-  href: `#${string}`;
+  href: `#${string}` | `/${string}`;
   label: string;
 };
 
@@ -145,10 +145,10 @@ export const homeContent = {
       closeNavigation: "Navigáció bezárása",
       navigationTitle: "Navigáció",
       navigation: [
-        { href: "#featured-work", label: "Engineering munkák" },
-        { href: "#system-map", label: "System Map" },
+        { href: "/work", label: "Engineering munkák" },
+        { href: "/lab", label: "Engineering Lab" },
         { href: "#experience", label: "Tapasztalat" },
-        { href: "#studio", label: "Studio" },
+        { href: "/studio", label: "Studio" },
         { href: "#contact", label: "Kapcsolat" },
       ],
       unavailable: "Nem elérhető",
@@ -180,7 +180,7 @@ export const homeContent = {
         "System design",
       ],
       primaryCta: "Engineering esettanulmányok",
-      secondaryCta: "System Map felfedezése",
+      secondaryCta: "Engineering Lab és élő demók",
       cvUnavailable: "A HU/EN CV asset még nem érhető el a workspace-ben.",
       githubLabel: "GitHub",
       linkedInLabel: "Studio LinkedIn",
@@ -294,10 +294,10 @@ export const homeContent = {
       closeNavigation: "Close navigation",
       navigationTitle: "Navigation",
       navigation: [
-        { href: "#featured-work", label: "Engineering work" },
-        { href: "#system-map", label: "System Map" },
+        { href: "/work", label: "Engineering work" },
+        { href: "/lab", label: "Engineering Lab" },
         { href: "#experience", label: "Experience" },
-        { href: "#studio", label: "Studio" },
+        { href: "/studio", label: "Studio" },
         { href: "#contact", label: "Contact" },
       ],
       unavailable: "Unavailable",
@@ -320,7 +320,7 @@ export const homeContent = {
       stackLabel: "Focus",
       stack: ["React", "Next.js", "Node.js", "Laravel / PHP", "SQL", "System design"],
       primaryCta: "Engineering case studies",
-      secondaryCta: "Explore the System Map",
+      secondaryCta: "Engineering Lab and live demos",
       cvUnavailable: "The HU/EN CV assets are not yet available in the workspace.",
       githubLabel: "GitHub",
       linkedInLabel: "Studio LinkedIn",

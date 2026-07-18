@@ -93,10 +93,14 @@ export function DeveloperHomepage({
               ))}
             </div>
             <div className="mt-9 flex flex-wrap gap-3">
-              <ButtonLink href="#featured-work" size="large">
+              <ButtonLink href={`/${locale}/work`} size="large">
                 {content.hero.primaryCta}
               </ButtonLink>
-              <ButtonLink href="#system-map" size="large" variant="secondary">
+              <ButtonLink
+                href={`/${locale}/lab`}
+                size="large"
+                variant="secondary"
+              >
                 {content.hero.secondaryCta}
               </ButtonLink>
             </div>

@@ -1,8 +1,11 @@
 import type { HomeContent } from "@/content/home";
 import type { Locale } from "@/i18n/routing";
+import { CommandPalette } from "@/components/command-palette/CommandPalette";
+import { buildServerCommandPaletteCommands } from "@/components/command-palette/server-commands";
 import { Container } from "@/components/ui";
 import { LocaleSwitch } from "./LocaleSwitch";
 import { MobileNavigation } from "./MobileNavigation";
+import { PrimaryNavigation } from "./PrimaryNavigation";
 
 type SiteHeaderProps = {
   chrome: HomeContent["chrome"];
@@ -10,9 +13,11 @@ type SiteHeaderProps = {
 };
 
 export function SiteHeader({ chrome, locale }: SiteHeaderProps) {
+  const paletteCommands = buildServerCommandPaletteCommands(locale);
+
   return (
     <header className="sticky top-0 z-50 border-b border-[var(--color-border-subtle)] bg-[color-mix(in_srgb,var(--color-page)_88%,transparent)] backdrop-blur-xl">
-      <Container className="flex min-h-16 items-center justify-between gap-5 lg:min-h-20">
+      <Container className="flex min-h-16 items-center justify-between gap-4 xl:min-h-20">
         <a
           className="group flex min-h-[var(--target-min)] min-w-0 items-center gap-3 rounded-[var(--radius-control)] no-underline"
           href={`/${locale}`}
@@ -33,25 +38,11 @@ export function SiteHeader({ chrome, locale }: SiteHeaderProps) {
           </span>
         </a>
 
-        <div className="hidden min-w-0 items-center gap-4 lg:flex">
-          <nav aria-label={chrome.navigationLabel}>
-            <ul className="flex items-center gap-1">
-              {chrome.navigation.map((item) => (
-                <li key={item.href}>
-                  <a
-                    className="inline-flex min-h-[var(--target-min)] items-center rounded-[var(--radius-control)] px-3 text-sm font-medium text-[var(--color-text-secondary)] no-underline transition-colors hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-text-primary)]"
-                    href={`/${locale}${item.href}`}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </nav>
-
+        <div className="hidden min-w-0 items-center gap-3 xl:flex">
+          <PrimaryNavigation chrome={chrome} locale={locale} />
           <span aria-hidden="true" className="h-6 w-px bg-[var(--color-border-subtle)]" />
           <button
-            className="inline-flex min-h-[var(--target-min)] cursor-not-allowed items-center rounded-[var(--radius-control)] px-3 text-sm text-[var(--color-text-secondary)]"
+            className="hidden min-h-[var(--target-min)] cursor-not-allowed items-center rounded-[var(--radius-control)] px-3 text-sm text-[var(--color-text-secondary)] 2xl:inline-flex"
             disabled
             title={chrome.unavailable}
             type="button"
@@ -65,7 +56,10 @@ export function SiteHeader({ chrome, locale }: SiteHeaderProps) {
           />
         </div>
 
-        <MobileNavigation chrome={chrome} locale={locale} />
+        <div className="flex shrink-0 items-center gap-2">
+          <CommandPalette commands={paletteCommands} locale={locale} />
+          <MobileNavigation chrome={chrome} locale={locale} />
+        </div>
       </Container>
     </header>
   );
