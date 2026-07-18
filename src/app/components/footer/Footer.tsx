@@ -1,11 +1,12 @@
 'use client'
 
-import { FormEvent, useMemo, useState } from 'react'
+import { FormEvent, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useLocale } from 'next-intl'
 import { Instagram, Linkedin, Mail, Phone } from 'lucide-react'
 import { isLocale, routing } from '@/i18n/routing'
+import { Link as LocaleLink } from '@/i18n/navigation'
 
 type Locale = 'hu' | 'en'
 
@@ -70,11 +71,6 @@ export default function Footer() {
     setOk('ok')
     setEmail('')
   }
-
-  // Nyelvfüggő privacy útvonal (állítsd be a routed szerint)
-  const privacyHref = useMemo(() => {
-    return locale === 'hu' ? '/adatkezeles' : '/en/privacy'
-  }, [locale])
 
   return (
     <footer
@@ -250,9 +246,9 @@ export default function Footer() {
           <p>
             © {new Date().getFullYear()} {DICT.org.name[locale]}. {DICT.legal.rights[locale]}
           </p>
-          <Link href={privacyHref} className="hover:opacity-80">
+          <LocaleLink href="/privacy" className="hover:opacity-80">
             {DICT.legal.privacy[locale]}
-          </Link>
+          </LocaleLink>
         </div>
       </div>
     </footer>
