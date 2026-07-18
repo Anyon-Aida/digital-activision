@@ -2,7 +2,7 @@
 
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from 'react'
 import Image from 'next/image'
-import { dict, Locale } from '@/lib/i18n'
+import { usePortfolioMessages } from '@/i18n/messages'
 import './process-exact.css'
 
 type Step = {
@@ -27,8 +27,8 @@ const useContainer = () => {
 
 const clamp = (v: number, a: number, b: number) => Math.max(a, Math.min(b, v))
 
-export default function ProcessExact({ locale }: { locale: Locale }) {
-  const t = dict[locale]
+export default function ProcessExact() {
+  const t = usePortfolioMessages()
   const STEPS = t.process.steps as Step[]
 
   const [idx, setIdx] = useState(0)

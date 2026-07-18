@@ -3,8 +3,9 @@
 import { FormEvent, useMemo, useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { usePathname } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import { Instagram, Linkedin, Mail, Phone } from 'lucide-react'
+import { isLocale, routing } from '@/i18n/routing'
 
 type Locale = 'hu' | 'en'
 
@@ -49,8 +50,8 @@ const DICT = {
 } as const
 
 export default function Footer() {
-  const pathname = usePathname() || '/'
-  const locale: Locale = pathname.startsWith('/en') ? 'en' : 'hu'
+  const requestedLocale = useLocale()
+  const locale: Locale = isLocale(requestedLocale) ? requestedLocale : routing.defaultLocale
 
   const [email, setEmail] = useState('')
   const [loading, setLoading] = useState(false)

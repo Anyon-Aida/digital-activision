@@ -6,16 +6,16 @@ import Process from "./components/process/Process";
 import Pricing from "./components/pricing/Pricing";
 import ContactCTA from "./components/contact/ContactCTA";
 
-export default function HomePage({ locale }: { locale: 'hu' | 'en' }) {
+export default function HomePage() {
   return (
     <>
-      <Hero locale={locale} />
-      <Features locale={locale} />
-      <Services locale={locale} />
-      <Works locale={locale} />
-      <Process locale={locale} />
-      <Pricing locale={locale} />
-      <ContactCTA locale={locale} />
+      <Hero />
+      <Features />
+      <Services />
+      <Works />
+      <Process />
+      <Pricing />
+      <ContactCTA />
     </>
   );
 }

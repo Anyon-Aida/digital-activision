@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { easeInOut } from 'framer-motion'
-import { dict, Locale } from '@/lib/i18n'
+import { usePortfolioMessages } from '@/i18n/messages'
 
 type Service = {
   title: string
@@ -80,8 +80,8 @@ function ServiceCard({ s, idx }: { s: Service; idx: number }) {
   )
 }
 
-export default function Services({ locale }: { locale: Locale }) {
-  const t = dict[locale]
+export default function Services() {
+  const t = usePortfolioMessages()
   const services = t.services.items as Service[]
 
   return (

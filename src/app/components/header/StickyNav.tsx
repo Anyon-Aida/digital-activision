@@ -1,13 +1,12 @@
 'use client'
-import Link from 'next/link'
 import Image from 'next/image'
 import { useEffect, useState } from 'react'
-import { usePathname } from 'next/navigation'
+import { useLocale } from 'next-intl'
 import { Menu, X } from 'lucide-react'
 import logo from '../../../../public/logo.svg'
-import { dict } from '@/lib/i18n'
-
-type Locale = 'hu' | 'en'
+import { usePortfolioMessages } from '@/i18n/messages'
+import { Link, usePathname } from '@/i18n/navigation'
+import { isLocale, routing } from '@/i18n/routing'
 
 const NAV = [
   { href: '#services', label: { hu: 'Szolgáltatások', en: 'Services' } },
@@ -26,10 +25,11 @@ const grad = 'bg-[linear-gradient(90deg,_#6E46E5_0%,_#4666E5_50%,_#04E4FF_100%)]
 export default function StickyNav() {
   const [scrolled, setScrolled] = useState(false)
   const [open, setOpen] = useState(false)
-  const pathname = usePathname() || '/'
-
-  // 1) Locale meghatározása az URL első szegmense alapján
-  const locale: Locale = pathname.startsWith('/en') ? 'en' : 'hu'
+  const pathname = usePathname()
+  const requestedLocale = useLocale()
+  const locale = isLocale(requestedLocale) ? requestedLocale : routing.defaultLocale
+  const nextLocale = locale === 'hu' ? 'en' : 'hu'
+  const messages = usePortfolioMessages()
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 8)
@@ -73,11 +73,11 @@ export default function StickyNav() {
               onClick={handleJump}
               className={['ml-2 inline-flex rounded-full px-5 py-2.5 text-sm font-semibold text-white shadow-md transition hover:opacity-90', grad].join(' ')}
             >
-              {dict[locale].nav.contact}
+              {messages.nav.contact}
             </a>
             <div className="ml-4 h-5 w-px bg-neutral-300" />
-              <Link href={`/${locale === 'hu' ? 'en' : 'hu'}`} className="text-sm font-medium" prefetch={false}>
-                {(locale === 'hu' ? 'EN' : 'HU')}
+              <Link href={pathname} locale={nextLocale} className="text-sm font-medium" prefetch={false}>
+                {nextLocale.toUpperCase()}
               </Link>
           </nav>
 
@@ -107,7 +107,7 @@ export default function StickyNav() {
                 onClick={handleJump}
                 className={['block text-center rounded-full px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:opacity-90', grad].join(' ')}
               >
-                {dict[locale].nav.contact}
+                {messages.nav.contact}
               </a>
             </li>
             <li>
@@ -121,8 +121,8 @@ export default function StickyNav() {
               >
                 {nextLocale.toUpperCase()}
               </Link> */}
-              <Link href={`/${locale === 'hu' ? 'en' : 'hu'}`} className="text-sm font-medium" prefetch={false}>
-                {(locale === 'hu' ? 'EN' : 'HU')}
+              <Link href={pathname} locale={nextLocale} className="block rounded-lg px-3 py-2 text-sm font-medium hover:bg-black/5" prefetch={false} onClick={handleJump}>
+                {nextLocale.toUpperCase()}
               </Link>
 
             </li>

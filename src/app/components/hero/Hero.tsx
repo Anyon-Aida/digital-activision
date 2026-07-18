@@ -1,10 +1,10 @@
 'use client'
 import Link from 'next/link'
-import { dict } from '@/lib/i18n'
+import { usePortfolioMessages } from '@/i18n/messages'
 
 
-export default function Hero({ locale }: { locale: 'hu' | 'en' }) {
-  const t = dict[locale]
+export default function Hero() {
+  const t = usePortfolioMessages()
 
   return (
     <section

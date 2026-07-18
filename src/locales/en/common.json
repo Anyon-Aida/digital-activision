@@ -2,6 +2,27 @@
   "nav": {
     "contact": "Contact"
   },
+  "accessibility": {
+    "skipToContent": "Skip to content"
+  },
+  "boundaries": {
+    "loading": {
+      "label": "Loading the page…"
+    },
+    "notFound": {
+      "eyebrow": "404",
+      "title": "This page could not be found",
+      "description": "The link may be outdated, or the page is not available yet.",
+      "action": "Back to the homepage"
+    },
+    "error": {
+      "eyebrow": "Error",
+      "title": "The page could not be loaded",
+      "description": "Try again. If the problem persists, return to the homepage.",
+      "retry": "Try again",
+      "home": "Back to the homepage"
+    }
+  },
   "hero": {
     "title": "Websites that bring you clients",
     "subtitle": "Fast, clear and beautiful sites. Tangible outcomes: more inquiries, better Google rankings.",

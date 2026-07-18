@@ -2,13 +2,13 @@
 
 import { useState } from 'react'
 import { motion, AnimatePresence, type HTMLMotionProps } from 'framer-motion'
-import { dict, Locale } from '@/lib/i18n'
+import { usePortfolioMessages } from '@/i18n/messages'
 
 const GRADIENT_HEIGHT = 1200 
 const TITLE_LIFT = 28        
 
-export default function ContactCTA({ locale }: { locale: Locale }) {
-  const t = dict[locale].contact
+export default function ContactCTA() {
+  const t = usePortfolioMessages().contact
   const [loading, setLoading] = useState(false)
   const [done, setDone] = useState(false)
   const [agree, setAgree] = useState(false)

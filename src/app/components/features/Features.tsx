@@ -2,7 +2,7 @@
 
 import { motion, useMotionValue, useTransform } from 'framer-motion'
 import { useCallback } from 'react'
-import { dict, Locale } from '@/lib/i18n'
+import { usePortfolioMessages } from '@/i18n/messages'
 
 type Item = { title: string; text: string }
 
@@ -70,8 +70,8 @@ function FeatureCard({ item, index }: { item: Item; index: number }) {
   )
 }
 
-export default function Features({ locale }: { locale: Locale }) {
-  const t = dict[locale]
+export default function Features() {
+  const t = usePortfolioMessages()
   const items = t.features.items as Item[]
 
   return (

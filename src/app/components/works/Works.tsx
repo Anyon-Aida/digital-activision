@@ -3,7 +3,7 @@
 import Image from 'next/image'
 import Link from 'next/link'
 import { motion, easeOut } from 'framer-motion'
-import { dict, Locale } from '@/lib/i18n'
+import { usePortfolioMessages } from '@/i18n/messages'
 
 type Project = {
   title: string
@@ -120,8 +120,8 @@ function ProjectCard({ p, i }: { p: Project; i: number }) {
   )
 }
 
-export default function Works({ locale }: { locale: Locale }) {
-  const t = dict[locale]
+export default function Works() {
+  const t = usePortfolioMessages()
   const projects = t.works.projects as Project[]
 
   return (

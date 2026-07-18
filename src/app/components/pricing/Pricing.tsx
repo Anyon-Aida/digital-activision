@@ -2,7 +2,7 @@
 
 import { motion } from 'framer-motion'
 import { easeInOut } from 'framer-motion'
-import { dict, Locale } from '@/lib/i18n'
+import { usePortfolioMessages } from '@/i18n/messages'
 
 type Plan = {
   name: string
@@ -13,8 +13,8 @@ type Plan = {
   accent?: boolean
 }
 
-export default function Pricing({ locale }: { locale: Locale }) {
-  const t = dict[locale]
+export default function Pricing() {
+  const t = usePortfolioMessages()
   const plans = t.pricing.plans as Plan[]
 
   return (
