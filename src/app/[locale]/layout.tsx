@@ -4,8 +4,9 @@ import { notFound } from "next/navigation";
 import { Geist, Geist_Mono } from "next/font/google";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
-import Footer from "../components/footer/Footer";
-import StickyNav from "../components/header/StickyNav";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { homeContent } from "@/content/home";
 import { buildLocaleMetadata } from "@/lib/seo";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
@@ -57,7 +58,7 @@ export default async function LocaleLayout({
   const t = await getTranslations({ locale, namespace: "accessibility" });
 
   return (
-    <html lang={locale}>
+    <html data-theme="dark" lang={locale}>
       <body
         className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-page-surface font-sans text-content-primary antialiased`}
       >
@@ -68,11 +69,11 @@ export default async function LocaleLayout({
           >
             {t("skipToContent")}
           </a>
-          <StickyNav />
+          <SiteHeader chrome={homeContent[locale].chrome} locale={locale} />
           <main className="outline-none" id="main" tabIndex={-1}>
             {children}
           </main>
-          <Footer />
+          <SiteFooter chrome={homeContent[locale].chrome} locale={locale} />
         </NextIntlClientProvider>
       </body>
     </html>
