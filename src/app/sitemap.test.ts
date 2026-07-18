@@ -22,6 +22,8 @@ describe("locale-aware sitemap", () => {
       "https://portfolio.example.com/en/work/alba-medence-3d-configurator",
       "https://portfolio.example.com/hu/work/questlog-offline-first-pwa",
       "https://portfolio.example.com/en/work/questlog-offline-first-pwa",
+      "https://portfolio.example.com/hu/lab",
+      "https://portfolio.example.com/en/lab",
       "https://portfolio.example.com/hu/studio",
       "https://portfolio.example.com/en/studio",
       "https://portfolio.example.com/hu/privacy",

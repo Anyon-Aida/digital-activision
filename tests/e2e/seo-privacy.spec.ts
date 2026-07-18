@@ -62,6 +62,8 @@ test("Preview-safe robots, locale sitemap and social images are served", async (
   expect(sitemap.status()).toBe(200);
   expect(sitemapBody).toContain("/hu/privacy");
   expect(sitemapBody).toContain("/en/privacy");
+  expect(sitemapBody).toContain("/hu/lab");
+  expect(sitemapBody).toContain("/en/lab");
   expect(sitemapBody).toContain('hreflang="x-default"');
 
   for (const locale of ["hu", "en"] as const) {
