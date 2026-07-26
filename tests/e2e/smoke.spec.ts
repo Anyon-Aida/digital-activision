@@ -14,7 +14,9 @@ for (const locale of ['hu', 'en'] as const) {
     const response = await request.get(`/${locale}/`, { maxRedirects: 0 })
 
     expect(response.status()).toBe(308)
-    expect(new URL(response.headers().location!).pathname).toBe(`/${locale}`)
+    expect(
+      new URL(response.headers().location!, response.url()).pathname,
+    ).toBe(`/${locale}`)
   })
 }
 

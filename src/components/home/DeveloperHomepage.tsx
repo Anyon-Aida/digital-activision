@@ -11,7 +11,7 @@ import {
   Surface,
 } from "@/components/ui";
 import { SystemMap } from "./SystemMap";
-import { ContactForm } from "./ContactForm";
+import { DeferredContactForm } from "./DeferredContactForm";
 import { LegacyStudioAnchorRedirect } from "@/components/studio/LegacyStudioAnchorRedirect";
 
 type DeveloperHomepageProps = {
@@ -366,7 +366,7 @@ export function DeveloperHomepage({
           title={content.contact.title}
         />
         <div className="mt-10 grid gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(18rem,0.55fr)] lg:items-start">
-          <ContactForm content={content.contact} locale={locale} />
+          <DeferredContactForm content={content.contact} locale={locale} />
           <Surface padding="large" variant="subtle">
             <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.14em] text-[var(--color-text-secondary)]">
               {content.contact.topicsLabel}

@@ -17,9 +17,10 @@
     "test:e2e": "playwright test tests/e2e --project=chromium",
     "test:a11y": "playwright test tests/a11y --project=chromium",
     "test:visual": "playwright test tests/visual --project=chromium",
+    "check:bundle": "node scripts/check-client-bundle.mjs",
     "audit:security": "npm audit --audit-level=high",
     "audit:production": "npm audit --omit=dev --audit-level=high",
-    "quality": "npm run lint && npm run typecheck && npm run test && npm run build",
+    "quality": "npm run lint && npm run typecheck && npm run test && npm run build && npm run check:bundle",
     "quality:full": "npm run quality && npm run test:e2e && npm run test:a11y && npm run test:visual"
   },
   "dependencies": {

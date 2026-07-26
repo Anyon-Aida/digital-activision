@@ -6,6 +6,7 @@ for (const locale of ["hu", "en"] as const) {
     page,
   }) => {
     await page.goto(`/${locale}#contact`);
+    await expect(page.locator("#contact-submit")).toBeEnabled();
 
     const defaultResults = await new AxeBuilder({ page })
       .include("#contact")

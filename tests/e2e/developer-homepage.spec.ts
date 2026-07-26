@@ -47,6 +47,21 @@ for (const width of [320, 390] as const) {
   });
 }
 
+test("contact form code loads only when the contact section is near the viewport", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1_440, height: 900 });
+  await page.goto("/en");
+
+  await expect(page.getByTestId("contact-form-fallback")).toBeVisible();
+  await expect(page.locator("#contact-submit")).toHaveCount(0);
+
+  await page.locator("#contact").scrollIntoViewIfNeeded();
+
+  await expect(page.locator("#contact-submit")).toBeEnabled();
+  await expect(page.getByTestId("contact-form-fallback")).toHaveCount(0);
+});
+
 test("reduced-motion preference disables non-essential motion", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/en");
