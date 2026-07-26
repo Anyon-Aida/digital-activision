@@ -17,11 +17,13 @@
     "test:e2e": "playwright test tests/e2e --project=chromium",
     "test:a11y": "playwright test tests/a11y --project=chromium",
     "test:visual": "playwright test tests/visual --project=chromium",
+    "test:links": "playwright test tests/release/internal-links.spec.ts --project=chromium",
+    "test:cross-browser": "playwright test tests/release/cross-browser.spec.ts",
     "check:bundle": "node scripts/check-client-bundle.mjs",
     "audit:security": "npm audit --audit-level=high",
     "audit:production": "npm audit --omit=dev --audit-level=high",
     "quality": "npm run lint && npm run typecheck && npm run test && npm run build && npm run check:bundle",
-    "quality:full": "npm run quality && npm run test:e2e && npm run test:a11y && npm run test:visual"
+    "quality:full": "npm run quality && npm run test:e2e && npm run test:a11y && npm run test:visual && npm run test:links && npm run test:cross-browser"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.1",

@@ -28,6 +28,14 @@ export default defineConfig({
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
     },
+    {
+      name: 'firefox',
+      use: { ...devices['Desktop Firefox'] },
+    },
+    {
+      name: 'webkit',
+      use: { ...devices['Desktop Safari'] },
+    },
   ],
   webServer: {
     command: `npm run start -- --hostname 127.0.0.1 --port ${port}`,
@@ -35,7 +43,7 @@ export default defineConfig({
       CONTACT_FORM_ENABLED: 'false',
     },
     url: baseURL,
-    reuseExistingServer: !process.env.CI,
+    reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === 'true',
     timeout: 120_000,
   },
 })
