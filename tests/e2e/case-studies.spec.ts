@@ -85,6 +85,34 @@ test("anonymized studies do not expose internal media or project links", async (
   await expect(page.locator('main a[href*="samsung"]')).toHaveCount(0);
 });
 
+test("public case-study media uses the Next.js image optimizer", async ({
+  page,
+  request,
+}) => {
+  await page.goto("/en/work/alba-medence-3d-configurator");
+
+  const image = page.getByAltText(
+    "Screenshot stored in the public repository for the Alba Pool project",
+  );
+  await expect(image).toBeVisible();
+
+  const optimizedSource = await image.getAttribute("src");
+  expect(optimizedSource).toMatch(/^\/_next\/image\?/u);
+
+  const [optimizedResponse, originalResponse] = await Promise.all([
+    request.get(optimizedSource!, {
+      headers: { accept: "image/avif,image/webp,image/*" },
+    }),
+    request.get("/projects/alba_pool.png"),
+  ]);
+
+  expect(optimizedResponse.ok()).toBe(true);
+  expect(optimizedResponse.headers()["content-type"]).toMatch(/^image\//u);
+  expect((await optimizedResponse.body()).byteLength).toBeLessThan(
+    (await originalResponse.body()).byteLength,
+  );
+});
+
 test("unknown case-study slugs fail closed", async ({ page }) => {
   const response = await page.goto("/en/work/not-a-case-study");
 
