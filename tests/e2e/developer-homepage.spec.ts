@@ -27,6 +27,14 @@ for (const locale of ["hu", "en"] as const) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
     await expect(page.locator("#featured-work article")).toHaveCount(4);
+    const capabilityEvidenceLinks = page.locator("#capabilities article > a");
+    await expect(capabilityEvidenceLinks).toHaveCount(4);
+    for (const link of await capabilityEvidenceLinks.all()) {
+      await expect(link).toHaveAttribute(
+        "href",
+        new RegExp(`^/${locale}/work/[a-z0-9-]+$`),
+      );
+    }
     await expect(page.locator("#experience > div > ol > li")).toHaveCount(6);
     await expect(page.getByRole("button", { name: /CV/i }).first()).toBeDisabled();
     expect(consoleErrors).toEqual([]);
@@ -76,4 +84,27 @@ test("reduced-motion preference disables non-essential motion", async ({ page })
 
   expect(motion.animationDuration).toBe("0.001s");
   expect(motion.transitionDuration).toBe("0.001s");
+});
+
+test("public GitHub and LinkedIn links use safe external-link semantics", async ({
+  page,
+}) => {
+  await page.goto("/en");
+
+  for (const href of [
+    "https://github.com/Anyon-Aida",
+    "https://www.linkedin.com/company/digital-activision",
+  ]) {
+    const links = page.locator(`a[href="${href}"]`);
+    const count = await links.count();
+
+    expect(count).toBeGreaterThan(0);
+    for (let index = 0; index < count; index += 1) {
+      await expect(links.nth(index)).toHaveAttribute("target", "_blank");
+      await expect(links.nth(index)).toHaveAttribute(
+        "rel",
+        /^(?=.*\bnoopener\b)(?=.*\bnoreferrer\b)/u,
+      );
+    }
+  }
 });

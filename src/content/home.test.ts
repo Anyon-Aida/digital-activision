@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { caseStudySlugs, getCaseStudyPath } from "./case-studies";
 import { homeContent } from "./home";
 
 describe("developer homepage content", () => {
@@ -23,5 +24,27 @@ describe("developer homepage content", () => {
     for (const locale of ["hu", "en"] as const) {
       expect(homeContent[locale].featuredWork.actionLabel).toBeTruthy();
     }
+  });
+
+  it("links every capability group to a localized case study", () => {
+    for (const locale of ["hu", "en"] as const) {
+      const evidenceSlugs = homeContent[locale].capabilities.groups.map(
+        ({ evidenceSlug }) => evidenceSlug,
+      );
+
+      expect(evidenceSlugs).toEqual(
+        expect.arrayContaining([...caseStudySlugs]),
+      );
+      expect(
+        evidenceSlugs.map((slug) => getCaseStudyPath(slug, locale)),
+      ).toEqual(
+        evidenceSlugs.map((slug) => `/${locale}/work/${slug}`),
+      );
+    }
+  });
+
+  it("describes the migrated Studio route in the present tense", () => {
+    expect(homeContent.hu.studio.migrationNote).toMatch(/már elérhető/i);
+    expect(homeContent.en.studio.migrationNote).toMatch(/now available/i);
   });
 });

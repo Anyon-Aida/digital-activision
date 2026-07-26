@@ -23,4 +23,17 @@ for (const locale of ["hu", "en"] as const) {
       );
     });
   }
+
+  test(`${locale.toUpperCase()} homepage full-page section rhythm matches the visual baseline`, async ({
+    page,
+  }) => {
+    await page.emulateMedia({ reducedMotion: "reduce" });
+    await page.setViewportSize({ width: 1440, height: 1000 });
+    await page.goto(`/${locale}`);
+    await page.evaluate(() => document.fonts.ready);
+
+    await expect(page).toHaveScreenshot(`homepage-${locale}-full-page.png`, {
+      fullPage: true,
+    });
+  });
 }

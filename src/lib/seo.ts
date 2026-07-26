@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { CaseStudy } from "@/content/case-studies";
 import type { Locale } from "@/i18n/routing";
 import { routing } from "@/i18n/routing";
 import {
@@ -29,6 +30,7 @@ type MetadataInput = {
   title?: string;
   description?: string;
   environment?: SiteEnvironment;
+  allowIndexing?: boolean;
 };
 
 function normalizePagePath(path = ""): string {
@@ -54,14 +56,22 @@ export function getLocalizedUrls(origin: URL, path = "") {
   };
 }
 
+export function isCaseStudySearchIndexable(
+  status: CaseStudy["status"],
+): boolean {
+  return status !== "in-progress";
+}
+
 export function buildLocaleMetadata({
   locale,
   path,
   title,
   description,
   environment,
+  allowIndexing = true,
 }: MetadataInput): Metadata {
   const site = getSiteConfiguration(environment);
+  const indexable = site.indexable && allowIndexing;
   const localized = homepageMetadata[locale];
   const urls = getLocalizedUrls(site.origin, path);
   const pageTitle = title ?? localized.title;
@@ -106,13 +116,13 @@ export function buildLocaleMetadata({
       images: [{ url: socialImage, alt: localized.imageAlt }],
     },
     robots: {
-      index: site.indexable,
-      follow: site.indexable,
-      nocache: !site.indexable,
+      index: indexable,
+      follow: indexable,
+      nocache: !indexable,
       googleBot: {
-        index: site.indexable,
-        follow: site.indexable,
-        noimageindex: !site.indexable,
+        index: indexable,
+        follow: indexable,
+        noimageindex: !indexable,
       },
     },
     icons: {

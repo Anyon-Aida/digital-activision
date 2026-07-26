@@ -1,4 +1,5 @@
 import type { Locale } from "@/i18n/routing";
+import type { CaseStudySlug } from "@/lib/case-study-routes";
 
 export type NavigationItem = {
   href: `#${string}` | `/${string}`;
@@ -16,7 +17,7 @@ export type CapabilityGroup = {
   title: string;
   items: readonly string[];
   evidence: string;
-  evidenceHref: `#${string}`;
+  evidenceSlug: CaseStudySlug;
 };
 
 export type ExperienceEntry = {
@@ -258,10 +259,10 @@ export const homeContent = {
       description: "Nincs százalékos skill bar: minden csoport projekthez vagy a jelen V2 repository ellenőrizhető megvalósításához kapcsolódik.",
       evidenceLabel: "Kapcsolódó bizonyíték",
       groups: [
-        { title: "Frontend systems", items: ["React és Next.js architektúra", "Design system", "Reszponzív és hozzáférhető UI", "State és adatbetöltés", "Teljesítmény", "3D és adatvizualizáció"], evidence: "Samsung, Alba Medence és Portfolio V2", evidenceHref: "#featured-work" },
-        { title: "Backend & APIs", items: ["Node.js", "Laravel / PHP", "REST API", "Validáció", "Authentication", "RBAC", "Audit log", "Külső integrációk"], evidence: "Adott Solution és Samsung", evidenceHref: "#featured-work" },
-        { title: "Data & reliability", items: ["SQL és adatmodellezés", "Migrációk", "Cache", "Monitoring", "Logelemzés", "Hibakezelés", "Adatvizualizáció"], evidence: "System Map és Portfolio V2 roadmap", evidenceHref: "#system-map" },
-        { title: "Delivery", items: ["Git és PR workflow", "CI/CD", "Automatizált tesztek", "Vercel Preview", "Production debugging", "Dokumentáció", "Agilis csapatmunka"], evidence: "Portfolio V2 quality pipeline", evidenceHref: "#standards" },
+        { title: "Frontend systems", items: ["React és Next.js architektúra", "Design system", "Reszponzív és hozzáférhető UI", "State és adatbetöltés", "Teljesítmény", "3D és adatvizualizáció"], evidence: "Alba Medence – Interactive 3D Configurator", evidenceSlug: "alba-medence-3d-configurator" },
+        { title: "Backend & APIs", items: ["Node.js", "Laravel / PHP", "REST API", "Validáció", "Authentication", "RBAC", "Audit log", "Külső integrációk"], evidence: "Adott Solution – Enterprise Project Workflow", evidenceSlug: "adott-enterprise-project-workflow" },
+        { title: "Data & reliability", items: ["SQL és adatmodellezés", "Migrációk", "Cache", "Monitoring", "Logelemzés", "Hibakezelés", "Adatvizualizáció"], evidence: "Samsung – Smart Gate Analytics", evidenceSlug: "samsung-smart-gate-analytics" },
+        { title: "Delivery", items: ["Git és PR workflow", "CI/CD", "Automatizált tesztek", "Vercel Preview", "Production debugging", "Dokumentáció", "Agilis csapatmunka"], evidence: "QuestLog – Offline-First PWA", evidenceSlug: "questlog-offline-first-pwa" },
       ],
     },
     experience: {
@@ -302,7 +303,7 @@ export const homeContent = {
       title: "Weboldalra vagy digitális termékre van szükséged a vállalkozásodhoz?",
       description: "A meglévő szolgáltatási, folyamat- és pricing tartalom külön Studio oldalon marad meg, tisztázott ígéretekkel.",
       action: "Studio projekt megbeszélése",
-      migrationNote: "A dedikált Studio route a tartalommigrációs munkacsomagban aktiválódik.",
+      migrationNote: "A dedikált Studio oldal már elérhető a szolgáltatási, folyamat- és pricing részletekkel.",
     },
     contact: {
       eyebrow: "Contact",
@@ -424,10 +425,10 @@ export const homeContent = {
       description: "No percentage skill bars: each group connects to a project or to an implementation that is verifiable in this V2 repository.",
       evidenceLabel: "Related evidence",
       groups: [
-        { title: "Frontend systems", items: ["React and Next.js architecture", "Design systems", "Responsive and accessible UI", "State and data loading", "Performance", "3D and data visualization"], evidence: "Samsung, Alba Medence and Portfolio V2", evidenceHref: "#featured-work" },
-        { title: "Backend & APIs", items: ["Node.js", "Laravel / PHP", "REST API", "Validation", "Authentication", "RBAC", "Audit logs", "External integrations"], evidence: "Adott Solution and Samsung", evidenceHref: "#featured-work" },
-        { title: "Data & reliability", items: ["SQL and data modelling", "Migrations", "Caching", "Monitoring", "Log analysis", "Error handling", "Data visualization"], evidence: "System Map and Portfolio V2 roadmap", evidenceHref: "#system-map" },
-        { title: "Delivery", items: ["Git and PR workflow", "CI/CD", "Automated tests", "Vercel Preview", "Production debugging", "Documentation", "Agile teamwork"], evidence: "Portfolio V2 quality pipeline", evidenceHref: "#standards" },
+        { title: "Frontend systems", items: ["React and Next.js architecture", "Design systems", "Responsive and accessible UI", "State and data loading", "Performance", "3D and data visualization"], evidence: "Alba Medence – Interactive 3D Configurator", evidenceSlug: "alba-medence-3d-configurator" },
+        { title: "Backend & APIs", items: ["Node.js", "Laravel / PHP", "REST API", "Validation", "Authentication", "RBAC", "Audit logs", "External integrations"], evidence: "Adott Solution – Enterprise Project Workflow", evidenceSlug: "adott-enterprise-project-workflow" },
+        { title: "Data & reliability", items: ["SQL and data modelling", "Migrations", "Caching", "Monitoring", "Log analysis", "Error handling", "Data visualization"], evidence: "Samsung – Smart Gate Analytics", evidenceSlug: "samsung-smart-gate-analytics" },
+        { title: "Delivery", items: ["Git and PR workflow", "CI/CD", "Automated tests", "Vercel Preview", "Production debugging", "Documentation", "Agile teamwork"], evidence: "QuestLog – Offline-First PWA", evidenceSlug: "questlog-offline-first-pwa" },
       ],
     },
     experience: {
@@ -468,7 +469,7 @@ export const homeContent = {
       title: "Need a website or digital product for your business?",
       description: "The existing services, process and pricing content stays available on a dedicated Studio page with clarified promises.",
       action: "Discuss a Studio project",
-      migrationNote: "The dedicated Studio route is activated during the content-migration work package.",
+      migrationNote: "The dedicated Studio page is now available with service, process and pricing details.",
     },
     contact: {
       eyebrow: "Contact",

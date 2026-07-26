@@ -65,10 +65,24 @@ test("Preview-safe robots, locale sitemap and social images are served", async (
   expect(sitemapBody).toContain("/hu/lab");
   expect(sitemapBody).toContain("/en/lab");
   expect(sitemapBody).toContain('hreflang="x-default"');
+  expect(sitemapBody).not.toContain("questlog-offline-first-pwa");
 
   for (const locale of ["hu", "en"] as const) {
     const image = await request.get(`/${locale}/social-image`);
     expect(image.status()).toBe(200);
     expect(image.headers()["content-type"]).toContain("image/png");
   }
+});
+
+test("QuestLog remains public but explicitly noindexed", async ({ page }) => {
+  const response = await page.goto("/en/work/questlog-offline-first-pwa");
+
+  expect(response?.status()).toBe(200);
+  await expect(page.getByRole("heading", { level: 1 })).toContainText(
+    "QuestLog",
+  );
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    "content",
+    /noindex.*nofollow/,
+  );
 });

@@ -12,7 +12,10 @@ import {
   type CaseStudySlug,
 } from "@/content/case-studies";
 import { isLocale, routing } from "@/i18n/routing";
-import { buildLocaleMetadata } from "@/lib/seo";
+import {
+  buildLocaleMetadata,
+  isCaseStudySearchIndexable,
+} from "@/lib/seo";
 import { getSiteConfiguration } from "@/lib/site-origin";
 
 type CaseStudyPageProps = {
@@ -40,12 +43,14 @@ export async function generateMetadata({
     return {};
   }
 
+  const study = getCaseStudy(slug);
   const seo = getCaseStudySeo(slug, locale);
   const metadata = buildLocaleMetadata({
     locale,
     path: `/work/${slug}`,
     title: seo.title,
     description: seo.description,
+    allowIndexing: isCaseStudySearchIndexable(study.status),
   });
   const socialImage = new URL(
     `/${locale}/work/${slug}/social-image`,

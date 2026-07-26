@@ -1,7 +1,10 @@
 import type { MetadataRoute } from "next";
-import { caseStudySlugs } from "@/content/case-studies";
+import { caseStudySlugs, getCaseStudy } from "@/content/case-studies";
 import { routing } from "@/i18n/routing";
-import { getLocalizedUrls } from "@/lib/seo";
+import {
+  getLocalizedUrls,
+  isCaseStudySearchIndexable,
+} from "@/lib/seo";
 import {
   getSiteConfiguration,
   type SiteEnvironment,
@@ -10,11 +13,15 @@ import {
 const publicRoutes = [
   { path: "", changeFrequency: "monthly", priority: 1 },
   { path: "/work", changeFrequency: "monthly", priority: 0.8 },
-  ...caseStudySlugs.map((slug) => ({
-    path: `/work/${slug}` as const,
-    changeFrequency: "monthly" as const,
-    priority: 0.7,
-  })),
+  ...caseStudySlugs
+    .filter((slug) =>
+      isCaseStudySearchIndexable(getCaseStudy(slug).status),
+    )
+    .map((slug) => ({
+      path: `/work/${slug}` as const,
+      changeFrequency: "monthly" as const,
+      priority: 0.7,
+    })),
   { path: "/lab", changeFrequency: "monthly", priority: 0.7 },
   { path: "/studio", changeFrequency: "monthly", priority: 0.6 },
   { path: "/privacy", changeFrequency: "yearly", priority: 0.3 },

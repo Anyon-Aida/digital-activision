@@ -5,6 +5,7 @@ import { Container, type ContainerSize } from "./Container";
 const sectionTones = {
   canvas: "bg-[var(--color-page)] text-[var(--color-text-primary)]",
   subtle: "bg-[var(--color-surface-subtle)] text-[var(--color-text-primary)]",
+  light: "bg-[var(--color-page)] text-[var(--color-text-primary)]",
   dark: "bg-[var(--color-page)] text-[var(--color-text-primary)]",
 } as const;
 
@@ -34,7 +35,7 @@ export function Section({
 }: SectionProps) {
   return (
     <section
-      data-tone={tone === "dark" ? "dark" : undefined}
+      data-tone={tone === "dark" || tone === "light" ? tone : undefined}
       className={cn(sectionTones[tone], sectionSpacing[spacing], className)}
       {...props}
     >

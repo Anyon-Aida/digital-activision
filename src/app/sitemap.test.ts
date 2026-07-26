@@ -20,8 +20,6 @@ describe("locale-aware sitemap", () => {
       "https://portfolio.example.com/en/work/adott-enterprise-project-workflow",
       "https://portfolio.example.com/hu/work/alba-medence-3d-configurator",
       "https://portfolio.example.com/en/work/alba-medence-3d-configurator",
-      "https://portfolio.example.com/hu/work/questlog-offline-first-pwa",
-      "https://portfolio.example.com/en/work/questlog-offline-first-pwa",
       "https://portfolio.example.com/hu/lab",
       "https://portfolio.example.com/en/lab",
       "https://portfolio.example.com/hu/studio",
@@ -34,5 +32,8 @@ describe("locale-aware sitemap", () => {
       en: "https://portfolio.example.com/en/privacy",
       "x-default": "https://portfolio.example.com/hu/privacy",
     });
+    expect(entries.map(({ url }) => url).join("\n")).not.toContain(
+      "questlog-offline-first-pwa",
+    );
   });
 });

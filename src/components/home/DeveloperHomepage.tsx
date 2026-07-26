@@ -1,6 +1,9 @@
 import type { ReactNode } from "react";
 import type { HomeContent } from "@/content/home";
-import type { getFeaturedCaseStudies } from "@/content/case-studies";
+import {
+  getCaseStudyPath,
+  type getFeaturedCaseStudies,
+} from "@/content/case-studies";
 import type { Locale } from "@/i18n/routing";
 import {
   Badge,
@@ -74,6 +77,7 @@ export function DeveloperHomepage({
         className="relative isolate overflow-hidden border-b border-[var(--color-border-subtle)]"
         id="hero"
         spacing="spacious"
+        tone="dark"
       >
         <div
           aria-hidden="true"
@@ -153,9 +157,12 @@ export function DeveloperHomepage({
         </div>
       </Section>
 
-      <section
+      <Section
         aria-labelledby="credibility-title"
         className="border-b border-[var(--color-border-subtle)] bg-[var(--color-surface-subtle)] py-8"
+        container={false}
+        spacing="none"
+        tone="light"
       >
         <Container>
           <h2 className="sr-only" id="credibility-title">
@@ -175,7 +182,7 @@ export function DeveloperHomepage({
             ))}
           </ul>
         </Container>
-      </section>
+      </Section>
 
       <SystemMap content={content.systemMap} />
 
@@ -183,7 +190,7 @@ export function DeveloperHomepage({
         className="border-y border-[var(--color-border-subtle)]"
         id="featured-work"
         spacing="spacious"
-        tone="subtle"
+        tone="light"
       >
         <SectionHeading
           description={content.featuredWork.description}
@@ -239,7 +246,7 @@ export function DeveloperHomepage({
         </div>
       </Section>
 
-      <Section id="capabilities" spacing="spacious">
+      <Section id="capabilities" spacing="spacious" tone="dark">
         <SectionHeading
           description={content.capabilities.description}
           eyebrow={content.capabilities.eyebrow}
@@ -259,7 +266,7 @@ export function DeveloperHomepage({
               </ul>
               <a
                 className="mt-7 inline-flex min-h-[var(--target-min)] items-center font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent-secondary)] underline-offset-4 hover:underline"
-                href={group.evidenceHref}
+                href={getCaseStudyPath(group.evidenceSlug, locale)}
               >
                 {content.capabilities.evidenceLabel}: {group.evidence}
               </a>
@@ -272,7 +279,7 @@ export function DeveloperHomepage({
         className="border-y border-[var(--color-border-subtle)]"
         id="experience"
         spacing="spacious"
-        tone="subtle"
+        tone="light"
       >
         <SectionHeading
           description={content.experience.description}
@@ -315,7 +322,7 @@ export function DeveloperHomepage({
         </ol>
       </Section>
 
-      <Section id="standards" spacing="spacious">
+      <Section id="standards" spacing="spacious" tone="dark">
         <SectionHeading
           description={content.standards.description}
           eyebrow={content.standards.eyebrow}
@@ -342,7 +349,7 @@ export function DeveloperHomepage({
         className="border-y border-[var(--color-border-subtle)]"
         id="studio"
         spacing="spacious"
-        tone="subtle"
+        tone="light"
       >
         <Surface className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-end" padding="large" variant="elevated">
           <div className="max-w-3xl">
@@ -359,7 +366,7 @@ export function DeveloperHomepage({
         </Surface>
       </Section>
 
-      <Section id="contact" spacing="spacious">
+      <Section id="contact" spacing="spacious" tone="dark">
         <SectionHeading
           description={content.contact.description}
           eyebrow={content.contact.eyebrow}
