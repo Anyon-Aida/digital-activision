@@ -1,0 +1,512 @@
+import type { Locale } from "@/i18n/routing";
+import type { CaseStudySlug } from "@/lib/case-study-routes";
+
+export type NavigationItem = {
+  href: `#${string}` | `/${string}`;
+  label: string;
+};
+
+export type SystemMapNode = {
+  id: string;
+  label: string;
+  summary: string;
+  detail: string;
+};
+
+export type CapabilityGroup = {
+  title: string;
+  items: readonly string[];
+  evidence: string;
+  evidenceSlug: CaseStudySlug;
+};
+
+export type ExperienceEntry = {
+  organization: string;
+  location?: string;
+  role: string;
+  period: string;
+  scope: string;
+  result: string;
+  stack: readonly string[];
+};
+
+export type StandardItem = {
+  title: string;
+  description: string;
+  state: "implemented" | "planned";
+};
+
+export type ContactTopic = {
+  value: "career-engineering" | "studio" | "other";
+  label: string;
+};
+
+export type HomeContent = {
+  chrome: {
+    brand: string;
+    brandDetail: string;
+    navigationLabel: string;
+    openNavigation: string;
+    closeNavigation: string;
+    navigationTitle: string;
+    navigation: readonly NavigationItem[];
+    unavailable: string;
+    cvLabel: string;
+    languageLabel: string;
+    footerSummary: string;
+    privacyLabel: string;
+    githubLabel: string;
+    linkedInLabel: string;
+  };
+  hero: {
+    eyebrow: string;
+    name: string;
+    role: string;
+    headline: string;
+    paragraphs: readonly [string, string];
+    stackLabel: string;
+    stack: readonly string[];
+    primaryCta: string;
+    secondaryCta: string;
+    cvUnavailable: string;
+    githubLabel: string;
+    linkedInLabel: string;
+  };
+  systemMap: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    conceptualLabel: string;
+    detailLabel: string;
+    fallbackTitle: string;
+    nodes: readonly SystemMapNode[];
+  };
+  credibility: {
+    label: string;
+    items: readonly string[];
+  };
+  featuredWork: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    problemLabel: string;
+    ownershipLabel: string;
+    resultLabel: string;
+    actionLabel: string;
+  };
+  capabilities: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    evidenceLabel: string;
+    groups: readonly CapabilityGroup[];
+  };
+  experience: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    roleLabel: string;
+    periodLabel: string;
+    resultLabel: string;
+    entries: readonly ExperienceEntry[];
+  };
+  standards: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    implementedLabel: string;
+    plannedLabel: string;
+    items: readonly StandardItem[];
+  };
+  studio: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    action: string;
+    migrationNote: string;
+  };
+  contact: {
+    eyebrow: string;
+    title: string;
+    description: string;
+    topicsLabel: string;
+    topicOptions: readonly ContactTopic[];
+    nameLabel: string;
+    emailLabel: string;
+    topicLabel: string;
+    topicPlaceholder: string;
+    messageLabel: string;
+    messageDescription: string;
+    privacyConsentLabel: string;
+    privacyLinkLabel: string;
+    submitLabel: string;
+    submittingLabel: string;
+    mailtoFallbackIntro: string;
+    mailtoFallbackLabel: string;
+    privacyNote: string;
+    botVerificationLabel: string;
+    successMessage: string;
+    genericErrorMessage: string;
+    rateLimitMessage: string;
+    disabledMessage: string;
+    requestIdLabel: string;
+    errors: {
+      name: string;
+      email: string;
+      topic: string;
+      message: string;
+      privacy: string;
+    };
+  };
+};
+
+const unavailable = {
+  hu: "A nyilvános forráskészletben nem dokumentált.",
+  en: "Not documented in the public source set.",
+} as const;
+
+export const homeContent = {
+  hu: {
+    chrome: {
+      brand: "Kovács Zalán",
+      brandDetail: "Full-stack engineering",
+      navigationLabel: "Elsődleges navigáció",
+      openNavigation: "Navigáció megnyitása",
+      closeNavigation: "Navigáció bezárása",
+      navigationTitle: "Navigáció",
+      navigation: [
+        { href: "/work", label: "Engineering munkák" },
+        { href: "/lab", label: "Engineering Lab" },
+        { href: "#experience", label: "Tapasztalat" },
+        { href: "/studio", label: "Studio" },
+        { href: "#contact", label: "Kapcsolat" },
+      ],
+      unavailable: "Nem elérhető",
+      cvLabel: "CV",
+      languageLabel: "Váltás angol nyelvre",
+      footerSummary:
+        "Full-stack rendszerek és digitális termékek a felülettől az API-kon át a deploymentig.",
+      privacyLabel: "Adatkezelés",
+      githubLabel: "GitHub profil",
+      linkedInLabel: "Digital Activision LinkedIn",
+    },
+    hero: {
+      eyebrow: "Full-stack engineering portfólió",
+      name: "Kovács Zalán",
+      role: "Full-Stack Engineer & Digital Product Builder",
+      headline:
+        "Nem csak felületeket készítek: működő, biztonságos és skálázható webes rendszereket építek.",
+      paragraphs: [
+        "React, Next.js, Node.js, Laravel/PHP és SQL alapú rendszereken dolgozom a felülettől az API-kon és adatmodellen át a deploymentig.",
+        "Az üzleti problémát tesztelhető rendszerhatárokra, hozzáférhető felületekre és üzemeltethető megoldásokra fordítom le.",
+      ],
+      stackLabel: "Fókusz",
+      stack: [
+        "React",
+        "Next.js",
+        "Node.js",
+        "Laravel / PHP",
+        "SQL",
+        "System design",
+      ],
+      primaryCta: "Engineering esettanulmányok",
+      secondaryCta: "Engineering Lab és élő demók",
+      cvUnavailable: "A HU/EN CV asset még nem érhető el a workspace-ben.",
+      githubLabel: "GitHub",
+      linkedInLabel: "Studio LinkedIn",
+    },
+    systemMap: {
+      eyebrow: "Interactive System Map",
+      title: "Egy kérés útja a teljes stacken",
+      description:
+        "Koncepcionális, technológia-semleges rendszerkép. Válassz egy csomópontot a felelősségi határ megismeréséhez.",
+      conceptualLabel: "Koncepcionális architektúraminta",
+      detailLabel: "Kiválasztott rendszerhatár",
+      fallbackTitle: "A teljes folyamat szövegesen",
+      nodes: [
+        { id: "ui", label: "User Interface", summary: "Hozzáférhető felület", detail: "Szemantikus, reszponzív interakciók, amelyek egyértelmű szerver-szerződésekhez kapcsolódnak." },
+        { id: "boundary", label: "Next.js boundary", summary: "Szerver- és klienshatár", detail: "A renderelés, cache és adatbetöltés határa; csak a valódi interakció kerül kliensre." },
+        { id: "api", label: "API / Server Action", summary: "Validált bemenet", detail: "Típusos request contract, méretkorlát, normalizálás és kiszámítható hibaválaszok." },
+        { id: "auth", label: "Auth & authorization", summary: "Identity és jogosultság", detail: "A hitelesítés az identitást, az authorization pedig minden védett művelet jogosultságát ellenőrzi." },
+        { id: "service", label: "Business service", summary: "Üzleti szabályok", detail: "A workflow, tranzakciós szabályok és integrációk a UI-tól és transporttól elkülönítve maradnak." },
+        { id: "data", label: "PostgreSQL / cache", summary: "Adat és konzisztencia", detail: "Explicit adatmodell, migrációs út és csak mért indokkal bevezetett cache." },
+        { id: "observe", label: "Monitoring & audit", summary: "Visszakövethető működés", detail: "PII-mentes strukturált jelek, request korreláció és auditálható állapotváltozások." },
+      ],
+    },
+    credibility: {
+      label: "Ellenőrizhető szakmai bizonyítékok",
+      items: [
+        "5+ év szoftverfejlesztési tapasztalat",
+        "Bosch és Samsung vállalati környezet",
+        "20%-os pontosságjavulás egy rendszám-ellenőrzési folyamatban",
+        "Frontend, backend, adatbázis és deployment felelősség",
+        "Workflow-, RBAC- és audit-tapasztalat",
+      ],
+    },
+    featuredWork: {
+      eyebrow: "Featured engineering work",
+      title: "Rendszerhatárok, döntések és igazolható eredmények",
+      description:
+        "A bizalmas munkák anonimizált, koncepcionális bemutatást kapnak; a hiányzó adatokat nem pótolom feltételezéssel.",
+      problemLabel: "Probléma",
+      ownershipLabel: "Felelősség",
+      resultLabel: "Eredmény / állapot",
+      actionLabel: "Esettanulmány megnyitása",
+    },
+    capabilities: {
+      eyebrow: "Engineering capabilities",
+      title: "Képességek bizonyítékhoz kötve",
+      description: "Nincs százalékos skill bar: minden csoport projekthez vagy a jelen V2 repository ellenőrizhető megvalósításához kapcsolódik.",
+      evidenceLabel: "Kapcsolódó bizonyíték",
+      groups: [
+        { title: "Frontend systems", items: ["React és Next.js architektúra", "Design system", "Reszponzív és hozzáférhető UI", "State és adatbetöltés", "Teljesítmény", "3D és adatvizualizáció"], evidence: "Alba Medence – Interactive 3D Configurator", evidenceSlug: "alba-medence-3d-configurator" },
+        { title: "Backend & APIs", items: ["Node.js", "Laravel / PHP", "REST API", "Validáció", "Authentication", "RBAC", "Audit log", "Külső integrációk"], evidence: "Adott Solution – Enterprise Project Workflow", evidenceSlug: "adott-enterprise-project-workflow" },
+        { title: "Data & reliability", items: ["SQL és adatmodellezés", "Migrációk", "Cache", "Monitoring", "Logelemzés", "Hibakezelés", "Adatvizualizáció"], evidence: "Samsung – Smart Gate Analytics", evidenceSlug: "samsung-smart-gate-analytics" },
+        { title: "Delivery", items: ["Git és PR workflow", "CI/CD", "Automatizált tesztek", "Vercel Preview", "Production debugging", "Dokumentáció", "Agilis csapatmunka"], evidence: "QuestLog – Offline-First PWA", evidenceSlug: "questlog-offline-first-pwa" },
+      ],
+    },
+    experience: {
+      eyebrow: "Experience",
+      title: "Szakmai útvonal, feltételezések nélkül",
+      description: "A sorrend igazolt; a nem publikus pozíciókat, időszakokat és eredményeket egyértelműen hiányzóként jelölöm.",
+      roleLabel: "Pozíció",
+      periodLabel: "Időszak",
+      resultLabel: "Kiemelt eredmény",
+      entries: [
+        { organization: "Bosch", location: "Hatvan", role: unavailable.hu, period: unavailable.hu, scope: unavailable.hu, result: unavailable.hu, stack: [] },
+        { organization: "Freelancer", role: unavailable.hu, period: unavailable.hu, scope: unavailable.hu, result: unavailable.hu, stack: [] },
+        { organization: "Samsung", location: "Jászfényszaru", role: unavailable.hu, period: unavailable.hu, scope: "Vállalati PHP-rendszer modernizációja React és Node.js irányba; kapuforgalmi analitika.", result: "20%-os pontosságjavulás a rendszám-ellenőrzési folyamatban.", stack: ["React", "Node.js", "PHP"] },
+        { organization: "Freelancer", role: unavailable.hu, period: unavailable.hu, scope: unavailable.hu, result: unavailable.hu, stack: [] },
+        { organization: "Adott Solution", role: unavailable.hu, period: unavailable.hu, scope: "Enterprise projekt-workflow, review, approval, RBAC és audit.", result: "Önálló architektúra- és projektfelelősség.", stack: ["React", "API", "RBAC"] },
+        { organization: "Sajá projektek és fejlesztés", role: "Digital Product Builder", period: "Jelenlegi", scope: "Portfolio V2, QuestLog és engineering demonstrációk.", result: "Aktív fejlesztés; production eredmény nem állítható.", stack: ["Next.js", "TypeScript", "PWA"] },
+      ],
+    },
+    standards: {
+      eyebrow: "Engineering standards",
+      title: "Amit ez a repository már bizonyít — és ami még terv",
+      description: "A státuszok a rebuild branch tényleges quality pipeline-jához kapcsolódnak.",
+      implementedLabel: "Megvalósítva",
+      plannedLabel: "Következő gate",
+      items: [
+        { title: "Typed contracts", description: "Strict TypeScript, runtime locale-validáció és fail-closed route-kezelés.", state: "implemented" },
+        { title: "Review-ready changes", description: "Kis, tematikus commitok és explicit rebuild branch workflow.", state: "implemented" },
+        { title: "Automated tests", description: "Lint, typecheck, unit, production build, E2E, axe és visual regression.", state: "implemented" },
+        { title: "Accessibility", description: "WCAG-alapú axe gate, keyboard/fókuszteszt, reduced motion és 44 px célméret.", state: "implemented" },
+        { title: "Secure defaults", description: "Preview noindex, dependency audit, strict kontaktvalidáció és fail-closed delivery policy.", state: "implemented" },
+        { title: "Observable production", description: "PII-mentes strukturált kontaktlog és safe, no-store health endpoint.", state: "implemented" },
+        { title: "Performance budgets", description: "Lighthouse after-mérés és bundle budget a végső QA-ban zárul.", state: "planned" },
+        { title: "Reversible deployment", description: "Preview-only bemutatás, külön major upgrade commit és dokumentált revert út.", state: "implemented" },
+      ],
+    },
+    studio: {
+      eyebrow: "Digital Activision Studio",
+      title: "Weboldalra vagy digitális termékre van szükséged a vállalkozásodhoz?",
+      description: "A meglévő szolgáltatási, folyamat- és pricing tartalom külön Studio oldalon marad meg, tisztázott ígéretekkel.",
+      action: "Studio projekt megbeszélése",
+      migrationNote: "A dedikált Studio oldal már elérhető a szolgáltatási, folyamat- és pricing részletekkel.",
+    },
+    contact: {
+      eyebrow: "Contact",
+      title: "Beszéljünk a problémáról, nem csak a feature-listáról.",
+      description: "Állásról, szakmai együttműködésről vagy engineering projektről beszélnél? Írd meg röviden a kontextust.",
+      topicsLabel: "Hasznos kontextus",
+      topicOptions: [
+        { value: "career-engineering", label: "Karrier vagy engineering együttműködés" },
+        { value: "studio", label: "Studio, weboldal vagy digitális termék" },
+        { value: "other", label: "Egyéb" },
+      ],
+      nameLabel: "Név",
+      emailLabel: "E-mail-cím",
+      topicLabel: "Téma",
+      topicPlaceholder: "Válassz témát",
+      messageLabel: "Üzenet",
+      messageDescription: "Legalább 20 karakterben írd le röviden a kontextust.",
+      privacyConsentLabel: "Elolvastam az adatkezelési tájékoztatót, és hozzájárulok az üzenetem kezeléséhez.",
+      privacyLinkLabel: "Adatkezelési tájékoztató megnyitása",
+      submitLabel: "Üzenet küldése",
+      submittingLabel: "Küldés folyamatban…",
+      mailtoFallbackIntro: "Ha az űrlap nem érhető el, e-mailben is írhatsz:",
+      mailtoFallbackLabel: "E-mail írása",
+      privacyNote: "Az űrlap a saját, szerveroldalon validált kontaktfolyamot használja.",
+      botVerificationLabel: "Automatikus visszaélés-védelem",
+      successMessage: "Köszönöm, az üzenetet fogadtam.",
+      genericErrorMessage: "Az üzenetet most nem sikerült elküldeni. Próbáld újra később, vagy használd az e-mailes lehetőséget.",
+      rateLimitMessage: "Túl sok küldési kísérlet történt. Várj egy kicsit, majd próbáld újra, vagy írj e-mailt.",
+      disabledMessage: "A kontaktűrlap ebben a környezetben jelenleg nem érhető el. Az e-mailes lehetőség továbbra is működik.",
+      requestIdLabel: "Kérésazonosító",
+      errors: {
+        name: "Adj meg legalább két karakterből álló nevet.",
+        email: "Adj meg egy érvényes e-mail-címet.",
+        topic: "Válassz témát.",
+        message: "Az üzenet legalább 20, legfeljebb 5000 karakter lehet.",
+        privacy: "Az üzenet küldéséhez fogadd el az adatkezelési feltételt.",
+      },
+    },
+  },
+  en: {
+    chrome: {
+      brand: "Kovács Zalán",
+      brandDetail: "Full-stack engineering",
+      navigationLabel: "Primary navigation",
+      openNavigation: "Open navigation",
+      closeNavigation: "Close navigation",
+      navigationTitle: "Navigation",
+      navigation: [
+        { href: "/work", label: "Engineering work" },
+        { href: "/lab", label: "Engineering Lab" },
+        { href: "#experience", label: "Experience" },
+        { href: "/studio", label: "Studio" },
+        { href: "#contact", label: "Contact" },
+      ],
+      unavailable: "Unavailable",
+      cvLabel: "CV",
+      languageLabel: "Switch to Hungarian",
+      footerSummary: "Full-stack systems and digital products from the interface and APIs through deployment.",
+      privacyLabel: "Privacy",
+      githubLabel: "GitHub profile",
+      linkedInLabel: "Digital Activision LinkedIn",
+    },
+    hero: {
+      eyebrow: "Full-stack engineering portfolio",
+      name: "Kovács Zalán",
+      role: "Full-Stack Engineer & Digital Product Builder",
+      headline: "I build production-grade web systems, not just interfaces.",
+      paragraphs: [
+        "I work across React, Next.js, Node.js, Laravel/PHP and SQL—from interfaces and APIs to data models and deployment.",
+        "I turn business problems into testable system boundaries, accessible interfaces and operable solutions.",
+      ],
+      stackLabel: "Focus",
+      stack: ["React", "Next.js", "Node.js", "Laravel / PHP", "SQL", "System design"],
+      primaryCta: "Engineering case studies",
+      secondaryCta: "Engineering Lab and live demos",
+      cvUnavailable: "The HU/EN CV assets are not yet available in the workspace.",
+      githubLabel: "GitHub",
+      linkedInLabel: "Studio LinkedIn",
+    },
+    systemMap: {
+      eyebrow: "Interactive System Map",
+      title: "A request across the full stack",
+      description: "A conceptual, technology-neutral system map. Select a node to inspect the responsibility boundary.",
+      conceptualLabel: "Conceptual architecture pattern",
+      detailLabel: "Selected system boundary",
+      fallbackTitle: "The complete flow in text",
+      nodes: [
+        { id: "ui", label: "User Interface", summary: "Accessible interaction", detail: "Semantic, responsive interactions connect to explicit server contracts." },
+        { id: "boundary", label: "Next.js boundary", summary: "Server and client boundary", detail: "The rendering, caching and data-loading boundary; only genuine interaction moves to the client." },
+        { id: "api", label: "API / Server Action", summary: "Validated input", detail: "Typed request contracts, size limits, normalization and predictable error responses." },
+        { id: "auth", label: "Auth & authorization", summary: "Identity and permission", detail: "Authentication establishes identity; authorization checks every protected operation." },
+        { id: "service", label: "Business service", summary: "Business rules", detail: "Workflow, transactional rules and integrations stay separate from UI and transport." },
+        { id: "data", label: "PostgreSQL / cache", summary: "Data and consistency", detail: "An explicit data model, migration path and caching introduced only with measured justification." },
+        { id: "observe", label: "Monitoring & audit", summary: "Traceable operation", detail: "PII-free structured signals, request correlation and auditable state changes." },
+      ],
+    },
+    credibility: {
+      label: "Verifiable engineering evidence",
+      items: [
+        "5+ years in software development",
+        "Enterprise experience at Bosch and Samsung",
+        "20% accuracy improvement in a licence-plate verification workflow",
+        "Frontend, backend, database and deployment ownership",
+        "Workflow, RBAC and audit experience",
+      ],
+    },
+    featuredWork: {
+      eyebrow: "Featured engineering work",
+      title: "System boundaries, decisions and verifiable outcomes",
+      description: "Confidential work uses anonymized conceptual explanations; missing details are never filled with assumptions.",
+      problemLabel: "Problem",
+      ownershipLabel: "Ownership",
+      resultLabel: "Outcome / state",
+      actionLabel: "Open case study",
+    },
+    capabilities: {
+      eyebrow: "Engineering capabilities",
+      title: "Capabilities connected to evidence",
+      description: "No percentage skill bars: each group connects to a project or to an implementation that is verifiable in this V2 repository.",
+      evidenceLabel: "Related evidence",
+      groups: [
+        { title: "Frontend systems", items: ["React and Next.js architecture", "Design systems", "Responsive and accessible UI", "State and data loading", "Performance", "3D and data visualization"], evidence: "Alba Medence – Interactive 3D Configurator", evidenceSlug: "alba-medence-3d-configurator" },
+        { title: "Backend & APIs", items: ["Node.js", "Laravel / PHP", "REST API", "Validation", "Authentication", "RBAC", "Audit logs", "External integrations"], evidence: "Adott Solution – Enterprise Project Workflow", evidenceSlug: "adott-enterprise-project-workflow" },
+        { title: "Data & reliability", items: ["SQL and data modelling", "Migrations", "Caching", "Monitoring", "Log analysis", "Error handling", "Data visualization"], evidence: "Samsung – Smart Gate Analytics", evidenceSlug: "samsung-smart-gate-analytics" },
+        { title: "Delivery", items: ["Git and PR workflow", "CI/CD", "Automated tests", "Vercel Preview", "Production debugging", "Documentation", "Agile teamwork"], evidence: "QuestLog – Offline-First PWA", evidenceSlug: "questlog-offline-first-pwa" },
+      ],
+    },
+    experience: {
+      eyebrow: "Experience",
+      title: "A career path without invented details",
+      description: "The sequence is verified; non-public roles, dates and outcomes are explicitly marked as unavailable.",
+      roleLabel: "Role",
+      periodLabel: "Period",
+      resultLabel: "Highlighted outcome",
+      entries: [
+        { organization: "Bosch", location: "Hatvan", role: unavailable.en, period: unavailable.en, scope: unavailable.en, result: unavailable.en, stack: [] },
+        { organization: "Freelancer", role: unavailable.en, period: unavailable.en, scope: unavailable.en, result: unavailable.en, stack: [] },
+        { organization: "Samsung", location: "Jászfényszaru", role: unavailable.en, period: unavailable.en, scope: "Modernization of an enterprise PHP system toward React and Node.js, with gate-load analytics.", result: "20% accuracy improvement in the licence-plate verification workflow.", stack: ["React", "Node.js", "PHP"] },
+        { organization: "Freelancer", role: unavailable.en, period: unavailable.en, scope: unavailable.en, result: unavailable.en, stack: [] },
+        { organization: "Adott Solution", role: unavailable.en, period: unavailable.en, scope: "Enterprise project workflow, review, approval, RBAC and audit.", result: "Independent architecture and project ownership.", stack: ["React", "API", "RBAC"] },
+        { organization: "Independent products and development", role: "Digital Product Builder", period: "Current", scope: "Portfolio V2, QuestLog and engineering demonstrations.", result: "Active development; no production outcome is claimed.", stack: ["Next.js", "TypeScript", "PWA"] },
+      ],
+    },
+    standards: {
+      eyebrow: "Engineering standards",
+      title: "What this repository proves—and what remains planned",
+      description: "Statuses connect directly to the real quality pipeline on the rebuild branch.",
+      implementedLabel: "Implemented",
+      plannedLabel: "Next gate",
+      items: [
+        { title: "Typed contracts", description: "Strict TypeScript, runtime locale validation and fail-closed route handling.", state: "implemented" },
+        { title: "Review-ready changes", description: "Small thematic commits and an explicit rebuild-branch workflow.", state: "implemented" },
+        { title: "Automated tests", description: "Lint, typecheck, unit, production build, E2E, axe and visual regression.", state: "implemented" },
+        { title: "Accessibility", description: "WCAG-oriented axe gates, keyboard/focus tests, reduced motion and 44px targets.", state: "implemented" },
+        { title: "Secure defaults", description: "Preview noindex, dependency audits, strict contact validation and a fail-closed delivery policy.", state: "implemented" },
+        { title: "Observable production", description: "PII-free structured contact logs and a safe, no-store health endpoint.", state: "implemented" },
+        { title: "Performance budgets", description: "The Lighthouse after-measurement and bundle budget close in final QA.", state: "planned" },
+        { title: "Reversible deployment", description: "Preview-only delivery, a separate major-upgrade commit and a documented revert path.", state: "implemented" },
+      ],
+    },
+    studio: {
+      eyebrow: "Digital Activision Studio",
+      title: "Need a website or digital product for your business?",
+      description: "The existing services, process and pricing content stays available on a dedicated Studio page with clarified promises.",
+      action: "Discuss a Studio project",
+      migrationNote: "The dedicated Studio page is now available with service, process and pricing details.",
+    },
+    contact: {
+      eyebrow: "Contact",
+      title: "Let’s discuss the problem, not only the feature list.",
+      description: "Want to discuss a role, an engineering collaboration or a product project? Share the context briefly.",
+      topicsLabel: "Useful context",
+      topicOptions: [
+        { value: "career-engineering", label: "Career or engineering collaboration" },
+        { value: "studio", label: "Studio, website or digital product" },
+        { value: "other", label: "Other" },
+      ],
+      nameLabel: "Name",
+      emailLabel: "Email address",
+      topicLabel: "Topic",
+      topicPlaceholder: "Choose a topic",
+      messageLabel: "Message",
+      messageDescription: "Share the context in at least 20 characters.",
+      privacyConsentLabel: "I have read the privacy notice and consent to the handling of my message.",
+      privacyLinkLabel: "Open the privacy notice",
+      submitLabel: "Send message",
+      submittingLabel: "Sending…",
+      mailtoFallbackIntro: "If the form is unavailable, you can still email:",
+      mailtoFallbackLabel: "Write an email",
+      privacyNote: "The form uses the first-party contact flow with server-side validation.",
+      botVerificationLabel: "Automated abuse protection",
+      successMessage: "Thank you. Your message has been accepted.",
+      genericErrorMessage: "Your message could not be sent right now. Try again later or use the email option.",
+      rateLimitMessage: "There have been too many submission attempts. Wait a little, then try again or use email.",
+      disabledMessage: "The contact form is currently unavailable in this environment. The email option still works.",
+      requestIdLabel: "Request ID",
+      errors: {
+        name: "Enter a name with at least two characters.",
+        email: "Enter a valid email address.",
+        topic: "Choose a topic.",
+        message: "The message must contain between 20 and 5000 characters.",
+        privacy: "Accept the privacy condition before sending your message.",
+      },
+    },
+  },
+} satisfies Record<Locale, HomeContent>;

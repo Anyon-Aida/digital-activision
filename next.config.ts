@@ -1,20 +1,32 @@
 import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+import { legacyRedirects } from "./src/lib/legacy-routes";
+import { getGlobalSecurityHeaders } from "./src/lib/security-headers";
+
+const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  images: {
-    unoptimized: true,
-  },
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-  async rewrites() {
+  skipTrailingSlashRedirect: true,
+  async headers() {
     return [
       {
-        source: "/works/:slug",
-        destination: "/projects/:slug/",
+        source: "/:path*",
+        headers: getGlobalSecurityHeaders(),
+      },
+      {
+        source: "/projects/:path*",
+        headers: [
+          { key: "X-Robots-Tag", value: "noindex, nofollow, noarchive" },
+        ],
       },
     ];
   },
+  async redirects() {
+    return legacyRedirects.flatMap(({ source, destination }) => [
+      { source, destination, permanent: true },
+      { source: `${source}/`, destination, permanent: true },
+    ]);
+  },
 };
 
-export default nextConfig;
+export default withNextIntl(nextConfig);

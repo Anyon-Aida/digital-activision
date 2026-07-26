@@ -8,6 +8,7 @@
   --muted: #777a82;
   --white: #fff;
   --container: min(1140px, 92vw);
+  --concept-banner-h: 42px;
 }
 
 *{box-sizing:border-box}
@@ -15,9 +16,25 @@ html,body{margin:0;padding:0}
 img{display:block;max-width:100%}
 .container{width:var(--container);margin-inline:auto}
 
+.concept-banner{
+  position:fixed;
+  inset:0 0 auto 0;
+  z-index:40;
+  min-height:var(--concept-banner-h);
+  display:grid;
+  place-items:center;
+  padding:8px 16px;
+  background:var(--accent);
+  color:#fff;
+  font:600 13px/1.2 Inter, system-ui, sans-serif;
+  letter-spacing:.05em;
+  text-align:center;
+  text-transform:uppercase;
+}
+
 /* ====== top nav ====== */
 .topbar{
-  position:fixed; inset:0 0 auto 0; z-index:30;
+  position:fixed; inset:var(--concept-banner-h) 0 auto 0; z-index:30;
   background:rgba(0,0,0,.55);
   border-bottom:1px solid rgba(255,255,255,.06);
   backdrop-filter:saturate(120%) blur(6px);
@@ -32,12 +49,15 @@ img{display:block;max-width:100%}
 }
 .btn-sign{
   padding:10px 12px; background:var(--accent); border-radius:3px; color:#fff !important;
+  font:600 12px/1 Inter, system-ui, sans-serif;
+  letter-spacing:.06em;
+  text-transform:uppercase;
 }
 .hamburger{display:none;background:none;border:0;padding:6px}
 .hamburger span{display:block;width:26px;height:2px;background:#fff;margin:5px 0}
 
 /* ====== hero ====== */
-.hero{position:relative; background:#000; color:#fff; padding-top:56px}
+.hero{position:relative; background:#000; color:#fff; padding-top:calc(56px + var(--concept-banner-h))}
 .hero-img{
   position:absolute; inset:0; width:100%; height:100%;
   object-fit:cover; object-position:70% 35%;
@@ -108,12 +128,20 @@ img{display:block;max-width:100%}
 }
 .footer-cta span{color:var(--accent)}
 .footer-icons{display:flex; gap:10px}
+.footer-note{
+  max-width:310px;
+  margin:0;
+  color:#cfd0d6;
+  font:400 14px/1.6 Inter, system-ui, sans-serif;
+  text-align:right;
+}
 
 .footer-bottom{
   display:grid; grid-template-columns: 1fr auto; align-items:center;
   padding:0 0 22px;
 }
 .legal{display:flex; gap:10px; align-items:center}
+.legal{margin:0;color:#cfd0d6;font:400 13px/1.6 Inter,system-ui,sans-serif}
 .legal a{color:#cfd0d6; text-decoration:none; font: 400 13px/1.6 Inter, system-ui, sans-serif}
 .legal a:hover{color:#fff}
 
@@ -134,5 +162,6 @@ img{display:block;max-width:100%}
   .hamburger{display:block}
   .hero-inner{padding:90px 0 110px}
   .nav-links.open{ display:flex; }
+  .footer-note{text-align:left}
 }
 

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "tool": {
+    "name": "Lighthouse",
+    "version": "12.8.2",
+    "preset": "mobile"
+  },
+  "aggregation": {
+    "baselineRunsPerLocale": 1,
+    "portfolioV2RunsPerLocale": 3,
+    "portfolioV2Method": "median-per-metric"
+  },
+  "measurementContext": {
+    "baseline": "local Next.js 15.5.20 production server",
+    "portfolioV2": "local Next.js 16.2.12 production server",
+    "vercelEnvForPortfolioV2": "unset"
+  },
+  "thresholds": {
+    "mobilePerformanceScoreMinimum": 90,
+    "accessibilityScoreTarget": 100,
+    "bestPracticesScoreTarget": 100,
+    "productionLcpMsMaximum": 2500,
+    "homepageInitialClientJsGzipBudgetBytes": 168960
+  },
+  "baseline": {
+    "hu": {
+      "source": "docs/portfolio-v2/baseline/lighthouse/homepage-hu-mobile.json",
+      "performance": 98,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 92,
+      "fcpMs": 909.3612,
+      "lcpMs": 2375.0418,
+      "tbtMs": 30.5,
+      "cls": 0,
+      "totalBytes": 841178
+    },
+    "en": {
+      "source": "docs/portfolio-v2/baseline/lighthouse/homepage-en-mobile.json",
+      "performance": 98,
+      "accessibility": 96,
+      "bestPractices": 100,
+      "seo": 92,
+      "fcpMs": 911.7589,
+      "lcpMs": 2374.63835,
+      "tbtMs": 28.5,
+      "cls": 0,
+      "totalBytes": 840651
+    }
+  },
+  "portfolioV2Median": {
+    "hu": {
+      "performance": 96,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 58,
+      "fcpMs": 1131.676,
+      "lcpMs": 2571.074,
+      "tbtMs": 85,
+      "cls": 0,
+      "totalBytes": 306128,
+      "lcpOverTargetMs": 71.074
+    },
+    "en": {
+      "performance": 96,
+      "accessibility": 100,
+      "bestPractices": 100,
+      "seo": 58,
+      "fcpMs": 1115.236,
+      "lcpMs": 2566.598,
+      "tbtMs": 92,
+      "cls": 0,
+      "totalBytes": 302921,
+      "lcpOverTargetMs": 66.598
+    }
+  },
+  "rawReports": [
+    "docs/portfolio-v2/final/lighthouse/raw/homepage-hu-mobile-run-1.json",
+    "docs/portfolio-v2/final/lighthouse/raw/homepage-hu-mobile-run-2.json",
+    "docs/portfolio-v2/final/lighthouse/raw/homepage-hu-mobile-run-3.json",
+    "docs/portfolio-v2/final/lighthouse/raw/homepage-en-mobile-run-1.json",
+    "docs/portfolio-v2/final/lighthouse/raw/homepage-en-mobile-run-2.json",
+    "docs/portfolio-v2/final/lighthouse/raw/homepage-en-mobile-run-3.json"
+  ],
+  "notes": [
+    "The baseline contains one recorded run per locale, while Portfolio V2 values are medians of three runs per locale.",
+    "The Portfolio V2 local run had no VERCEL_ENV, so fail-closed noindex and the Production canonical origin intentionally reduce the local SEO score.",
+    "Dedicated metadata and robots E2E coverage passed, but deployed Preview and Production behavior still require direct verification.",
+    "Both locale medians exceed the 2500 ms Production LCP target by less than 72 ms and remain an explicit risk.",
+    "No timestamp is asserted because no verified measurement timestamp was supplied for this summary."
+  ]
+}
