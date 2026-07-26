@@ -1,7 +1,14 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+  type FormEvent,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+  useSyncExternalStore,
+} from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import type { HomeContent } from "@/content/home";
@@ -33,6 +40,9 @@ const turnstileSiteKey =
   process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY?.trim() || undefined;
 
 const requestIdPattern = /^[A-Za-z0-9-]{1,64}$/u;
+const subscribeToHydration = () => () => undefined;
+const getClientSnapshot = () => true;
+const getServerSnapshot = () => false;
 
 function createDefaultValues(locale: Locale): ContactFormValues {
   return {
@@ -74,7 +84,11 @@ function getSafeRequestId(
 
 export function ContactForm({ content, locale }: ContactFormProps) {
   const submissionLockRef = useRef(false);
-  const [isClientReady, setIsClientReady] = useState(false);
+  const isClientReady = useSyncExternalStore(
+    subscribeToHydration,
+    getClientSnapshot,
+    getServerSnapshot,
+  );
   const [isSubmissionPending, setIsSubmissionPending] = useState(false);
   const [status, setStatus] = useState<SubmissionStatus>({ kind: "idle" });
   const [turnstileResetKey, setTurnstileResetKey] = useState(0);
@@ -95,7 +109,6 @@ export function ContactForm({ content, locale }: ContactFormProps) {
     register("startedAt");
     register("turnstileToken");
     setValue("startedAt", Date.now());
-    setIsClientReady(true);
   }, [register, setValue]);
 
   const handleTurnstileToken = useCallback(
@@ -108,18 +121,14 @@ export function ContactForm({ content, locale }: ContactFormProps) {
     [setValue],
   );
 
-  const submit = async (values: ContactFormValues) => {
-    if (submissionLockRef.current) {
-      return;
-    }
-
+  const handleValidSubmit = async (values: ContactFormValues) => {
     const payload = contactRequestSchema.safeParse(values);
     if (!payload.success) {
       setStatus({ kind: "generic-error" });
+      submissionLockRef.current = false;
       return;
     }
 
-    submissionLockRef.current = true;
     setIsSubmissionPending(true);
     setStatus({ kind: "idle" });
 
@@ -163,6 +172,27 @@ export function ContactForm({ content, locale }: ContactFormProps) {
     }
   };
 
+  const handleInvalidSubmit = () => {
+    submissionLockRef.current = false;
+    setStatus({ kind: "idle" });
+  };
+
+  const handleFormSubmit = (event: FormEvent<HTMLFormElement>) => {
+    if (submissionLockRef.current) {
+      event.preventDefault();
+      return;
+    }
+
+    submissionLockRef.current = true;
+    void handleSubmit(handleValidSubmit, handleInvalidSubmit)(event).catch(
+      () => {
+        submissionLockRef.current = false;
+        setIsSubmissionPending(false);
+        setStatus({ kind: "generic-error" });
+      },
+    );
+  };
+
   const statusMessage =
     status.kind === "success"
       ? content.successMessage
@@ -179,7 +209,7 @@ export function ContactForm({ content, locale }: ContactFormProps) {
       <form
         className="relative grid gap-6"
         noValidate
-        onSubmit={handleSubmit(submit, () => setStatus({ kind: "idle" }))}
+        onSubmit={handleFormSubmit}
       >
         <div aria-hidden="true" className="absolute -left-[10000px] h-px w-px overflow-hidden">
           <label htmlFor="contact-website">Website</label>

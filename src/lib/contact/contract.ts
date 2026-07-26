@@ -1,10 +1,21 @@
 import { z } from "zod";
 
+const isControlCharacter = (character: string) => {
+  const codePoint = character.codePointAt(0) ?? 0;
+  return codePoint <= 0x1f || codePoint === 0x7f;
+};
+
 const noHeaderControlCharacters = (value: string) =>
-  !/[\u0000-\u001f\u007f]/u.test(value);
+  [...value].every((character) => !isControlCharacter(character));
 
 const noUnsafeMessageControlCharacters = (value: string) =>
-  !/[\u0000-\u0008\u000b\u000c\u000e-\u001f\u007f]/u.test(value);
+  [...value].every((character) => {
+    if (character === "\t" || character === "\n" || character === "\r") {
+      return true;
+    }
+
+    return !isControlCharacter(character);
+  });
 
 export const contactTopics = [
   "career-engineering",

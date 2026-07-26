@@ -11,7 +11,7 @@ import { isLegacyPathname } from "@/lib/legacy-routes";
 
 const handleI18nRouting = createMiddleware(routing);
 
-export default function middleware(request: NextRequest) {
+export default function proxy(request: NextRequest) {
   if (isLegacyPathname(request.nextUrl.pathname)) {
     return NextResponse.next();
   }

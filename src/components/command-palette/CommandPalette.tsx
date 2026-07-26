@@ -75,10 +75,6 @@ export function CommandPalette({ commands: baseCommands, locale }: CommandPalett
   }, [open, pathname]);
 
   useEffect(() => {
-    setCurrentLocation(pathname);
-  }, [pathname]);
-
-  useEffect(() => {
     const handleGlobalShortcut = (event: globalThis.KeyboardEvent) => {
       if (
         event.defaultPrevented ||

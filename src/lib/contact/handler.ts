@@ -271,7 +271,7 @@ export const createContactHandler = (
         );
       }
 
-      let verified = false;
+      let verified: boolean;
       try {
         verified = await botVerifier.verify({
           token: input.turnstileToken,
