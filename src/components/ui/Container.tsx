@@ -2,7 +2,8 @@ import type { ComponentPropsWithoutRef } from "react";
 import { cn } from "@/lib/cn";
 
 const containerSizes = {
-  content: "max-w-[var(--layout-content-max)]",
+  content:
+    "max-w-[calc(var(--layout-content-max)+var(--layout-gutter)+var(--layout-gutter))]",
   wide: "max-w-[var(--layout-wide-max)]",
   readable: "max-w-[var(--layout-readable-max)]",
   full: "max-w-none",

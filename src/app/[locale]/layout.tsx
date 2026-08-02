@@ -1,7 +1,11 @@
 import { hasLocale, NextIntlClientProvider } from "next-intl";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { Geist, Geist_Mono } from "next/font/google";
+import {
+  IBM_Plex_Mono,
+  Instrument_Serif,
+  Manrope,
+} from "next/font/google";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { SiteFooter } from "@/components/layout/SiteFooter";
@@ -11,16 +15,24 @@ import { buildLocaleMetadata } from "@/lib/seo";
 import { routing } from "@/i18n/routing";
 import "../globals.css";
 
-const geistSans = Geist({
+const manrope = Manrope({
   display: "swap",
   subsets: ["latin"],
-  variable: "--font-geist-sans",
+  variable: "--font-manrope",
 });
 
-const geistMono = Geist_Mono({
+const instrumentSerif = Instrument_Serif({
   display: "swap",
   subsets: ["latin"],
-  variable: "--font-geist-mono",
+  variable: "--font-instrument-serif",
+  weight: "400",
+});
+
+const ibmPlexMono = IBM_Plex_Mono({
+  display: "swap",
+  subsets: ["latin"],
+  variable: "--font-ibm-plex-mono",
+  weight: ["400", "500", "600"],
 });
 
 type LocaleLayoutProps = {
@@ -58,10 +70,11 @@ export default async function LocaleLayout({
   const t = await getTranslations({ locale, namespace: "accessibility" });
 
   return (
-    <html data-theme="dark" lang={locale}>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} min-h-dvh bg-page-surface font-sans text-content-primary antialiased`}
-      >
+    <html
+      className={`${manrope.variable} ${instrumentSerif.variable} ${ibmPlexMono.variable}`}
+      lang={locale}
+    >
+      <body className="min-h-dvh bg-page-surface font-sans text-content-primary antialiased">
         <NextIntlClientProvider>
           <a
             href="#main"

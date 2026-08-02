@@ -15,6 +15,7 @@
   --color-brand-hover: var(--color-accent-hover);
   --color-brand-contrast: var(--color-on-accent);
   --font-sans: var(--font-family-sans);
+  --font-serif: var(--font-family-serif);
   --font-mono: var(--font-family-mono);
   --radius-ui-control: var(--radius-control);
   --radius-ui-surface: var(--radius-surface);
@@ -35,6 +36,49 @@ body {
   font-family: var(--font-family-sans);
   font-size: var(--font-size-body);
   line-height: var(--line-height-body);
+  text-rendering: optimizeLegibility;
+}
+
+@keyframes blueprint-reveal {
+  from {
+    transform: translateY(var(--motion-distance));
+  }
+
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes blueprint-signal {
+  0%,
+  100% {
+    opacity: 0.45;
+    transform: scale(0.75);
+  }
+
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.blueprint-reveal {
+  animation: blueprint-reveal var(--motion-duration-slow)
+    var(--motion-ease-emphasized) both;
+}
+
+.blueprint-reveal--delay {
+  animation-delay: 120ms;
+}
+
+.blueprint-reveal--late {
+  animation-delay: 220ms;
+}
+
+.blueprint-signal {
+  animation: blueprint-signal 1.8s var(--motion-ease-standard) infinite;
+  transform-box: fill-box;
+  transform-origin: center;
 }
 
 ::selection {
@@ -73,13 +117,21 @@ body {
 
 .ui-dialog--sheet {
   position: fixed;
-  inset: 0 0 0 auto;
-  width: min(calc(100vw - 1.25rem), 24rem);
+  inset: 0;
+  width: 100vw;
   max-width: none;
   height: 100dvh;
   max-height: 100dvh;
   overflow: auto;
-  border-radius: var(--radius-surface) 0 0 var(--radius-surface);
+  border-radius: 0;
+}
+
+@media (min-width: 40rem) {
+  .ui-dialog--sheet {
+    inset: 0 0 0 auto;
+    width: min(100vw, 30rem);
+    border-radius: var(--radius-surface) 0 0 var(--radius-surface);
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

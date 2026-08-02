@@ -1,6 +1,6 @@
 "use client";
 
-import { Menu } from "lucide-react";
+import { FileDown, Github, Menu } from "lucide-react";
 import { useState } from "react";
 import type { HomeContent } from "@/content/home";
 import { usePathname } from "@/i18n/navigation";
@@ -53,7 +53,7 @@ export function MobileNavigation({ chrome, locale }: MobileNavigationProps) {
                 <li key={item.href}>
                   <a
                     aria-current={current ? "page" : undefined}
-                    className="flex min-h-[var(--target-min)] items-center rounded-[var(--radius-control)] px-3 py-2 font-medium transition-colors hover:bg-[var(--color-surface-subtle)] aria-[current=page]:bg-[var(--color-accent-soft)]"
+                    className="flex min-h-[var(--target-min)] items-center border-b border-[var(--color-border-subtle)] px-1 py-3 text-xl font-semibold tracking-[-0.02em] transition-colors hover:text-[var(--color-accent)] aria-[current=page]:border-[var(--color-accent)] aria-[current=page]:text-[var(--color-accent)]"
                     href={getLocalizedNavigationHref(item.href, locale)}
                     onClick={close}
                   >
@@ -64,22 +64,33 @@ export function MobileNavigation({ chrome, locale }: MobileNavigationProps) {
             })}
           </ul>
 
-          <div className="mt-6 border-t border-[var(--color-border-subtle)] pt-6">
-            <div className="flex items-center gap-3">
+          <div className="mt-8 border-t border-[var(--color-border-subtle)] pt-6">
+            <div className="grid gap-3 sm:grid-cols-2">
+              <a
+                className="inline-flex min-h-[var(--target-min)] items-center justify-center gap-2 rounded-[var(--radius-control)] bg-[var(--color-accent)] px-4 font-semibold text-[var(--color-on-accent)] no-underline transition-colors hover:bg-[var(--color-accent-hover)]"
+                download={chrome.cvDownloadFilename}
+                href={chrome.cvHref}
+                onClick={close}
+              >
+                <FileDown aria-hidden="true" size={18} strokeWidth={1.8} />
+                {chrome.cvLabel}
+              </a>
               <LocaleSwitch
-                className="inline-flex min-h-[var(--target-min)] items-center rounded-[var(--radius-control)] border border-[var(--color-border-strong)] px-4 font-semibold no-underline transition-colors hover:bg-[var(--color-surface-subtle)]"
+                className="inline-flex min-h-[var(--target-min)] items-center justify-center rounded-[var(--radius-control)] border border-[var(--color-border-strong)] px-4 font-semibold no-underline transition-colors hover:bg-[var(--color-surface-subtle)]"
                 label={chrome.languageLabel}
                 locale={locale}
                 onNavigate={close}
               />
-              <button
-                className="inline-flex min-h-[var(--target-min)] cursor-not-allowed items-center rounded-[var(--radius-control)] border border-[var(--color-border-subtle)] px-4 text-sm text-[var(--color-text-secondary)]"
-                disabled
-                title={chrome.unavailable}
-                type="button"
+              <a
+                className="inline-flex min-h-[var(--target-min)] items-center justify-center gap-2 rounded-[var(--radius-control)] border border-[var(--color-border-subtle)] px-4 font-semibold no-underline transition-colors hover:bg-[var(--color-surface-subtle)] sm:col-span-2"
+                href={chrome.githubHref}
+                onClick={close}
+                rel="noopener noreferrer"
+                target="_blank"
               >
-                {chrome.cvLabel} · {chrome.unavailable}
-              </button>
+                <Github aria-hidden="true" size={18} strokeWidth={1.8} />
+                {chrome.githubLabel}
+              </a>
             </div>
           </div>
         </nav>

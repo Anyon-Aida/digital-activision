@@ -25,11 +25,16 @@ describe("command palette registry", () => {
       const destinations = commands.flatMap(({ href }) =>
         href === null ? [] : [href],
       );
+      const cvDestination = `/cv/kovacs-zalan-cv-${locale}.pdf`;
+      const localizedDestinations = destinations.filter(
+        (href) => href !== cvDestination,
+      );
 
       expect(new Set(ids).size).toBe(ids.length);
       expect(destinations.length).toBeGreaterThan(0);
+      expect(destinations).toContain(cvDestination);
       expect(
-        destinations.every(
+        localizedDestinations.every(
           (href) =>
             href.startsWith(`/${locale}`) ||
             href.startsWith(`/${locale === "hu" ? "en" : "hu"}`),
@@ -62,25 +67,59 @@ describe("command palette registry", () => {
     ).toContain("case-study-adott-enterprise-project-workflow");
   });
 
-  it("provides honest localized backend, security, and unavailable CV commands", () => {
-    const commands = buildCommands("en");
-    const backend = commands.find(
-      ({ label }) => label === "Show backend projects",
-    );
-    const security = commands.find(
-      ({ label }) => label === "Show security-related work",
-    );
-    const cv = commands.find(({ id }) => id === "action-cv");
+  it.each([
+    {
+      locale: "hu",
+      cvHref: "/cv/kovacs-zalan-cv-hu.pdf",
+      cvLabel: "Magyar CV megnyitása",
+    },
+    {
+      locale: "en",
+      cvHref: "/cv/kovacs-zalan-cv-en.pdf",
+      cvLabel: "Open English CV",
+    },
+  ] as const)(
+    "provides active V3 navigation and the locale-appropriate $locale CV",
+    ({ locale, cvHref, cvLabel }) => {
+      const commands = buildCommands(locale);
+      const commandById = new Map(
+        commands.map((command) => [command.id, command]),
+      );
 
-    expect(backend?.href).toBe(
-      "/en/work/adott-enterprise-project-workflow",
-    );
-    expect(security?.href).toBe(
-      "/en/work/adott-enterprise-project-workflow",
-    );
-    expect(cv).toMatchObject({ disabled: true, href: null });
-    expect(cv?.description).toMatch(/not yet available/i);
-  });
+      expect(commandById.get("action-cv")).toMatchObject({
+        disabled: false,
+        href: cvHref,
+        label: cvLabel,
+      });
+      expect(commandById.get("home-featured-work")?.href).toBe(
+        `/${locale}#featured-work`,
+      );
+      expect(commandById.get("home-experience")?.href).toBe(
+        `/${locale}#experience`,
+      );
+      expect(commandById.get("home-lab")?.href).toBe(`/${locale}#lab`);
+      expect(commandById.get("home-studio")?.href).toBe(`/${locale}#studio`);
+      expect(commandById.get("home-contact")?.href).toBe(
+        `/${locale}#contact`,
+      );
+
+      for (const removedId of [
+        "home-system-map",
+        "home-standards",
+        "studio-pricing",
+      ]) {
+        expect(commandById.has(removedId)).toBe(false);
+      }
+
+      const staticCopy = commands
+        .filter(({ id }) => !id.startsWith("case-study-"))
+        .map(({ description, label }) => `${label} ${description}`)
+        .join(" ");
+      expect(staticCopy).not.toMatch(
+        /four featured|négy kiemelt|not yet available|még nem érhető el|owner confirmation|pricing/i,
+      );
+    },
+  );
 
   it("switches locale while preserving a canonical current route", () => {
     expect(
@@ -112,15 +151,10 @@ describe("command palette search", () => {
   });
 
   it("matches every query token across labels, descriptions, and keywords", () => {
-    const commands = buildCommands("hu");
-    const results = filterCommandPaletteCommands(
-      commands,
-      "enterprise security",
-    );
+    const commands = buildCommands("en");
+    const results = filterCommandPaletteCommands(commands, "scope studio");
 
-    expect(results.map(({ id }) => id)).toContain(
-      "case-study-adott-enterprise-project-workflow",
-    );
+    expect(results.map(({ id }) => id)).toContain("page-studio");
   });
 
   it("returns all commands for an empty query", () => {

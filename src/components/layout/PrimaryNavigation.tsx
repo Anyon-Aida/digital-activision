@@ -29,7 +29,7 @@ export function PrimaryNavigation({
             <li key={item.href}>
               <a
                 aria-current={current ? "page" : undefined}
-                className="inline-flex min-h-[var(--target-min)] items-center rounded-[var(--radius-control)] px-2 text-sm font-medium text-[var(--color-text-secondary)] no-underline transition-colors hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-text-primary)] aria-[current=page]:bg-[var(--color-accent-soft)] aria-[current=page]:text-[var(--color-text-primary)] 2xl:px-3"
+                className="relative inline-flex min-h-[var(--target-min)] items-center px-2 text-sm font-medium text-[var(--color-text-secondary)] no-underline transition-colors after:absolute after:inset-x-2 after:bottom-1 after:h-px after:origin-left after:scale-x-0 after:bg-[var(--color-accent)] after:transition-transform hover:text-[var(--color-text-primary)] aria-[current=page]:text-[var(--color-text-primary)] aria-[current=page]:after:scale-x-100 2xl:px-3 2xl:after:inset-x-3"
                 href={getLocalizedNavigationHref(item.href, locale)}
               >
                 {item.label}
