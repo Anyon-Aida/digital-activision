@@ -3,6 +3,10 @@ import {
   caseStudySlugs,
   type CaseStudySlug,
 } from "@/lib/case-study-routes";
+import {
+  projectMediaIds,
+  type ProjectMediaId,
+} from "@/content/project-media";
 
 export const caseStudySectionIds = [
   "summary",
@@ -53,6 +57,58 @@ export type LocalizedText = z.infer<typeof localizedTextSchema>;
 const sectionIdSchema = z.enum(caseStudySectionIds);
 const sectionStateSchema = z.enum(caseStudySectionStates);
 const caseStudySlugSchema = z.enum(caseStudySlugs);
+const projectMediaIdSchema = z.enum(projectMediaIds);
+
+export const caseStudyHeroVariants = [
+  "workflow",
+  "3d",
+  "booking",
+  "data",
+] as const;
+
+const storySectionSchema = z
+  .object({
+    id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
+    title: localizedTextSchema,
+    paragraphs: z.array(localizedTextSchema).min(1),
+    mediaIds: z.array(projectMediaIdSchema),
+  })
+  .strict();
+
+const presentationSchema = z
+  .object({
+    featuredMedia: z.array(projectMediaIdSchema),
+    heroVariant: z.enum(caseStudyHeroVariants),
+    storySections: z
+      .array(storySectionSchema)
+      .min(5)
+      .max(7)
+      .superRefine((sections, context) => {
+        const ids = sections.map(({ id }) => id);
+        if (new Set(ids).size !== ids.length) {
+          context.addIssue({
+            code: "custom",
+            path: [],
+            message: "Presentation story-section ids must be unique.",
+          });
+        }
+      }),
+    homepageSummary: localizedTextSchema,
+    roleSummary: localizedTextSchema,
+  })
+  .strict()
+  .superRefine((presentation, context) => {
+    if (
+      new Set(presentation.featuredMedia).size !==
+      presentation.featuredMedia.length
+    ) {
+      context.addIssue({
+        code: "custom",
+        path: ["featuredMedia"],
+        message: "Featured media ids must be unique.",
+      });
+    }
+  });
 
 const disclosureSchema = z
   .object({
@@ -267,7 +323,11 @@ const caseStudyMediaSchema = z
   .object({
     id: z.string().regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/),
     kind: z.enum(["diagram", "screenshot"]),
-    representation: z.enum(["conceptual", "public-project-screenshot"]),
+    representation: z.enum([
+      "conceptual",
+      "portfolio-reference",
+      "public-project-screenshot",
+    ]),
     source: z.string().startsWith("/"),
     alt: localizedTextSchema,
     evidenceId: nonEmptyTextSchema,
@@ -293,6 +353,7 @@ export const caseStudySchema = z
     period: localizedTextSchema.optional(),
     technologies: z.array(technologySchema),
     responsibilities: z.array(localizedTextSchema),
+    presentation: presentationSchema,
     sections: orderedSectionsSchema,
     architecture: architectureSchema,
     results: z.array(resultSchema).min(1),
@@ -479,6 +540,9 @@ export const caseStudySchema = z
   });
 
 export type CaseStudy = z.infer<typeof caseStudySchema>;
+export type CaseStudyPresentation = z.infer<typeof presentationSchema>;
+export type StorySection = z.infer<typeof storySectionSchema>;
+export type { ProjectMediaId };
 
 export const caseStudyRegistrySchema = z
   .array(caseStudySchema)

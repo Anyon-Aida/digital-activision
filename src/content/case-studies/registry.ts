@@ -10,16 +10,16 @@ import {
 } from "./schema";
 
 export const homepageCaseStudyOrder = [
-  "samsung-smart-gate-analytics",
   "adott-enterprise-project-workflow",
   "alba-medence-3d-configurator",
-  "questlog-offline-first-pwa",
+  "sanjiwani-booking-experience",
 ] as const satisfies readonly CaseStudySlug[];
 
 export const workCaseStudyOrder = [
   "adott-enterprise-project-workflow",
-  "samsung-smart-gate-analytics",
   "alba-medence-3d-configurator",
+  "samsung-smart-gate-analytics",
+  "sanjiwani-booking-experience",
   "questlog-offline-first-pwa",
 ] as const satisfies readonly CaseStudySlug[];
 
@@ -121,8 +121,10 @@ export const getCaseStudyCard = (
       locale,
     ),
     title: localize(study.title, locale),
-    summary: localize(study.summary, locale),
-    role: localize(study.role, locale),
+    summary: localize(study.presentation.homepageSummary, locale),
+    role: localize(study.presentation.roleSummary, locale),
+    featuredMedia: [...study.presentation.featuredMedia],
+    heroVariant: study.presentation.heroVariant,
     technologies: study.technologies.map(({ name, state }) => ({ name, state })),
   };
 };
@@ -135,16 +137,12 @@ export const getCaseStudyCards = (
 export const getFeaturedCaseStudies = (locale: CaseStudyLocale) =>
   homepageCaseStudyOrder.map((slug) => {
     const study = getCaseStudy(slug);
-    const sections = new Map(study.sections.map((section) => [section.id, section]));
-    const firstParagraph = (sectionId: CaseStudySectionId) => {
-      const paragraph = sections.get(sectionId)?.content.at(0);
-      return paragraph ? localize(paragraph, locale) : "";
-    };
+    const openingParagraph = study.presentation.storySections.at(0)?.paragraphs.at(0);
 
     return {
       ...getCaseStudyCard(slug, locale),
-      problem: firstParagraph("context"),
-      ownership: firstParagraph("ownership"),
+      problem: openingParagraph ? localize(openingParagraph, locale) : "",
+      ownership: localize(study.presentation.roleSummary, locale),
       result: localize(study.results[0].claim, locale),
     };
   });

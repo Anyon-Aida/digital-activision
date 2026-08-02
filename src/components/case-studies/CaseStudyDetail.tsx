@@ -2,129 +2,205 @@ import Image from "next/image";
 import type {
   CaseStudy,
   CaseStudyLocale,
-  CaseStudySectionState,
 } from "@/content/case-studies";
 import {
   getCaseStudy,
   getCaseStudyPath,
-  getCaseStudySections,
   localize,
 } from "@/content/case-studies";
-import { Badge, Card, Section, Surface } from "@/components/ui";
-import { ArchitectureDiagram } from "./ArchitectureDiagram";
-import { caseStudyUi, type CaseStudyUi } from "./labels";
+import {
+  getProjectMedia,
+  getProjectMediaSource,
+  type ProjectMediaId,
+} from "@/content/project-media";
+import {
+  EditorialSection,
+  InlineLinkArrow,
+  ProjectMediaFrame,
+  TechnicalAnnotation,
+} from "@/components/ui";
 
 type CaseStudyDetailProps = {
   locale: CaseStudyLocale;
   study: CaseStudy;
 };
 
-type EvidenceListProps = {
-  evidenceIds: readonly string[];
-  labels: CaseStudyUi;
+const detailCopy = {
+  hu: {
+    eyebrow: "ESETTANULMÁNY",
+    home: "Főoldal",
+    work: "Munkák",
+    role: "Szerepkör",
+    technologies: "Technológiák és területek",
+    disclosure: "A bemutatás kerete",
+    measuredImpact: "Mérhető hatás",
+    sharedOutcome: "Közös rendszereredmény",
+    impactClaim:
+      "20%-kal pontosabb rendszám-ellenőrzési folyamat a modernizált rendszerben.",
+    impactAttribution:
+      "A mérőszám a vállalati modernizáció közös rendszereredménye, nem kizárólagos egyéni teljesítmény.",
+    privateDisclosure:
+      "A képernyők és diagramok portfóliócélú rekonstrukciók vagy tesztadatokat mutató referenciák. A vállalati információk anonimizáltak.",
+    inProgressDisclosure:
+      "A QuestLog fejlesztés alatt áll; a bemutatás a termékirányt és a tervezett PWA-alapokat foglalja össze.",
+    related: "Kapcsolódó munkák",
+    back: "Vissza az összes munkához",
+  },
+  en: {
+    eyebrow: "CASE STUDY",
+    home: "Home",
+    work: "Work",
+    role: "Role",
+    technologies: "Technologies and disciplines",
+    disclosure: "Presentation context",
+    measuredImpact: "Measured impact",
+    sharedOutcome: "Shared system outcome",
+    impactClaim:
+      "A 20% more accurate licence-plate verification workflow in the modernized system.",
+    impactAttribution:
+      "The metric is a shared outcome of the enterprise modernization, not an exclusively individual achievement.",
+    privateDisclosure:
+      "Screens and diagrams are portfolio reconstructions or references using test data. Company information is anonymized.",
+    inProgressDisclosure:
+      "QuestLog is in progress; this presentation outlines the product direction and planned PWA foundations.",
+    related: "Related work",
+    back: "Back to all work",
+  },
+} as const;
+
+function MediaFigure({
+  caption = true,
+  id,
+  locale,
+  priority = false,
+  sizes,
+}: {
+  caption?: boolean;
+  id: ProjectMediaId;
   locale: CaseStudyLocale;
-  showHeading?: boolean;
-  study: CaseStudy;
-};
+  priority?: boolean;
+  sizes: string;
+}) {
+  const media = getProjectMedia(id);
+  const isDiagram = media.kind === "diagram";
 
-function stateTone(state: CaseStudySectionState) {
-  if (state === "documented") {
-    return "success" as const;
-  }
-
-  if (state === "not-applicable") {
-    return "neutral" as const;
-  }
-
-  return "warning" as const;
+  return (
+    <ProjectMediaFrame
+      caption={caption ? media.alt[locale] : undefined}
+      className="h-full"
+      radius="soft"
+    >
+      <div
+        className={
+          isDiagram
+            ? media.surface === "light"
+              ? "flex min-h-72 items-center bg-[var(--color-surface)] p-5 sm:p-8"
+              : "flex min-h-72 items-center bg-[var(--color-diagram-surface)] p-5 sm:p-8"
+            : "bg-[var(--color-surface-subtle)]"
+        }
+      >
+        <Image
+          alt={isDiagram ? "" : media.alt[locale]}
+          className={
+            isDiagram
+              ? "h-auto w-full object-contain"
+              : "h-auto w-full object-cover"
+          }
+          height={media.height}
+          priority={priority}
+          sizes={sizes}
+          src={getProjectMediaSource(media)}
+          unoptimized={isDiagram}
+          width={media.width}
+        />
+      </div>
+    </ProjectMediaFrame>
+  );
 }
 
-function EvidenceList({
-  evidenceIds,
-  labels,
+function StoryMedia({
+  ids,
   locale,
-  showHeading = true,
-  study,
-}: EvidenceListProps) {
-  const evidenceById = new Map(study.evidence.map((item) => [item.id, item]));
-  const items = evidenceIds.flatMap((id) => {
-    const evidence = evidenceById.get(id);
-    return evidence ? [evidence] : [];
-  });
-
-  if (items.length === 0) {
+}: {
+  ids: readonly ProjectMediaId[];
+  locale: CaseStudyLocale;
+}) {
+  if (ids.length === 0) {
     return null;
   }
 
-  return (
-    <div className="mt-6">
-      {showHeading ? (
-        <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
-          {labels.sectionEvidence}
-        </h3>
-      ) : null}
-      <ul className={showHeading ? "mt-3 grid gap-3" : "grid gap-3"}>
-        {items.map((evidence) => {
-          const label = localize(evidence.label, locale);
-          const external = evidence.href?.startsWith("https://") ?? false;
+  const mediaItems = ids.map((id) => getProjectMedia(id));
+  const splitPortraitPair =
+    mediaItems.length === 2 &&
+    mediaItems.every(({ kind }) => kind === "screenshot") &&
+    mediaItems.some(({ width, height }) => height > width) &&
+    mediaItems.some(({ width, height }) => width >= height);
 
-          return (
-            <li
-              className="rounded-[var(--radius-control)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-subtle)] p-4 text-sm"
-              key={evidence.id}
-            >
-              <div className="flex flex-wrap gap-2">
-                <Badge
-                  tone={
-                    evidence.verification === "verified"
-                      ? "success"
-                      : "warning"
-                  }
-                >
-                  {labels.verification[evidence.verification]}
-                </Badge>
-                <Badge>{labels.evidenceAccess[evidence.access]}</Badge>
-              </div>
-              {evidence.href ? (
-                <a
-                  className="mt-3 inline-flex font-medium text-[var(--color-accent-secondary)] underline underline-offset-4"
-                  href={evidence.href}
-                  rel={external ? "noopener noreferrer" : undefined}
-                  target={external ? "_blank" : undefined}
-                >
-                  {label}
-                  {external ? (
-                    <span className="sr-only"> ({labels.externalLink})</span>
-                  ) : null}
-                </a>
-              ) : (
-                <p className="mt-3 font-medium text-[var(--color-text-primary)]">
-                  {label}
-                </p>
-              )}
-            </li>
-          );
-        })}
-      </ul>
+  return (
+    <div
+      className={
+        splitPortraitPair
+          ? "mt-9 grid gap-6 md:grid-cols-12 md:items-start"
+          : "mt-9 grid gap-8"
+      }
+    >
+      {ids.map((id) => {
+        const media = getProjectMedia(id);
+        const portrait = media.height > media.width;
+
+        return (
+          <div
+            className={
+              splitPortraitPair
+                ? portrait
+                  ? "md:col-span-4"
+                  : "md:col-span-8"
+                : undefined
+            }
+            key={id}
+          >
+            <MediaFigure
+              id={id}
+              locale={locale}
+              sizes={
+                splitPortraitPair
+                  ? portrait
+                    ? "(min-width: 1024px) 24vw, (min-width: 768px) 30vw, 94vw"
+                    : "(min-width: 1024px) 50vw, (min-width: 768px) 62vw, 94vw"
+                  : "(min-width: 1024px) 72vw, 94vw"
+              }
+            />
+          </div>
+        );
+      })}
     </div>
   );
 }
 
 export function CaseStudyDetail({ locale, study }: CaseStudyDetailProps) {
-  const labels = caseStudyUi[locale];
-  const sections = getCaseStudySections(study.slug, locale);
-  const disclosureById = new Map(
-    study.disclosures.map((disclosure) => [disclosure.id, disclosure]),
-  );
+  const copy = detailCopy[locale];
+  const heroMediaId = study.presentation.featuredMedia[0];
+  const publicDisclosure =
+    study.visibility === "anonymized"
+      ? copy.privateDisclosure
+      : study.status === "in-progress"
+        ? copy.inProgressDisclosure
+        : undefined;
+  const measuredResult = study.results.find(({ metric }) => Boolean(metric));
 
   return (
     <article>
-      <Section spacing="spacious" tone="dark">
-        <nav aria-label={labels.breadcrumbLabel}>
+      <EditorialSection
+        className="overflow-hidden"
+        rule="bottom"
+        spacing="spacious"
+        tone="light"
+      >
+        <nav aria-label={locale === "hu" ? "Morzsanavigáció" : "Breadcrumb"}>
           <ol className="flex flex-wrap items-center gap-2 text-sm text-[var(--color-text-secondary)]">
             <li>
               <a className="underline underline-offset-4" href={`/${locale}`}>
-                {labels.home}
+                {copy.home}
               </a>
             </li>
             <li aria-hidden="true">/</li>
@@ -133,372 +209,173 @@ export function CaseStudyDetail({ locale, study }: CaseStudyDetailProps) {
                 className="underline underline-offset-4"
                 href={`/${locale}/work`}
               >
-                {labels.work}
+                {copy.work}
               </a>
             </li>
             <li aria-hidden="true">/</li>
-            <li aria-current="page" className="text-[var(--color-text-primary)]">
-              {localize(study.title, locale)}
-            </li>
+            <li aria-current="page">{localize(study.title, locale)}</li>
           </ol>
         </nav>
 
-        <header className="mt-10 max-w-5xl">
-          <div className="flex flex-wrap gap-2">
-            <Badge tone={study.status === "production" ? "success" : "warning"}>
-              {labels.status[study.status]}
-            </Badge>
-            <Badge>{labels.visibility[study.visibility]}</Badge>
-          </div>
-          <h1 className="mt-6 text-4xl font-semibold leading-[1.02] tracking-[-0.045em] text-balance sm:text-6xl lg:text-7xl">
-            {localize(study.title, locale)}
-          </h1>
-          <p className="mt-6 max-w-3xl text-lg text-[var(--color-text-secondary)] sm:text-xl">
-            {localize(study.summary, locale)}
-          </p>
-        </header>
-
-        <div className="mt-10 grid gap-5 lg:grid-cols-2">
-          <Surface padding="large" variant="inverse">
-            <dl className="grid gap-6 sm:grid-cols-2">
-              <div>
-                <dt className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
-                  {labels.role}
-                </dt>
-                <dd className="mt-2">{localize(study.role, locale)}</dd>
-              </div>
-              <div>
-                <dt className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
-                  {labels.period}
-                </dt>
-                <dd className="mt-2">
-                  {study.period
-                    ? localize(study.period, locale)
-                    : labels.notDocumented}
-                </dd>
-              </div>
-            </dl>
-
-            <h2 className="mt-7 font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
-              {labels.technologies}
-            </h2>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {study.technologies.map((technology) => (
-                <li key={technology.name}>
-                  <Badge
-                    tone={
-                      technology.state === "documented" ? "neutral" : "warning"
-                    }
-                    title={labels.technologyState[technology.state]}
-                  >
-                    {technology.name}
-                  </Badge>
-                </li>
-              ))}
-            </ul>
-          </Surface>
-
-          <Surface padding="large" variant="inverse">
-            <h2 className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
-              {labels.responsibilities}
-            </h2>
-            <ul className="mt-4 grid gap-3">
-              {study.responsibilities.map((responsibility) => (
-                <li className="flex gap-3" key={localize(responsibility, locale)}>
-                  <span
-                    aria-hidden="true"
-                    className="text-[var(--color-accent-secondary)]"
-                  >
-                    →
-                  </span>
-                  <span>{localize(responsibility, locale)}</span>
-                </li>
-              ))}
-            </ul>
-          </Surface>
-        </div>
-
-        <aside
-          aria-labelledby="case-study-disclosures-title"
-          className="mt-6 rounded-[var(--radius-surface)] border border-[var(--color-warning)] bg-[var(--color-surface-subtle)] p-5 sm:p-6"
-        >
-          <h2
-            className="font-semibold text-[var(--color-text-primary)]"
-            id="case-study-disclosures-title"
+        <header className="mt-10 grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-16">
+          <div
+            className={
+              heroMediaId
+                ? "lg:col-span-6 lg:col-start-1 lg:row-start-1"
+                : "lg:col-span-9"
+            }
           >
-            {labels.disclosures}
-          </h2>
-          <ul className="mt-3 grid gap-2 text-sm text-[var(--color-text-secondary)]">
-            {study.disclosures.map((disclosure) => (
-              <li className="flex gap-3" key={disclosure.id}>
-                <span aria-hidden="true">—</span>
-                <span>{localize(disclosure.text, locale)}</span>
-              </li>
-            ))}
-          </ul>
-        </aside>
-      </Section>
+            <TechnicalAnnotation>{copy.eyebrow}</TechnicalAnnotation>
+            <h1 className="mt-5 text-[clamp(3rem,6vw,5.5rem)] font-semibold leading-[0.96] tracking-[-0.055em] text-balance">
+              {localize(study.title, locale)}
+            </h1>
+            <p className="mt-7 max-w-[70ch] text-lg leading-8 text-[var(--color-text-secondary)] sm:text-xl">
+              {localize(study.presentation.homepageSummary, locale)}
+            </p>
 
-      <Section spacing="spacious">
-        <div className="grid items-start gap-10 lg:grid-cols-[17rem_minmax(0,1fr)] lg:gap-16">
-          <nav
-            aria-label={labels.contents}
-            className="rounded-[var(--radius-surface)] border border-[var(--color-border-subtle)] bg-[var(--color-surface)] p-5 lg:sticky lg:top-24"
-          >
-            <h2 className="font-semibold">{labels.contents}</h2>
-            <ol className="mt-4 grid gap-2 text-sm">
-              {sections.map((section, index) => (
-                <li key={section.id}>
-                  <a
-                    className="flex gap-3 rounded-[var(--radius-control)] px-2 py-1.5 text-[var(--color-text-secondary)] hover:bg-[var(--color-surface-subtle)] hover:text-[var(--color-text-primary)]"
-                    href={`#case-study-${section.id}`}
-                  >
-                    <span
-                      aria-hidden="true"
-                      className="font-mono text-[var(--color-accent-secondary)]"
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <span>{section.heading}</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </nav>
-
-          <div className="min-w-0">
-            {sections.map((section, index) => (
-              <section
-                aria-labelledby={`case-study-${section.id}-title`}
-                className="scroll-mt-8 border-b border-[var(--color-border-subtle)] py-10 first:pt-0 last:border-b-0 last:pb-0"
-                data-case-study-section={section.id}
-                id={`case-study-${section.id}`}
-                key={section.id}
-              >
-                <div className="flex flex-wrap items-start justify-between gap-4">
-                  <div className="flex min-w-0 gap-4">
-                    <span
-                      aria-hidden="true"
-                      className="mt-1 font-mono text-sm text-[var(--color-accent-secondary)]"
-                    >
-                      {String(index + 1).padStart(2, "0")}
-                    </span>
-                    <h2
-                      className="text-2xl font-semibold tracking-[-0.025em] sm:text-3xl"
-                      id={`case-study-${section.id}-title`}
-                    >
-                      {section.heading}
-                    </h2>
-                  </div>
-                  <Badge tone={stateTone(section.state)}>
-                    <span className="sr-only">{labels.state}: </span>
-                    {labels.sectionState[section.state]}
-                  </Badge>
-                </div>
-
-                <div className="mt-6 grid gap-4 text-[var(--color-text-secondary)]">
-                  {section.content.map((paragraph) => (
-                    <p key={paragraph}>{paragraph}</p>
-                  ))}
-                </div>
-
-                {section.id === "architecture" ? (
-                  <ArchitectureDiagram
-                    labels={labels}
-                    locale={locale}
-                    study={study}
-                  />
-                ) : null}
-
-                {section.disclosures.length > 0 ? (
-                  <aside className="mt-6 border-l-2 border-[var(--color-warning)] pl-4">
-                    <h3 className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
-                      {labels.sectionDisclosures}
-                    </h3>
-                    <ul className="mt-3 grid gap-2 text-sm text-[var(--color-text-secondary)]">
-                      {section.disclosures.map((disclosure) => (
-                        <li key={disclosure}>{disclosure}</li>
-                      ))}
-                    </ul>
-                  </aside>
-                ) : null}
-
-                <EvidenceList
-                  evidenceIds={section.evidenceIds}
-                  labels={labels}
-                  locale={locale}
-                  study={study}
-                />
-              </section>
-            ))}
           </div>
-        </div>
-      </Section>
 
-      <Section spacing="spacious" tone="subtle">
-        <div className="grid gap-12">
-          <section aria-labelledby="case-study-results-title">
-            <h2
-              className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
-              id="case-study-results-title"
-            >
-              {labels.results}
-            </h2>
-            <ul className="mt-7 grid gap-4 lg:grid-cols-2">
-              {study.results.map((result) => (
-                <li key={result.id}>
-                  <Card as="div" className="h-full" variant="elevated">
-                    <Badge
-                      tone={
-                        result.state === "documented" ? "success" : "warning"
-                      }
-                    >
-                      {labels.resultState[result.state]}
-                    </Badge>
-                    <p className="mt-5 text-lg font-medium">
-                      {localize(result.claim, locale)}
-                    </p>
-                    {result.metric ? (
-                      <div className="mt-5 border-t border-[var(--color-border-subtle)] pt-5">
-                        <p className="font-mono text-3xl font-semibold text-[var(--color-accent-secondary)]">
-                          {result.metric.value}% {labels.metricImprovement}
-                        </p>
-                        <p className="mt-2 text-sm text-[var(--color-text-secondary)]">
-                          <span className="font-semibold">
-                            {labels.metricAttribution}: {" "}
-                          </span>
-                          {localize(result.metric.attribution, locale)}
-                        </p>
-                      </div>
-                    ) : null}
-                  </Card>
-                </li>
-              ))}
-            </ul>
-          </section>
-
-          <section aria-labelledby="case-study-resources-title">
-            <h2
-              className="text-3xl font-semibold tracking-[-0.03em] sm:text-4xl"
-              id="case-study-resources-title"
-            >
-              {labels.resources}
-            </h2>
-            <div className="mt-7 grid gap-5 lg:grid-cols-2">
-              <Surface padding="large">
-                <h3 className="font-semibold">{labels.links}</h3>
-                {study.links.length > 0 ? (
-                  <ul className="mt-4 grid gap-3">
-                    {study.links.map((link) => (
-                      <li key={`${link.kind}-${link.href}`}>
-                        <a
-                          className="font-medium text-[var(--color-accent-secondary)] underline underline-offset-4"
-                          href={link.href}
-                          rel="noopener noreferrer"
-                          target="_blank"
-                        >
-                          {localize(link.label, locale)}
-                          <span className="sr-only">
-                            {" "}({labels.externalLink})
-                          </span>
-                        </a>
-                        <Badge
-                          className="ml-3"
-                          tone={
-                            link.verification === "verified"
-                              ? "success"
-                              : "warning"
-                          }
-                        >
-                          {labels.verification[link.verification]}
-                        </Badge>
-                      </li>
-                    ))}
-                  </ul>
-                ) : (
-                  <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-                    {labels.noLinks}
-                  </p>
-                )}
-              </Surface>
-
-              <Surface padding="large">
-                <h3 className="font-semibold">{labels.media}</h3>
-                {study.media.length > 0 ? (
-                  <div className="mt-4 grid gap-5">
-                    {study.media.map((media) => (
-                      <figure key={media.id}>
-                        <div className="relative aspect-[1054/658] overflow-hidden rounded-[var(--radius-control)] border border-[var(--color-border-subtle)] bg-[var(--color-surface-subtle)]">
-                          <Image
-                            alt={localize(media.alt, locale)}
-                            className="object-cover"
-                            fill
-                            sizes="(min-width: 1024px) 36rem, 90vw"
-                            src={media.source}
-                          />
-                        </div>
-                        <figcaption className="mt-3 text-sm text-[var(--color-text-secondary)]">
-                          {localize(media.alt, locale)}
-                        </figcaption>
-                        {media.disclosureIds.map((id) => {
-                          const disclosure = disclosureById.get(id);
-                          return disclosure ? (
-                            <p
-                              className="mt-2 text-xs text-[var(--color-text-secondary)]"
-                              key={id}
-                            >
-                              {localize(disclosure.text, locale)}
-                            </p>
-                          ) : null;
-                        })}
-                      </figure>
-                    ))}
-                  </div>
-                ) : (
-                  <p className="mt-4 text-sm text-[var(--color-text-secondary)]">
-                    {labels.noMedia}
-                  </p>
-                )}
-              </Surface>
-            </div>
-          </section>
-
-          <section aria-labelledby="case-study-evidence-title">
-            <h2
-              className="text-2xl font-semibold tracking-[-0.025em]"
-              id="case-study-evidence-title"
-            >
-              {labels.evidenceRegister}
-            </h2>
-            <div className="mt-5">
-              <EvidenceList
-                evidenceIds={study.evidence.map(({ id }) => id)}
-                labels={labels}
+          {heroMediaId ? (
+            <div className="lg:col-span-6 lg:col-start-7 lg:row-span-2 lg:row-start-1">
+              <MediaFigure
+                caption={false}
+                id={heroMediaId}
                 locale={locale}
-                showHeading={false}
-                study={study}
+                priority
+                sizes="(min-width: 1024px) 50vw, 94vw"
               />
             </div>
-          </section>
+          ) : null}
 
-          <section aria-labelledby="case-study-related-title">
+          <dl
+            className={`grid gap-6 border-t border-[var(--color-border-subtle)] pt-6 sm:grid-cols-2 ${
+              heroMediaId
+                ? "lg:col-span-6 lg:col-start-1 lg:row-start-2"
+                : "lg:col-span-9"
+            }`}
+          >
+            <div>
+              <dt className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+                {copy.role}
+              </dt>
+              <dd className="mt-2 font-semibold">
+                {localize(study.presentation.roleSummary, locale)}
+              </dd>
+            </div>
+            <div>
+              <dt className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-text-secondary)]">
+                {copy.technologies}
+              </dt>
+              <dd className="mt-2 text-sm leading-6">
+                {study.technologies.map(({ name }) => name).join(" · ")}
+              </dd>
+            </div>
+          </dl>
+        </header>
+
+        {publicDisclosure ? (
+          <aside className="mt-10 max-w-4xl border-l-2 border-[var(--color-industrial)] bg-[var(--color-surface-subtle)] px-5 py-4">
+            <p className="font-mono text-xs font-semibold uppercase tracking-[0.12em] text-[var(--color-accent-secondary)]">
+              {copy.disclosure}
+            </p>
+            <p className="mt-2 text-sm leading-6 text-[var(--color-text-secondary)]">
+              {publicDisclosure}
+            </p>
+          </aside>
+        ) : null}
+      </EditorialSection>
+
+      {study.presentation.storySections.map((section, index) => (
+        <EditorialSection
+          className="scroll-mt-24"
+          data-case-study-section={section.id}
+          id={`case-study-${section.id}`}
+          key={section.id}
+          rule="bottom"
+          spacing="spacious"
+          tone={index % 2 === 0 ? "light" : "subtle"}
+        >
+          <div className="grid gap-8 lg:grid-cols-12 lg:gap-16">
+            <div className="lg:col-span-3">
+              <span
+                aria-hidden="true"
+                className="block h-px w-12 bg-[var(--color-industrial)]"
+              />
+              <h2 className="mt-5 text-2xl font-semibold leading-tight tracking-[-0.03em] text-balance sm:text-3xl">
+                {localize(section.title, locale)}
+              </h2>
+            </div>
+            <div className="min-w-0 lg:col-span-9">
+              <div className="max-w-[76ch] space-y-5 text-lg leading-8 text-[var(--color-text-secondary)]">
+                {section.paragraphs.map((paragraph) => (
+                  <p key={localize(paragraph, locale)}>
+                    {localize(paragraph, locale)}
+                  </p>
+                ))}
+              </div>
+              <StoryMedia ids={section.mediaIds} locale={locale} />
+            </div>
+          </div>
+        </EditorialSection>
+      ))}
+
+      {measuredResult?.metric ? (
+        <EditorialSection rule="bottom" spacing="spacious" tone="dark">
+          <div className="grid gap-8 lg:grid-cols-[minmax(12rem,0.55fr)_minmax(0,1fr)] lg:items-center">
+            <p className="font-mono text-[clamp(4rem,11vw,9rem)] font-semibold leading-none tracking-[-0.07em] text-[var(--color-signal)]">
+              +{measuredResult.metric.value}%
+            </p>
+            <div className="max-w-2xl">
+              <TechnicalAnnotation>{copy.measuredImpact}</TechnicalAnnotation>
+              <p className="mt-4 text-2xl font-semibold leading-tight tracking-[-0.03em] sm:text-4xl">
+                {copy.impactClaim}
+              </p>
+              <p className="mt-5 text-sm leading-6 text-[var(--color-text-secondary)]">
+                <span className="font-semibold">{copy.sharedOutcome}: </span>
+                {copy.impactAttribution}
+              </p>
+            </div>
+          </div>
+        </EditorialSection>
+      ) : null}
+
+      <EditorialSection spacing="spacious" tone="light">
+        <div className="grid gap-12">
+          <section aria-labelledby="related-work-title">
+            <TechnicalAnnotation>{copy.related}</TechnicalAnnotation>
             <h2
-              className="text-2xl font-semibold tracking-[-0.025em]"
-              id="case-study-related-title"
+              className="mt-4 text-3xl font-semibold tracking-[-0.035em] sm:text-5xl"
+              id="related-work-title"
             >
-              {labels.related}
+              {copy.related}
             </h2>
-            <ul className="mt-5 grid gap-3 sm:grid-cols-2">
+            <ul className="mt-8 grid gap-px border-y border-[var(--color-border-subtle)] bg-[var(--color-border-subtle)] sm:grid-cols-2">
               {study.relatedSlugs.map((slug) => {
                 const related = getCaseStudy(slug);
+
                 return (
-                  <li key={slug}>
+                  <li className="bg-[var(--color-page)]" key={slug}>
                     <a
-                      className="flex min-h-[var(--target-min)] items-center justify-between rounded-[var(--radius-control)] border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-4 py-3 font-semibold hover:border-[var(--color-accent-secondary)]"
+                      className="group flex min-h-28 items-center justify-between gap-5 px-5 py-6 no-underline transition-colors hover:bg-[var(--color-surface-subtle)]"
                       href={getCaseStudyPath(slug, locale)}
                     >
-                      <span>{localize(related.title, locale)}</span>
-                      <span aria-hidden="true">→</span>
+                      <span>
+                        <span className="block text-lg font-semibold">
+                          {localize(related.title, locale)}
+                        </span>
+                        <span className="mt-2 block text-sm text-[var(--color-text-secondary)]">
+                          {localize(
+                            related.presentation.homepageSummary,
+                            locale,
+                          )}
+                        </span>
+                      </span>
+                      <span
+                        aria-hidden="true"
+                        className="transition-transform group-hover:translate-x-1"
+                      >
+                        →
+                      </span>
                     </a>
                   </li>
                 );
@@ -506,17 +383,11 @@ export function CaseStudyDetail({ locale, study }: CaseStudyDetailProps) {
             </ul>
           </section>
 
-          <a
-            className="inline-flex min-h-[var(--target-min)] w-fit items-center rounded-[var(--radius-control)] border border-[var(--color-border-strong)] bg-[var(--color-surface)] px-4 py-2 font-semibold hover:border-[var(--color-accent-secondary)]"
-            href={`/${locale}/work`}
-          >
-            <span aria-hidden="true" className="mr-2">
-              ←
-            </span>
-            {labels.backToWork}
-          </a>
+          <InlineLinkArrow className="w-fit" href={`/${locale}/work`}>
+            {copy.back}
+          </InlineLinkArrow>
         </div>
-      </Section>
+      </EditorialSection>
     </article>
   );
 }

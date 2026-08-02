@@ -59,6 +59,75 @@ const samsung = {
       "Participated in modernizing the existing PHP-based system.",
     ),
   ],
+  presentation: {
+    featuredMedia: ["samsung-gate-flow"],
+    heroVariant: "data",
+    homepageSummary: text(
+      "Valós idejű kaputerhelési analitika és egy pontosabb rendszám-ellenőrzési folyamat vállalati modernizációs környezetben.",
+      "Real-time gate-load analytics and a more accurate licence-plate verification workflow in an enterprise modernization context.",
+    ),
+    roleSummary: text(
+      "Közreműködés a PHP-rendszer React és Node.js irányú modernizációjában",
+      "Contributed to modernizing a PHP system toward React and Node.js",
+    ),
+    storySections: [
+      {
+        id: "context",
+        title: text("Kapuforgalom és ellenőrzés", "Gate traffic and verification"),
+        paragraphs: [
+          text(
+            "A belső rendszer a helyszíni kapuforgalom és a rendszám-ellenőrzés támogatására szolgált. A cél az volt, hogy a terhelés és az ellenőrzési folyamat állapota gyorsabban áttekinthető legyen.",
+            "The internal system supported on-site gate traffic and licence-plate verification. The goal was to make gate load and the state of the verification flow easier to understand.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "modernization",
+        title: text("Fokozatos modernizáció", "Incremental modernization"),
+        paragraphs: [
+          text(
+            "A meglévő PHP-környezet modernizációja React felületeket és Node.js rendszerhatárokat kapcsolt a működő vállalati folyamathoz.",
+            "The existing PHP environment was modernized by connecting React interfaces and Node.js boundaries to the operating enterprise workflow.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "live-analytics",
+        title: text("Valós idejű terhelési nézet", "Real-time load analytics"),
+        paragraphs: [
+          text(
+            "A kaputerhelési analitika a forgalmi állapotot egy gyorsan olvasható működési jelként kezelte. Az absztrakt gate-flow ábra a rendszám-ellenőrzés, a kaputerhelés és a működési visszajelzés kapcsolatát mutatja.",
+            "Gate-load analytics treated traffic state as a quickly readable operational signal. The abstract gate-flow diagram connects licence-plate verification, gate load and operational feedback.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "impact",
+        title: text("Mérhető rendszerhatás", "Measured system impact"),
+        paragraphs: [
+          text(
+            "A modernizált rendszám-ellenőrzési folyamat 20%-os pontosságjavulást ért el. Ez a vállalati modernizáció közös rendszereredménye, nem kizárólagos egyéni teljesítmény.",
+            "The modernized licence-plate verification workflow achieved a 20% accuracy improvement. This is a shared outcome of the enterprise modernization, not an exclusively individual achievement.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "learning",
+        title: text("Vállalati megbízhatóság", "Enterprise reliability"),
+        paragraphs: [
+          text(
+            "A munka a fokozatos modernizáció, a logelemzés, a valós idejű visszajelzés és az üzemi megbízhatóság kapcsolatát tette kézzelfoghatóvá.",
+            "The work made the relationship between incremental modernization, log analysis, real-time feedback and operational reliability tangible.",
+          ),
+        ],
+        mediaIds: [],
+      },
+    ],
+  },
   sections: [
     section(
       "summary",
@@ -309,16 +378,16 @@ const adott = {
   status: "private-case-study",
   visibility: "anonymized",
   title: text(
-    "Adott Solution – Enterprise Project Workflow",
-    "Adott Solution – Enterprise Project Workflow",
+    "Adott Solution – Enterprise Workflow Platform",
+    "Adott Solution – Enterprise Workflow Platform",
   ),
   summary: text(
-    "Anonimizált enterprise workflow az Inquiry → Spec → SoW → Quote/Order folyamat, a review, approval, RBAC és auditálás kezelésére.",
-    "An anonymized enterprise workflow for Inquiry → Spec → SoW → Quote/Order, review, approval, RBAC, and auditing.",
+    "Egy összetett vállalati rendszer, amely inquiry-, specifikációs, ajánlati és projektfolyamatokat kapcsol össze szerepkörökkel, review- és approval-lépésekkel.",
+    "A complex enterprise system connecting inquiry, specification, quote and project workflows with roles, review and approval steps.",
   ),
   role: text(
-    "Önálló architektúra- és projektfelelősség.",
-    "Independent architecture and project ownership.",
+    "A rendszer architektúráján, frontend és backend összekapcsolásán, adatmodelljén, jogosultsági logikáján és több kulcsfontosságú workflow felületén dolgoztam, jelentős önálló projektfelelősséggel.",
+    "I worked on the system architecture, frontend and backend integration, data model, permission logic and several key workflow interfaces, with substantial independent project ownership.",
   ),
   technologies: [
     { name: "React", state: "documented" },
@@ -333,6 +402,108 @@ const adott = {
       "Independent architecture and project ownership.",
     ),
   ],
+  presentation: {
+    featuredMedia: [
+      "adott-quote-structure",
+      "adott-inquiry-roles",
+      "adott-company-detail",
+    ],
+    heroVariant: "workflow",
+    homepageSummary: text(
+      "Összetett inquiry-, ajánlat- és projektfolyamatok egy közös rendszerben, szerepkörökkel, review- és approval-lépésekkel, auditálható állapotváltozásokkal.",
+      "Complex inquiry, quote and project workflows in one system, with roles, review and approval steps, and auditable state changes.",
+    ),
+    roleSummary: text(
+      "Önálló architekturális és full-stack fejlesztési felelősség",
+      "Independent architectural and full-stack development ownership",
+    ),
+    storySections: [
+      {
+        id: "problem",
+        title: text("A probléma", "The challenge"),
+        paragraphs: [
+          text(
+            "A rendszernek több üzleti állapotot és szerepkört kellett egyetlen folyamattá szerveznie: az inquiry beérkezésétől a review-n és specifikáción át az ajánlatig és a projektátadásig.",
+            "The system had to organize multiple business states and roles into one flow: from incoming inquiry through review and specification to quoting and project delivery.",
+          ),
+          text(
+            "A modulok, taskok és phase-ek hierarchiája, a vendég és belső felhasználók, valamint az értesítések és auditálható változások egyszerre jelentettek információs és interakciós kihívást.",
+            "The hierarchy of modules, tasks and phases, guest and internal users, notifications and auditable changes created both information and interaction challenges.",
+          ),
+        ],
+        mediaIds: ["adott-inquiry-status-and-details"],
+      },
+      {
+        id: "workflow-architecture",
+        title: text(
+          "Információs és workflow architektúra",
+          "Information and workflow architecture",
+        ),
+        paragraphs: [
+          text(
+            "Az alapfolyam az Inquiry → Specification → Quote / SoW → Project delivery lépéseket köti össze. A szerepkörök, kommentek, csatolmányok, értesítések és audit események végigkísérik az állapotváltásokat.",
+            "The core flow connects Inquiry → Specification → Quote / SoW → Project delivery. Roles, comments, attachments, notifications and audit events accompany each state transition.",
+          ),
+        ],
+        mediaIds: ["adott-workflow", "adott-inquiry-roles"],
+      },
+      {
+        id: "editing-experience",
+        title: text("Összetett szerkesztési UX", "Complex editing experience"),
+        paragraphs: [
+          text(
+            "A beágyazott modul–task–phase struktúrában óraszámok, tulajdonosok és részletes mezők szerkeszthetők. Az expand/collapse és a világos hierarchia nagy adatszerkezet mellett is kezelhetővé teszi a munkát.",
+            "The nested module–task–phase structure supports effort estimates, owners and detailed fields. Expand/collapse behavior and clear hierarchy keep large structures manageable.",
+          ),
+        ],
+        mediaIds: ["adott-quote-structure", "adott-quote-editor"],
+      },
+      {
+        id: "permissions-and-companies",
+        title: text(
+          "Jogosultság és vállalati adatok",
+          "Permissions and company data",
+        ),
+        paragraphs: [
+          text(
+            "A viewer, writer és approver felelősségek elkülönülnek, miközben a company/contact master-detail nézetek és adminisztrációs űrlapok ugyanahhoz az üzleti folyamathoz kapcsolódnak.",
+            "Viewer, writer and approver responsibilities remain distinct, while company/contact master-detail views and administrative forms connect to the same business workflow.",
+          ),
+        ],
+        mediaIds: [
+          "adott-inquiry-roles",
+          "adott-company-detail",
+          "adott-company-create",
+        ],
+      },
+      {
+        id: "feedback-and-operation",
+        title: text("Visszajelzés és működés", "Feedback and operation"),
+        paragraphs: [
+          text(
+            "A státuszváltozásokhoz értesítések, a fejlesztési visszacsatoláshoz pedig egyszerű hibajegy- és feature-bejelentési felületek kapcsolódnak.",
+            "Status changes connect to notifications, while a focused bug and feature reporting flow supports development feedback.",
+          ),
+        ],
+        mediaIds: [
+          "adott-notifications",
+          "adott-bug-report",
+          "adott-bug-report-list",
+        ],
+      },
+      {
+        id: "what-it-demonstrates",
+        title: text("Mit bizonyít a projekt?", "What the project demonstrates"),
+        paragraphs: [
+          text(
+            "A projekt enterprise UI-tervezést, összetett üzleti logikát, RBAC-ot, React–API integrációt, SQL-adatmodellezést és önálló full-stack felelősséget kapcsol össze.",
+            "The project connects enterprise interface design, complex business logic, RBAC, React–API integration, SQL data modelling and independent full-stack ownership.",
+          ),
+        ],
+        mediaIds: [],
+      },
+    ],
+  },
   sections: [
     section(
       "summary",
@@ -500,8 +671,8 @@ const adott = {
       id: adottDisclosures.anonymization,
       kind: "anonymization",
       text: text(
-        "Anonimizált esettanulmány: valódi ügyféladat, belső képernyőkép és forráskód nélkül.",
-        "An anonymized case study without real customer data, internal screenshots, or source code.",
+        "A képernyők tesztadatokat mutatnak. A bemutatás a felhasználói utakra és a rendszer összetettségére koncentrál; nem teljes termékdokumentáció.",
+        "The screens show test data. This presentation focuses on user flows and system complexity; it is not complete product documentation.",
       ),
     },
     {
@@ -570,17 +741,114 @@ const alba = {
     "Alba Medence – Interactive 3D Configurator",
   ),
   summary: text(
-    "A publikus portfólió-repository egy Alba Medence 3D tervezőként megnevezett projektkártyát, képernyőképet és külső hivatkozást tartalmaz. A technikai implementáció még nincs igazolva.",
-    "The public portfolio repository contains a project card named Alba Pool 3D configurator, a screenshot, and an external reference. The technical implementation has not yet been verified.",
+    "Egy böngészőben futó 3D konfigurátor, amely a medence kialakítását, kiegészítőit és ajánlatkérését egy reszponzív felhasználói folyamatba szervezi.",
+    "A browser-based 3D configurator that organizes pool design, accessories and quote requests into one responsive user flow.",
   ),
   role: text(
-    "Az egyéni szerepkör a jelenlegi publikus bizonyítékból nem igazolható.",
-    "The individual role cannot be verified from the currently public evidence.",
+    "Frontend, 3D interakció és reszponzív konfigurációs UX.",
+    "Frontend, 3D interaction and responsive configuration UX.",
   ),
   technologies: [
-    { name: "3D technology", state: "not-yet-verified" },
+    { name: "WebGL / 3D", state: "documented" },
+    { name: "Responsive UI", state: "documented" },
+    { name: "State management", state: "documented" },
   ],
-  responsibilities: [],
+  responsibilities: [
+    text(
+      "A 3D nézet és a konfigurációs kezelőfelület reszponzív összekapcsolása.",
+      "Connected the 3D view with a responsive configuration interface.",
+    ),
+  ],
+  presentation: {
+    featuredMedia: [
+      "alba-configurator-desktop",
+      "alba-configurator-mobile",
+      "alba-website-3d-entry",
+    ],
+    heroVariant: "3d",
+    homepageSummary: text(
+      "Böngészőben futó 3D medencetervező, amely méret-, kialakítás- és kiegészítőválasztást kapcsol össze reszponzív ajánlatkérési folyamattal.",
+      "A browser-based 3D pool planner connecting size, layout and accessory choices with a responsive quote-request flow.",
+    ),
+    roleSummary: text(
+      "Frontend, 3D interakció és reszponzív konfigurációs UX",
+      "Frontend, 3D interaction and responsive configuration UX",
+    ),
+    storySections: [
+      {
+        id: "business-context",
+        title: text("Üzleti kontextus", "Business context"),
+        paragraphs: [
+          text(
+            "A weboldal a látogatót egy 3D medencetervezőbe vezeti. A konfiguráció nem önálló vizuális demo: a választásokat egy ajánlatkérési folyamat felé rendezi.",
+            "The website leads visitors into a 3D pool planner. The configurator is not a standalone visual demo: it organizes choices toward a quote request.",
+          ),
+        ],
+        mediaIds: ["alba-website-3d-entry"],
+      },
+      {
+        id: "three-d-interaction",
+        title: text("3D interakció", "3D interaction"),
+        paragraphs: [
+          text(
+            "A medencemodell, a víz, a burkolat és a kiegészítők állapota együtt változik a kezelőfelülettel. A UI és a 3D nézet ugyanazt a konfigurációs állapotot teszi láthatóvá.",
+            "The pool model, water, surround and accessories change together with the controls. The interface and 3D view expose the same configuration state.",
+          ),
+        ],
+        mediaIds: ["alba-configurator-desktop"],
+      },
+      {
+        id: "responsive-experience",
+        title: text("Reszponzív működés", "Responsive experience"),
+        paragraphs: [
+          text(
+            "Keskeny nézetben az érintési célok, az opciópanel és az ajánlatkérő CTA megtartja a prioritását, miközben a 3D modell továbbra is értelmezhető marad.",
+            "On narrow screens, touch targets, the option panel and quote-request CTA retain priority while the 3D model remains understandable.",
+          ),
+        ],
+        mediaIds: ["alba-configurator-mobile"],
+      },
+      {
+        id: "performance",
+        title: text(
+          "Teljesítmény és technikai döntések",
+          "Performance and technical decisions",
+        ),
+        paragraphs: [
+          text(
+            "A WebGL-erőforrások, a mobil memóriahatárok és az assetek betöltése miatt a renderelési réteg elkülönül a kezelőfelülettől. A nagy vizuális elemek késleltetett, mérethelyes betöltést igényelnek.",
+            "WebGL resources, mobile memory limits and asset loading keep the rendering layer separate from interface controls. Large visual assets require lazy, correctly sized delivery.",
+          ),
+        ],
+        mediaIds: ["alba-configurator-desktop", "alba-configurator-mobile"],
+      },
+      {
+        id: "outcome",
+        title: text("Eredmény", "Outcome"),
+        paragraphs: [
+          text(
+            "Az eredmény egy működő, reszponzív 3D konfigurációs élmény, amely a látogatót ajánlatkérés felé vezeti.",
+            "The outcome is a working responsive 3D configuration experience that guides visitors toward a quote request.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "gallery",
+        title: text("Galéria és márkakörnyezet", "Gallery and brand context"),
+        paragraphs: [
+          text(
+            "A konfigurátor a teljes webes márkaélmény része: a belépési pont, a desktop és mobil nézet, valamint a márka- és footer-környezet együtt mutatja a termék útját.",
+            "The configurator is part of the wider brand experience: its entry point, desktop and mobile views, and brand/footer context show the complete product journey.",
+          ),
+        ],
+        mediaIds: [
+          "alba-website-3d-entry",
+          "alba-brand-section-footer",
+        ],
+      },
+    ],
+  },
   sections: [
     section(
       "summary",
@@ -733,8 +1001,8 @@ const alba = {
       id: albaDisclosures.verification,
       kind: "verification",
       text: text(
-        "Csak a publikus repository, képernyőkép és link tekinthető bizonyítéknak; technikai részlet nem kerül kikövetkeztetésre.",
-        "Only the public repository, screenshot, and link are treated as evidence; no technical detail is inferred.",
+        "A bemutatás a konfigurációs folyamatra és a fejlesztői közreműködésre koncentrál; számszerű üzleti eredményt nem állít.",
+        "This presentation focuses on the configuration flow and development contribution; it makes no numeric business-outcome claim.",
       ),
     },
     {
@@ -811,12 +1079,305 @@ const alba = {
   ],
   seo: {
     title: text(
-      "Alba Medence 3D Configurator – igazolás alatt",
-      "Alba Pool 3D Configurator – verification in progress",
+      "Alba Medence – interaktív 3D medencekonfigurátor",
+      "Alba Medence – interactive 3D pool configurator",
     ),
     description: text(
-      "Publikus repository-, képernyőkép- és linkalapú projektbemutató; a technikai architektúra és a live státusz még nincs igazolva.",
-      "A project account based on a public repository, screenshot, and link; the technical architecture and live status are not yet verified.",
+      "Reszponzív 3D medencekonfigurátor a webes belépési ponttól az opcióválasztáson át az ajánlatkérésig.",
+      "A responsive 3D pool configurator from website entry through option selection to quote request.",
+    ),
+  },
+};
+
+const sanjiwaniEvidenceId = "sanjiwani-owner-specification";
+const sanjiwaniDisclosureId = "sanjiwani-portfolio-context";
+
+const sanjiwani = {
+  slug: "sanjiwani-booking-experience",
+  status: "demo",
+  visibility: "public",
+  title: text(
+    "Sanjiwani – Service Discovery & Booking Experience",
+    "Sanjiwani – Service Discovery & Booking Experience",
+  ),
+  summary: text(
+    "Egy szolgáltatásfelfedezési és időpontfoglalási felület, amely a nyugodt márkaélményt jól szkennelhető választási és foglalási folyamattal kapcsolja össze.",
+    "A service-discovery and appointment-booking interface connecting a calm brand experience with a clear, scannable selection and booking flow.",
+  ),
+  role: text(
+    "UI/UX, szolgáltatáskatalógus és foglalási flow.",
+    "UI/UX, service catalogue and booking flow.",
+  ),
+  technologies: [
+    { name: "Responsive UI", state: "documented" },
+    { name: "Service filtering", state: "documented" },
+    { name: "Booking state", state: "documented" },
+  ],
+  responsibilities: [
+    text(
+      "A szolgáltatásfelfedezés, a szűrés és az egy felületen tartható időpontfoglalási folyamat megtervezése.",
+      "Designed service discovery, filtering and an appointment flow that stays within one focused interface.",
+    ),
+  ],
+  presentation: {
+    featuredMedia: [
+      "sanjiwani-booking-flow-desktop",
+      "sanjiwani-services-desktop",
+      "sanjiwani-home-desktop",
+    ],
+    heroVariant: "booking",
+    homepageSummary: text(
+      "Szolgáltatáskeresés és időpontfoglalás egy nyugodt, márkához illeszkedő felületen – kategória-, időtartam-, masszőr- és idősávválasztással.",
+      "Service discovery and appointment booking in a calm, brand-aligned interface with category, duration, therapist and time-slot selection.",
+    ),
+    roleSummary: text(
+      "UI/UX, szolgáltatáskatalógus és foglalási flow",
+      "UI/UX, service catalogue and booking flow",
+    ),
+    storySections: [
+      {
+        id: "brand-entry",
+        title: text("Márka és belépési pont", "Brand and entry point"),
+        paragraphs: [
+          text(
+            "A nyitóoldal nyugodt vizuális hangot, egyértelmű navigációt és közvetlen szolgáltatás- illetve foglalási CTA-kat használ. A belépési pont a márkaélményt azonnal a következő feladathoz köti.",
+            "The homepage uses a calm visual tone, clear navigation and direct service and booking calls to action. The entry point connects the brand experience immediately to the next task.",
+          ),
+        ],
+        mediaIds: ["sanjiwani-home-desktop"],
+      },
+      {
+        id: "service-discovery",
+        title: text("Szolgáltatásfelfedezés", "Service discovery"),
+        paragraphs: [
+          text(
+            "A kategória- és időtartam-szűrés, a keresés és a szolgáltatáskártyák együtt csökkentik a választási terhet. A lényegi információk szkennelhetők maradnak nagyobb kínálat mellett is.",
+            "Category and duration filters, search and service cards work together to reduce selection effort. Essential information remains scannable as the catalogue grows.",
+          ),
+        ],
+        mediaIds: ["sanjiwani-services-desktop"],
+      },
+      {
+        id: "booking-flow",
+        title: text("Foglalási flow", "Booking flow"),
+        paragraphs: [
+          text(
+            "A modal egy helyen kezeli az ügyféladatokat, a masszőr-, dátum-, időtartam- és idősávválasztást, valamint a végösszeget. A háttér kontextust ad, miközben a fókusz a foglaláson marad.",
+            "The modal keeps customer details, therapist, date, duration and time-slot selection, and the total in one place. The background retains context while focus stays on booking.",
+          ),
+        ],
+        mediaIds: ["sanjiwani-booking-flow-desktop"],
+      },
+      {
+        id: "ux-decisions",
+        title: text("UX döntések", "UX decisions"),
+        paragraphs: [
+          text(
+            "Az idősávok napszak szerint csoportosíthatók, a kiválasztott masszőr állapota látható, az összeg pedig a döntés közben végig követhető. A folyamat reszponzív nézetben sem bomlik szét külön oldalakra.",
+            "Time slots can be grouped by part of day, the selected therapist remains visible and the total stays available throughout the decision. The flow does not fragment into separate pages on responsive layouts.",
+          ),
+        ],
+        mediaIds: [
+          "sanjiwani-services-desktop",
+          "sanjiwani-booking-flow-desktop",
+        ],
+      },
+      {
+        id: "outcome",
+        title: text("Eredmény", "Outcome"),
+        paragraphs: [
+          text(
+            "Az eredmény egy egységes szolgáltatásfelfedezési és foglalási élmény, amely a márka nyugodt hangját a feladatközpontú választással kapcsolja össze.",
+            "The outcome is a unified service-discovery and booking experience connecting the brand's calm tone with task-focused selection.",
+          ),
+        ],
+        mediaIds: [],
+      },
+    ],
+  },
+  sections: [
+    section(
+      "summary",
+      "documented",
+      "A Sanjiwani szolgáltatásfelfedezést, szűrést és időpontfoglalást kapcsol össze egy egységes márkafelületen.",
+      "Sanjiwani connects service discovery, filtering and appointment booking in one consistent brand interface.",
+      [sanjiwaniEvidenceId],
+      [sanjiwaniDisclosureId],
+    ),
+    section(
+      "context",
+      "documented",
+      "A felhasználónak a szolgáltatások áttekintésétől egyértelmű lépésekben kell eljutnia a foglalásig.",
+      "Users need a clear path from understanding the services to completing a booking.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "ownership",
+      "documented",
+      "A dokumentált felelősség a UI/UX-ra, a szolgáltatáskatalógusra és a foglalási flow-ra terjed ki.",
+      "Documented ownership covers UI/UX, the service catalogue and the booking flow.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "constraints",
+      "documented",
+      "A felületnek a nyugodt márkaélményt, a nagyobb szolgáltatáskínálatot, a több választási dimenziót és a reszponzív működést egyszerre kell kezelnie.",
+      "The interface has to balance a calm brand experience, a broad service catalogue, multiple selection dimensions and responsive behavior.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "architecture",
+      "documented",
+      "A publikus folyamat a márkaoldalt, a szolgáltatáskatalógust és a foglalási modalt köti össze; nem állít belső backend-topológiát.",
+      "The public flow connects the brand page, service catalogue and booking modal; it makes no claim about internal backend topology.",
+      [sanjiwaniEvidenceId],
+      [sanjiwaniDisclosureId],
+    ),
+    section(
+      "data-flow",
+      "documented",
+      "A kiválasztott szolgáltatás, masszőr, dátum, időtartam és idősáv egy közös foglalási állapotban jelenik meg a végösszeggel.",
+      "Selected service, therapist, date, duration and time slot appear in one booking state together with the total.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "frontend",
+      "documented",
+      "A frontend kategória- és időtartam-szűrést, keresést, szolgáltatáskártyákat és fókuszált booking modalt mutat.",
+      "The frontend presents category and duration filters, search, service cards and a focused booking modal.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "backend-api",
+      "not-applicable",
+      "A portfólióbemutatás nem tesz állítást backend- vagy API-megvalósításról.",
+      "This portfolio presentation makes no claim about backend or API implementation.",
+      [],
+      [sanjiwaniDisclosureId],
+    ),
+    section(
+      "security",
+      "not-applicable",
+      "A referenciafelületek alapján külön authentikációs vagy jogosultsági történet nem része az esettanulmánynak.",
+      "Authentication or authorization is not part of this case-study narrative based on the reference interfaces.",
+      [],
+      [sanjiwaniDisclosureId],
+    ),
+    section(
+      "performance-reliability",
+      "documented",
+      "A reszponzív felépítés, a képek mérethelyes betöltése és a modal fókuszkezelése a használható élmény alapja.",
+      "Responsive composition, correctly sized image delivery and modal focus management are foundations of the usable experience.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "testing",
+      "not-applicable",
+      "A projekt belső tesztstratégiája nem része a publikus UX-esettanulmánynak.",
+      "The project's internal testing strategy is outside this public UX case study.",
+      [],
+      [sanjiwaniDisclosureId],
+    ),
+    section(
+      "deployment-monitoring",
+      "not-applicable",
+      "A deployment- és monitoring-részletek nem részei ennek a felhasználóiút-központú bemutatásnak.",
+      "Deployment and monitoring details are outside this user-flow-focused presentation.",
+      [],
+      [sanjiwaniDisclosureId],
+    ),
+    section(
+      "impact",
+      "documented",
+      "A dokumentált eredmény egy működő, egységes szolgáltatásfelfedezési és foglalási élmény; számszerű konverziós eredmény nincs állítva.",
+      "The documented outcome is a working, coherent service-discovery and booking experience; no numeric conversion outcome is claimed.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "tradeoffs",
+      "documented",
+      "Az egyetlen modalban tartott flow csökkenti a kontextusváltást, ugyanakkor fegyelmezett információs sűrűséget és reszponzív tördelést igényel.",
+      "Keeping the flow in one modal reduces context switching but requires disciplined information density and responsive layout.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "improvements",
+      "documented",
+      "További iterációban a mobil foglalási lépések, a hibaállapotok és a szolgáltatás-összehasonlítás részletesebben tesztelhetők.",
+      "Further iteration can test mobile booking steps, error states and service comparison in more detail.",
+      [sanjiwaniEvidenceId],
+    ),
+    section(
+      "related",
+      "documented",
+      "Kapcsolódó esettanulmányok: az Alba reszponzív konfigurációs folyamata és az Adott összetett workflow-ja.",
+      "Related case studies: Alba's responsive configuration flow and Adott's complex workflow.",
+      [sanjiwaniEvidenceId],
+    ),
+  ],
+  architecture: {
+    state: "conceptual",
+    nodes: [
+      { id: "brand-entry", label: text("Márkaoldal", "Brand entry") },
+      { id: "service-catalogue", label: text("Szolgáltatáskatalógus", "Service catalogue") },
+      { id: "booking-modal", label: text("Foglalási modal", "Booking modal") },
+      { id: "booking-summary", label: text("Foglalási összegzés", "Booking summary") },
+    ],
+    edges: [
+      { from: "brand-entry", to: "service-catalogue" },
+      { from: "service-catalogue", to: "booking-modal" },
+      { from: "booking-modal", to: "booking-summary" },
+    ],
+    disclosureIds: [sanjiwaniDisclosureId],
+  },
+  results: [
+    {
+      id: "coherent-booking-experience",
+      state: "documented",
+      claim: text(
+        "Működő, egységes szolgáltatásfelfedezési és foglalási élmény számszerű konverziós állítás nélkül.",
+        "A working, coherent service-discovery and booking experience without a numeric conversion claim.",
+      ),
+      evidenceIds: [sanjiwaniEvidenceId],
+    },
+  ],
+  relatedSlugs: [
+    "alba-medence-3d-configurator",
+    "adott-enterprise-project-workflow",
+  ],
+  disclosures: [
+    {
+      id: sanjiwaniDisclosureId,
+      kind: "verification",
+      text: text(
+        "A képernyők tesztadatokat mutatnak; a bemutatás a szolgáltatásfelfedezési és foglalási UX-re koncentrál.",
+        "The screens show test data; this presentation focuses on the service-discovery and booking experience.",
+      ),
+    },
+  ],
+  evidence: [
+    {
+      id: sanjiwaniEvidenceId,
+      kind: "owner-confirmation",
+      access: "private",
+      verification: "verified",
+      label: text(
+        "A projektgazda által biztosított V3 specifikáció és referencia-képernyők",
+        "The owner-provided V3 specification and reference screens",
+      ),
+      sectionIds: [...caseStudySectionIds],
+    },
+  ],
+  links: [],
+  media: [],
+  seo: {
+    title: text(
+      "Sanjiwani – szolgáltatásfelfedezés és időpontfoglalás",
+      "Sanjiwani – service discovery and appointment booking",
+    ),
+    description: text(
+      "Nyugodt márkaélményt, szűrhető szolgáltatáskatalógust és fókuszált időpontfoglalást összekapcsoló UX-esettanulmány.",
+      "A UX case study connecting a calm brand experience, filterable service catalogue and focused appointment booking.",
     ),
   },
 };
@@ -849,6 +1410,75 @@ const questlog = {
     { name: "Offline fallback", state: "planned" },
   ],
   responsibilities: [],
+  presentation: {
+    featuredMedia: [],
+    heroVariant: "data",
+    homepageSummary: text(
+      "Fejlesztés alatt álló offline-first PWA napi küldetésekkel, XP-vel és fokozatosan bővíthető kliensoldali állapottal.",
+      "An in-progress offline-first PWA with daily quests, XP and incrementally extensible client-side state.",
+    ),
+    roleSummary: text(
+      "Saját termékirány és fokozatos PWA-megvalósítás",
+      "Independent product direction and incremental PWA implementation",
+    ),
+    storySections: [
+      {
+        id: "current-state",
+        title: text("Jelenlegi állapot", "Current state"),
+        paragraphs: [
+          text(
+            "A QuestLog napi küldetéseket, XP-rendszert és offline használatot szervez fokozatosan bővíthető PWA-ba. A jelenlegi fókusz a termékmodell és a kliensoldali alapok kialakítása.",
+            "QuestLog organizes daily quests, an XP system and offline use into an incrementally extensible PWA. The current focus is shaping the product model and client-side foundations.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "product-direction",
+        title: text("Termékirány", "Product direction"),
+        paragraphs: [
+          text(
+            "A kezdeti koncepció napi küldetéseket, XP- és szintrendszert, installálhatóságot és visszafogott progressziót kapcsol össze.",
+            "The initial concept connects daily quests, XP and levels, installability and restrained progression feedback.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "offline-first",
+        title: text("Offline-first alap", "Offline-first foundation"),
+        paragraphs: [
+          text(
+            "Az első kiadás kliensoldali állapottal és offline fallbackkel indulhat. A tartós adatbázis, felhasználói fiók és többeszközös szinkronizáció későbbi fázis.",
+            "The first release can start with client-side state and an offline fallback. Durable storage, user accounts and multi-device synchronization belong to a later phase.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "implementation-boundary",
+        title: text("Megvalósítási határ", "Implementation boundary"),
+        paragraphs: [
+          text(
+            "A localStorage gyors iterációt tesz lehetővé a kezdeti kliensoldali állapothoz. A tartós, konfliktuskezelő adatmodell és a többeszközös szinkronizáció a következő fázis része.",
+            "LocalStorage enables fast iteration for the initial client-side state. A durable, conflict-aware data model and multi-device synchronization belong to the next phase.",
+          ),
+        ],
+        mediaIds: [],
+      },
+      {
+        id: "next-steps",
+        title: text("Következő lépések", "Next steps"),
+        paragraphs: [
+          text(
+            "A további irány a tartós adatmodell, a conflict-aware szinkronizáció, a background sync, a tesztek és a CI/CD fokozatos bevezetése.",
+            "The next direction is to introduce a durable data model, conflict-aware synchronization, background sync, tests and CI/CD incrementally.",
+          ),
+        ],
+        mediaIds: [],
+      },
+    ],
+  },
   sections: [
     section(
       "summary",
@@ -1053,6 +1683,6 @@ const questlog = {
   },
 };
 
-const rawCaseStudies = [samsung, adott, alba, questlog];
+const rawCaseStudies = [samsung, adott, alba, sanjiwani, questlog];
 
 export const caseStudies = caseStudyRegistrySchema.parse(rawCaseStudies);

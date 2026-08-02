@@ -53,7 +53,7 @@ export const privacyContent = {
         paragraphs: [
           "Adatkezelő: Kovács Zalán / Digital Activision.",
           "Adatvédelmi megkeresés: digitalactivision@gmail.com.",
-          "A postai cím és a nyilvántartási, adó- vagy cégazonosító jelenleg nincs igazolt formában a repositoryban; ezeket a production közzététel előtt pótolni kell.",
+          "A postai címet és a vonatkozó nyilvántartási, adó- vagy cégazonosítót a production közzététel előtt kell feltüntetni.",
         ],
       },
       {
@@ -85,7 +85,7 @@ export const privacyContent = {
         title: "5. Feltételes szolgáltatók és címzettek",
         paragraphs: [
           "A webhely Vercel környezetben fut. Az űrlap bekapcsolásakor a konfigurált SMTP-szolgáltató kézbesíti az üzenetet. Preview és production környezetben egy konfigurált külső, elosztott rate limiter kapja meg a HMAC-azonosítót, a korlátot, az időablakot és a technikai kérésazonosítót; az űrlap tartalma nem kerül ebbe a kérésbe.",
-          "Ha a kapcsolatfelvételi folyamat preview vagy production környezetben engedélyezett, a visszaélés elleni ellenőrzés Cloudflare Turnstile-t használ. Aktivált kliensoldali widget esetén a böngésző közvetlenül is kapcsolatba léphet a Cloudflare-rel, a szerver pedig a tokent a Cloudflare ellenőrző végpontján validálja. A konkrét SMTP- és rate-limit szolgáltató neve nincs a repositoryban rögzítve: ezeket, szerződéses szerepüket, feldolgozási helyüket és adattovábbítási garanciáikat a valódi production konfiguráció alapján kell a közzététel előtt megnevezni.",
+          "Ha a kapcsolatfelvételi folyamat preview vagy production környezetben engedélyezett, a visszaélés elleni ellenőrzés Cloudflare Turnstile-t használ. Aktivált kliensoldali widget esetén a böngésző közvetlenül is kapcsolatba léphet a Cloudflare-rel, a szerver pedig a tokent a Cloudflare ellenőrző végpontján validálja. Az alkalmazott SMTP- és rate-limit szolgáltató nevét, szerződéses szerepét, feldolgozási helyét és adattovábbítási garanciáit a production konfiguráció alapján kell a közzététel előtt megnevezni.",
         ],
       },
       {
@@ -116,7 +116,7 @@ export const privacyContent = {
         id: "cookies",
         title: "9. Cookie-k, analitika és automatizált döntés",
         paragraphs: [
-          "A repository jelenlegi állapota nem tartalmaz külön marketing- vagy analitikai rendszert. Ha később analitika, marketing-cookie vagy hasonló mérés kerül bevezetésre, annak aktiválása előtt frissíteni kell a tájékoztatót és – ahol szükséges – valódi hozzájárulás-kezelést kell biztosítani.",
+          "Az oldal jelenleg nem használ külön marketing- vagy analitikai rendszert. Ha később analitika, marketing-cookie vagy hasonló mérés kerül bevezetésre, annak aktiválása előtt frissíteni kell a tájékoztatót és – ahol szükséges – valódi hozzájárulás-kezelést kell biztosítani.",
           "A webhely jelenleg nem végez profilalkotást vagy kizárólag automatizált döntéshozatalt.",
         ],
       },
@@ -156,7 +156,7 @@ export const privacyContent = {
         paragraphs: [
           "Controller: Kovács Zalán / Digital Activision.",
           "Privacy requests: digitalactivision@gmail.com.",
-          "A verified postal address and registration, tax or company identifier are not currently present in the repository and must be supplied before Production publication.",
+          "A postal address and the applicable registration, tax or company identifier must be supplied before Production publication.",
         ],
       },
       {
@@ -188,7 +188,7 @@ export const privacyContent = {
         title: "5. Conditional providers and recipients",
         paragraphs: [
           "The site runs on Vercel. When the form is enabled, the configured SMTP provider delivers the message. In Preview and Production, a configured external distributed rate limiter receives the HMAC identifier, limit, time window and technical request identifier; the form content is not included in that request.",
-          "When the contact flow is enabled in Preview or Production, it uses Cloudflare Turnstile for abuse checks. When its client widget is enabled, the browser may connect directly to Cloudflare, and the server validates the token with Cloudflare's verification endpoint. The specific SMTP and rate-limit provider names are not recorded in the repository: their identities, contractual roles, processing locations and transfer safeguards must be documented from the real Production configuration before publication.",
+          "When the contact flow is enabled in Preview or Production, it uses Cloudflare Turnstile for abuse checks. When its client widget is enabled, the browser may connect directly to Cloudflare, and the server validates the token with Cloudflare's verification endpoint. The SMTP and rate-limit providers, their contractual roles, processing locations and transfer safeguards must be documented from the Production configuration before publication.",
         ],
       },
       {
@@ -219,7 +219,7 @@ export const privacyContent = {
         id: "cookies",
         title: "9. Cookies, analytics and automated decisions",
         paragraphs: [
-          "The current repository does not include a dedicated marketing or analytics system. If analytics, marketing cookies or similar measurement are introduced later, this notice must be updated and genuine consent controls must be provided where required before activation.",
+          "The site currently does not use a dedicated marketing or analytics system. If analytics, marketing cookies or similar measurement are introduced later, this notice must be updated and genuine consent controls must be provided where required before activation.",
           "The website currently performs no profiling or solely automated decision-making.",
         ],
       },

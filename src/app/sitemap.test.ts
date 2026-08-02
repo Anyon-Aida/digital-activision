@@ -20,6 +20,8 @@ describe("locale-aware sitemap", () => {
       "https://portfolio.example.com/en/work/adott-enterprise-project-workflow",
       "https://portfolio.example.com/hu/work/alba-medence-3d-configurator",
       "https://portfolio.example.com/en/work/alba-medence-3d-configurator",
+      "https://portfolio.example.com/hu/work/sanjiwani-booking-experience",
+      "https://portfolio.example.com/en/work/sanjiwani-booking-experience",
       "https://portfolio.example.com/hu/lab",
       "https://portfolio.example.com/en/lab",
       "https://portfolio.example.com/hu/studio",

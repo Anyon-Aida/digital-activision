@@ -9,17 +9,19 @@ import {
 
 const homepageMetadata = {
   hu: {
-    title: "Kovács Zalán | Full-Stack fejlesztő és digitális terméképítő",
+    title: "Kovács Zalán – Full-Stack Developer és Product Engineer",
     description:
-      "Full-stack mérnöki portfólió skálázható webalkalmazásokról, webes rendszerekről és digitális termékekről, több mint 5 év tapasztalattal.",
-    imageAlt: "Kovács Zalán full-stack fejlesztői portfóliója",
+      "Full-stack fejlesztő React, Next.js, Node.js, Laravel és SQL tapasztalattal. Enterprise workflowk, interaktív 3D konfigurátorok és digitális termékek.",
+    imageAlt:
+      "Kovács Zalán full-stack fejlesztői portfóliója projektfragmentekkel",
     openGraphLocale: "hu_HU",
   },
   en: {
-    title: "Kovács Zalán | Full-Stack Engineer & Digital Product Builder",
+    title: "Kovács Zalán – Full-Stack Developer & Product Engineer",
     description:
-      "A full-stack engineering portfolio focused on scalable web applications, web systems and digital products, backed by more than 5 years of experience.",
-    imageAlt: "Kovács Zalán's full-stack engineering portfolio",
+      "Full-stack developer experienced with React, Next.js, Node.js, Laravel and SQL, building enterprise workflows, interactive 3D configurators and digital products.",
+    imageAlt:
+      "Kovács Zalán full-stack developer portfolio with project fragments",
     openGraphLocale: "en_US",
   },
 } as const;

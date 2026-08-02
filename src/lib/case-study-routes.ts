@@ -2,6 +2,7 @@ export const caseStudySlugs = [
   "samsung-smart-gate-analytics",
   "adott-enterprise-project-workflow",
   "alba-medence-3d-configurator",
+  "sanjiwani-booking-experience",
   "questlog-offline-first-pwa",
 ] as const;
 

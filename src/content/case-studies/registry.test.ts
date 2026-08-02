@@ -21,8 +21,8 @@ const expectLocalizedText = (value: LocalizedText) => {
 };
 
 describe("case-study registry", () => {
-  it("validates all four required case studies at module load", () => {
-    expect(caseStudies).toHaveLength(4);
+  it("validates all five required case studies at module load", () => {
+    expect(caseStudies).toHaveLength(5);
     expect(caseStudyRegistrySchema.safeParse(caseStudies).success).toBe(true);
     expect(caseStudies.map(({ slug }) => slug).sort()).toEqual(
       [...caseStudySlugs].sort(),
@@ -68,6 +68,12 @@ describe("case-study registry", () => {
       if (study.period) expectLocalizedText(study.period);
 
       study.responsibilities.forEach(expectLocalizedText);
+      expectLocalizedText(study.presentation.homepageSummary);
+      expectLocalizedText(study.presentation.roleSummary);
+      study.presentation.storySections.forEach((storySection) => {
+        expectLocalizedText(storySection.title);
+        storySection.paragraphs.forEach(expectLocalizedText);
+      });
       study.sections.forEach(({ content }) =>
         content.forEach(expectLocalizedText),
       );
@@ -88,17 +94,60 @@ describe("case-study registry", () => {
     );
   });
 
+  it("provides a concise V3 presentation layer for every rich case study", () => {
+    caseStudies.forEach((study) => {
+      expect(study.presentation.storySections.length).toBeGreaterThanOrEqual(5);
+      expect(study.presentation.storySections.length).toBeLessThanOrEqual(7);
+      expect(
+        new Set(study.presentation.storySections.map(({ id }) => id)).size,
+      ).toBe(study.presentation.storySections.length);
+      expect(new Set(study.presentation.featuredMedia).size).toBe(
+        study.presentation.featuredMedia.length,
+      );
+    });
+
+    expect(
+      caseStudyBySlug["samsung-smart-gate-analytics"].presentation.featuredMedia,
+    ).toEqual(["samsung-gate-flow"]);
+    expect(
+      caseStudyBySlug["questlog-offline-first-pwa"].presentation.featuredMedia,
+    ).toEqual([]);
+  });
+
+  it("keeps the public V3 presentation free of audit-copy language", () => {
+    const forbidden =
+      /repository|verified evidence|owner-provided|not disclosed|not documented|not yet verified|public source set|nyilvános forrás|nem dokumentált|következő gate|next gate/i;
+
+    for (const study of caseStudies) {
+      for (const locale of ["hu", "en"] as const) {
+        const publicCopy = [
+          study.title[locale],
+          study.presentation.homepageSummary[locale],
+          study.presentation.roleSummary[locale],
+          study.seo.title[locale],
+          study.seo.description[locale],
+          ...study.presentation.storySections.flatMap((section) => [
+            section.title[locale],
+            ...section.paragraphs.map((paragraph) => paragraph[locale]),
+          ]),
+        ].join(" ");
+
+        expect(publicCopy).not.toMatch(forbidden);
+      }
+    }
+  });
+
   it("keeps homepage and work-index ordering explicit and independent", () => {
     expect(homepageCaseStudyOrder).toEqual([
-      "samsung-smart-gate-analytics",
       "adott-enterprise-project-workflow",
       "alba-medence-3d-configurator",
-      "questlog-offline-first-pwa",
+      "sanjiwani-booking-experience",
     ]);
     expect(workCaseStudyOrder).toEqual([
       "adott-enterprise-project-workflow",
-      "samsung-smart-gate-analytics",
       "alba-medence-3d-configurator",
+      "samsung-smart-gate-analytics",
+      "sanjiwani-booking-experience",
       "questlog-offline-first-pwa",
     ]);
     expect(getCaseStudyCards("hu", homepageCaseStudyOrder).map(({ slug }) => slug)).toEqual(
@@ -108,9 +157,14 @@ describe("case-study registry", () => {
       homepageCaseStudyOrder,
     );
     expect(getFeaturedCaseStudies("hu")[0]).toMatchObject({
-      href: "/hu/work/samsung-smart-gate-analytics",
+      href: "/hu/work/adott-enterprise-project-workflow",
       statusLabel: "Privát esettanulmány",
       visibilityLabel: "Anonimizált",
+      featuredMedia: [
+        "adott-quote-structure",
+        "adott-inquiry-roles",
+        "adott-company-detail",
+      ],
     });
   });
 
@@ -173,7 +227,7 @@ describe("case-study registry", () => {
     expect(metrics[0].attribution.en).toMatch(/not an exclusively individual/i);
   });
 
-  it("limits Alba to public repository, screenshot, and reference evidence", () => {
+  it("presents Alba with real responsive configurator media and no fake metric", () => {
     const alba = caseStudyBySlug["alba-medence-3d-configurator"];
 
     expect(alba.status).not.toBe("production");
@@ -188,10 +242,38 @@ describe("case-study registry", () => {
       "public-repository",
       "public-screenshot",
     ]);
-    expect(alba.technologies.every(({ state }) => state === "not-yet-verified")).toBe(
+    expect(alba.technologies.every(({ state }) => state === "documented")).toBe(
       true,
     );
     expect(alba.results.every(({ state }) => state === "not-yet-verified")).toBe(
+      true,
+    );
+    expect(alba.results.every(({ metric }) => metric === undefined)).toBe(true);
+    expect(alba.presentation.featuredMedia).toEqual([
+      "alba-configurator-desktop",
+      "alba-configurator-mobile",
+      "alba-website-3d-entry",
+    ]);
+  });
+
+  it("registers Sanjiwani as a complete public booking case study", () => {
+    const sanjiwani =
+      caseStudyBySlug["sanjiwani-booking-experience"];
+
+    expect(sanjiwani).toMatchObject({
+      status: "demo",
+      visibility: "public",
+      presentation: {
+        heroVariant: "booking",
+        featuredMedia: [
+          "sanjiwani-booking-flow-desktop",
+          "sanjiwani-services-desktop",
+          "sanjiwani-home-desktop",
+        ],
+      },
+    });
+    expect(sanjiwani.presentation.storySections).toHaveLength(5);
+    expect(sanjiwani.results.every(({ metric }) => metric === undefined)).toBe(
       true,
     );
   });
@@ -226,6 +308,25 @@ describe("case-study fail-closed validation", () => {
     delete (invalid[0].summary as unknown as Record<string, string>).en;
 
     expect(caseStudyRegistrySchema.safeParse(invalid).success).toBe(false);
+  });
+
+  it("rejects a missing or oversized V3 presentation", () => {
+    const missing = structuredClone(caseStudies);
+    delete (
+      missing[0] as unknown as {
+        presentation?: unknown;
+      }
+    ).presentation;
+
+    const oversized = structuredClone(caseStudies);
+    oversized[0].presentation.storySections.push(
+      structuredClone(oversized[0].presentation.storySections[0]),
+      structuredClone(oversized[0].presentation.storySections[1]),
+      structuredClone(oversized[0].presentation.storySections[2]),
+    );
+
+    expect(caseStudyRegistrySchema.safeParse(missing).success).toBe(false);
+    expect(caseStudyRegistrySchema.safeParse(oversized).success).toBe(false);
   });
 
   it("rejects missing, reordered, or malformed required sections", () => {

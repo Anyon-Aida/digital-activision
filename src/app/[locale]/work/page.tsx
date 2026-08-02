@@ -2,13 +2,27 @@ import type { Metadata } from "next";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { CaseStudyIndex } from "@/components/case-studies/CaseStudyIndex";
-import { caseStudyUi } from "@/components/case-studies/labels";
 import { isLocale } from "@/i18n/routing";
 import { buildLocaleMetadata } from "@/lib/seo";
 
 type WorkPageProps = {
   params: Promise<{ locale: string }>;
 };
+
+const workMetadata = {
+  hu: {
+    title: "Munkák – Kovács Zalán full-stack fejlesztő",
+    description:
+      "Vállalati workflow, 3D konfigurátor, valós idejű analitika, szolgáltatásfoglalás és offline-first PWA esettanulmányok.",
+    heading: "Rendszerek, termékek és interakciók.",
+  },
+  en: {
+    title: "Work – Kovács Zalán full-stack developer",
+    description:
+      "Case studies spanning enterprise workflow, 3D configuration, real-time analytics, service booking and an offline-first PWA.",
+    heading: "Systems, products and interactions.",
+  },
+} as const;
 
 export async function generateMetadata({
   params,
@@ -19,12 +33,12 @@ export async function generateMetadata({
     return {};
   }
 
-  const labels = caseStudyUi[locale];
+  const copy = workMetadata[locale];
   const metadata = buildLocaleMetadata({
     locale,
     path: "/work",
-    title: labels.indexMetaTitle,
-    description: labels.indexMetaDescription,
+    title: copy.title,
+    description: copy.description,
   });
   const socialImage = new URL(
     `/${locale}/work/social-image`,
@@ -40,13 +54,13 @@ export async function generateMetadata({
           url: socialImage,
           width: 1200,
           height: 630,
-          alt: labels.indexTitle,
+          alt: copy.heading,
         },
       ],
     },
     twitter: {
       ...metadata.twitter,
-      images: [{ url: socialImage, alt: labels.indexTitle }],
+      images: [{ url: socialImage, alt: copy.heading }],
     },
   };
 }

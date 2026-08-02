@@ -32,7 +32,9 @@ describe("locale metadata", () => {
       environment: previewEnvironment,
     });
 
-    expect(metadata.title).toContain("Full-Stack Engineer");
+    expect(metadata.title).toBe(
+      "Kovács Zalán – Full-Stack Developer & Product Engineer",
+    );
     expect(metadata.description).not.toMatch(/webfejlesztő|mérnöki portfólió/i);
     expect(metadata.alternates).toMatchObject({
       canonical: "https://digital-activision.vercel.app/en",

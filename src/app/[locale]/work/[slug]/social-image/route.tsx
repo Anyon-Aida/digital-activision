@@ -38,7 +38,7 @@ export async function GET(
     (
       <CaseStudySocialImage
         locale={locale}
-        result={localize(study.results[0].claim, locale)}
+        result={localize(study.presentation.homepageSummary, locale)}
         status={labels.status[study.status]}
         title={localize(study.title, locale)}
       />
