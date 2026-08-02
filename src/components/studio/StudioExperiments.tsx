@@ -1,5 +1,9 @@
+import Image from "next/image";
 import type { StudioLocaleContent } from "@/content/studio";
-import { Badge, ButtonLink, Card, Section } from "@/components/ui";
+import {
+  EditorialSection,
+  TechnicalAnnotation,
+} from "@/components/ui";
 
 type StudioExperimentsProps = {
   content: StudioLocaleContent;
@@ -7,55 +11,58 @@ type StudioExperimentsProps = {
 
 export function StudioExperiments({ content }: StudioExperimentsProps) {
   return (
-    <Section id="experiments" aria-labelledby="studio-experiments-title">
-      <div className="max-w-3xl">
-        <h2
-          id="studio-experiments-title"
-          className="text-3xl font-bold tracking-tight sm:text-4xl"
-        >
-          {content.experimentsHeading}
-        </h2>
-        <p className="mt-4 text-lg leading-8 text-[var(--color-text-secondary)]">
-          {content.experimentsIntro}
-        </p>
+    <EditorialSection
+      aria-labelledby="studio-experiments-title"
+      id="experiments"
+      rule="top"
+      spacing="compact"
+      tone="light"
+    >
+      <div className="grid gap-8 lg:grid-cols-[minmax(16rem,0.65fr)_minmax(0,1.35fr)] lg:gap-16">
+        <header className="max-w-lg">
+          <h2
+            className="text-3xl font-semibold tracking-[-0.035em] sm:text-4xl"
+            id="studio-experiments-title"
+          >
+            {content.experimentsHeading}
+          </h2>
+          <p className="mt-4 leading-7 text-[var(--color-text-secondary)]">
+            {content.experimentsIntro}
+          </p>
+        </header>
+
+        <ul className="grid gap-6 sm:grid-cols-3">
+          {content.experiments.map((experiment) => (
+            <li className="min-w-0" key={experiment.id}>
+              <a
+                className="group block no-underline"
+                href={experiment.href}
+                rel="noopener noreferrer"
+                target="_blank"
+              >
+                <span className="relative block aspect-[4/3] overflow-hidden border border-[var(--color-border-subtle)] bg-[var(--color-surface-subtle)]">
+                  <Image
+                    alt={experiment.alt}
+                    className="object-cover object-top transition-transform duration-[var(--motion-duration-default)] ease-[var(--motion-ease-standard)] group-hover:scale-[1.02]"
+                    fill
+                    sizes="(min-width: 1024px) 20vw, (min-width: 640px) 30vw, 100vw"
+                    src={experiment.image}
+                  />
+                </span>
+                <TechnicalAnnotation className="mt-4">
+                  {content.experimentLabel}
+                </TechnicalAnnotation>
+                <h3 className="mt-2 text-lg font-semibold tracking-[-0.02em] group-hover:text-[var(--color-accent)]">
+                  {experiment.title}
+                </h3>
+                <p className="mt-2 text-sm leading-6 text-[var(--color-text-secondary)]">
+                  {experiment.description}
+                </p>
+              </a>
+            </li>
+          ))}
+        </ul>
       </div>
-
-      <ul className="mt-10 grid gap-6 md:grid-cols-2">
-        {content.experiments.map((experiment) => {
-          const classificationLabel =
-            experiment.classification === "ui-concept"
-              ? content.experimentLabels.uiConcept
-              : content.experimentLabels.staticExperiment;
-
-          return (
-            <Card as="li" key={experiment.id} className="flex h-full flex-col">
-              <Badge tone="neutral">{classificationLabel}</Badge>
-              <h3 className="mt-4 text-xl font-bold">{experiment.title}</h3>
-              <p className="mt-3 leading-7 text-[var(--color-text-secondary)]">
-                {experiment.description}
-              </p>
-              <p className="mt-4 text-sm leading-6 text-[var(--color-text-muted)]">
-                {experiment.availabilityNote}
-              </p>
-              {experiment.links.length > 0 ? (
-                <div className="mt-auto flex flex-wrap gap-3 pt-6">
-                  {experiment.links.map((link) => (
-                    <ButtonLink
-                      key={link.href}
-                      href={link.href}
-                      size="small"
-                      target="_blank"
-                      variant="secondary"
-                    >
-                      {link.label}
-                    </ButtonLink>
-                  ))}
-                </div>
-              ) : null}
-            </Card>
-          );
-        })}
-      </ul>
-    </Section>
+    </EditorialSection>
   );
 }

@@ -1,5 +1,9 @@
 import type { StudioLocaleContent } from "@/content/studio";
-import { ButtonLink, Section, Surface } from "@/components/ui";
+import {
+  ButtonLink,
+  EditorialSection,
+  TechnicalAnnotation,
+} from "@/components/ui";
 
 type StudioContactProps = {
   content: StudioLocaleContent["contact"];
@@ -7,19 +11,18 @@ type StudioContactProps = {
 
 export function StudioContact({ content }: StudioContactProps) {
   return (
-    <Section
+    <EditorialSection
       id="contact"
-      tone="dark"
+      rule="top"
       spacing="spacious"
+      tone="light"
       aria-labelledby="studio-contact-title"
     >
-      <Surface variant="inverse" padding="large">
-        <p className="text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-secondary)]">
-          {content.eyebrow}
-        </p>
+      <div className="max-w-5xl">
+        <TechnicalAnnotation>{content.eyebrow}</TechnicalAnnotation>
         <h2
           id="studio-contact-title"
-          className="mt-4 max-w-3xl text-3xl font-bold tracking-tight sm:text-5xl"
+          className="mt-5 max-w-4xl text-[length:var(--font-size-section)] font-semibold leading-[1] tracking-[var(--letter-spacing-heading)] text-balance"
         >
           {content.title}
         </h2>
@@ -40,7 +43,7 @@ export function StudioContact({ content }: StudioContactProps) {
         <p className="mt-6 max-w-3xl text-sm leading-6 text-[var(--color-text-muted)]">
           {content.privacyNote}
         </p>
-      </Surface>
-    </Section>
+      </div>
+    </EditorialSection>
   );
 }

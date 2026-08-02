@@ -1,5 +1,5 @@
 import type { StudioLocaleContent } from "@/content/studio";
-import { Section } from "@/components/ui";
+import { EditorialSection } from "@/components/ui";
 
 type StudioProcessProps = {
   content: StudioLocaleContent;
@@ -7,11 +7,15 @@ type StudioProcessProps = {
 
 export function StudioProcess({ content }: StudioProcessProps) {
   return (
-    <Section id="process" aria-labelledby="studio-process-title">
+    <EditorialSection
+      aria-labelledby="studio-process-title"
+      id="process"
+      tone="subtle"
+    >
       <div className="max-w-3xl">
         <h2
           id="studio-process-title"
-          className="text-3xl font-bold tracking-tight sm:text-4xl"
+          className="text-[length:var(--font-size-section)] font-semibold leading-[1] tracking-[var(--letter-spacing-heading)]"
         >
           {content.processHeading}
         </h2>
@@ -20,7 +24,7 @@ export function StudioProcess({ content }: StudioProcessProps) {
         </p>
       </div>
 
-      <ol className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-3">
+      <ol className="mt-12 grid gap-x-8 gap-y-10 md:grid-cols-2 lg:grid-cols-4">
         {content.process.map((step, index) => (
           <li
             key={step.id}
@@ -29,7 +33,7 @@ export function StudioProcess({ content }: StudioProcessProps) {
             <p className="font-mono text-sm font-semibold text-[var(--color-accent)]">
               {String(index + 1).padStart(2, "0")}
             </p>
-            <h3 className="mt-3 text-xl font-bold">{step.title}</h3>
+            <h3 className="mt-3 text-xl font-semibold">{step.title}</h3>
             <p className="mt-3 leading-7 text-[var(--color-text-secondary)]">
               {step.description}
             </p>
@@ -39,6 +43,6 @@ export function StudioProcess({ content }: StudioProcessProps) {
           </li>
         ))}
       </ol>
-    </Section>
+    </EditorialSection>
   );
 }

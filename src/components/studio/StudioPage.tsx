@@ -1,9 +1,10 @@
 import type { StudioLocaleContent } from "@/content/studio";
 import { StudioContact } from "./StudioContact";
 import { StudioExperiments } from "./StudioExperiments";
+import { StudioFeaturedWork } from "./StudioFeaturedWork";
 import { StudioHero } from "./StudioHero";
-import { StudioPackages } from "./StudioPackages";
 import { StudioProcess } from "./StudioProcess";
+import { StudioScope } from "./StudioScope";
 import { StudioServices } from "./StudioServices";
 
 type StudioPageProps = {
@@ -15,9 +16,10 @@ export function StudioPage({ content }: StudioPageProps) {
     <>
       <StudioHero content={content.hero} />
       <StudioServices content={content} />
+      <StudioFeaturedWork content={content} />
       <StudioExperiments content={content} />
       <StudioProcess content={content} />
-      <StudioPackages content={content} />
+      <StudioScope content={content.scope} />
       <StudioContact content={content.contact} />
     </>
   );

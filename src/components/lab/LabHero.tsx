@@ -1,5 +1,8 @@
 import type { LabLocaleContent } from "@/content/lab";
-import { Badge, Section, Surface } from "@/components/ui";
+import {
+  EditorialSection,
+  TechnicalAnnotation,
+} from "@/components/ui";
 
 type LabHeroProps = {
   content: LabLocaleContent["hero"];
@@ -8,16 +11,21 @@ type LabHeroProps = {
 
 export function LabHero({ content, status }: LabHeroProps) {
   return (
-    <Section tone="dark" spacing="spacious" container="wide">
-      <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1fr)_24rem]">
-        <header className="max-w-4xl">
-          <Badge tone="accent" data-lab-status={status}>
+    <EditorialSection
+      container="wide"
+      rule="bottom"
+      spacing="spacious"
+      tone="light"
+    >
+      <div className="grid items-end gap-10 lg:grid-cols-[minmax(0,1.3fr)_minmax(18rem,0.7fr)] lg:gap-20">
+        <header className="max-w-5xl">
+          <TechnicalAnnotation data-lab-status={status}>
             {content.demoLabel}
-          </Badge>
-          <p className="mt-6 text-sm font-semibold uppercase tracking-[0.2em] text-[var(--color-accent-secondary)]">
+          </TechnicalAnnotation>
+          <p className="mt-6 text-sm font-semibold text-[var(--color-text-muted)]">
             {content.eyebrow}
           </p>
-          <h1 className="mt-5 text-5xl font-bold leading-[var(--line-height-heading)] tracking-[var(--letter-spacing-heading)] sm:text-6xl lg:text-7xl">
+          <h1 className="mt-4 text-[clamp(3rem,6vw,6.1rem)] font-semibold leading-[0.95] tracking-[var(--letter-spacing-heading)] text-balance">
             {content.title}
           </h1>
           <p className="mt-7 max-w-3xl text-lg leading-8 text-[var(--color-text-secondary)] sm:text-xl">
@@ -25,16 +33,15 @@ export function LabHero({ content, status }: LabHeroProps) {
           </p>
         </header>
 
-        <Surface
-          as="aside"
-          variant="inverse"
-          className="border-[var(--color-border-strong)]"
+        <aside
+          className="border-l-2 border-[var(--color-signal)] bg-[var(--color-signal-soft)] px-6 py-5"
+          role="note"
         >
-          <p className="text-sm leading-6 text-[var(--color-text-secondary)]">
+          <p className="text-sm leading-6 text-[var(--color-text-muted)]">
             {content.disclosure}
           </p>
-        </Surface>
+        </aside>
       </div>
-    </Section>
+    </EditorialSection>
   );
 }

@@ -4,11 +4,11 @@ import { useEffect } from "react";
 import type { Locale } from "@/i18n/routing";
 
 const legacyStudioAnchors = {
-  "#features": "#benefits",
+  "#features": "#services",
   "#services": "#services",
-  "#works": "#experiments",
+  "#works": "#featured-work",
   "#process": "#process",
-  "#pricing": "#pricing",
+  "#pricing": "#scope",
 } as const;
 
 export function LegacyStudioAnchorRedirect({ locale }: { locale: Locale }) {

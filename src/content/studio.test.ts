@@ -6,10 +6,9 @@ import { studioContent, studioContentSchema } from "./studio";
 describe("Studio content", () => {
   it("keeps the same content topology in Hungarian and English", () => {
     for (const key of [
-      "benefits",
       "services",
+      "featuredWork",
       "process",
-      "packages",
       "experiments",
     ] as const) {
       expect(studioContent.en[key].map(({ id }) => id)).toEqual(
@@ -26,33 +25,34 @@ describe("Studio content", () => {
   });
 
   it.each(["hu", "en"] as const)(
-    "marks every %s package as awaiting owner confirmation",
+    "uses the compact V3 Studio structure in %s",
     (locale) => {
       const content = studioContent[locale];
 
-      expect(content.pricingWarningTitle).toMatch(/megerősítés|confirmation/i);
-      expect(content.pricingWarningBody).toMatch(/nem minősül|not a binding/i);
-      expect(content.packages).toHaveLength(3);
-      expect(
-        content.packages.every(
-          ({ status }) => status === "needs-owner-confirmation",
-        ),
-      ).toBe(true);
+      expect(content.services).toHaveLength(4);
+      expect(content.featuredWork.map(({ id }) => id)).toEqual([
+        "sanjiwani",
+        "alba",
+      ]);
+      expect(content.experiments).toHaveLength(3);
+      expect(content.process).toHaveLength(4);
+      expect(content.scope.description).toMatch(
+        /scope, ütemezés és ár|scope, timing and price/i,
+      );
+      expect("packages" in content).toBe(false);
+      expect("pricingWarningTitle" in content).toBe(false);
     },
   );
 
-  it("uses only exact standalone HTML paths for legacy demos", () => {
+  it("uses exact standalone HTML paths and existing images for legacy demos", () => {
     const expectedPaths = [
       "/projects/hamburger/index.html",
       "/projects/boxer-hero/index.html",
       "/projects/nati/index.html",
-      "/projects/nati/chat/index.html",
     ];
 
     for (const locale of ["hu", "en"] as const) {
-      const paths = studioContent[locale].experiments.flatMap(({ links }) =>
-        links.map(({ href }) => href),
-      );
+      const paths = studioContent[locale].experiments.map(({ href }) => href);
 
       expect(paths).toEqual(expectedPaths);
       expect(paths.some((path) => path.startsWith("/works/"))).toBe(false);
@@ -61,6 +61,27 @@ describe("Studio content", () => {
           existsSync(join(process.cwd(), "public", path.replace(/^\//, ""))),
         ),
       ).toBe(true);
+      expect(
+        studioContent[locale].experiments.every(({ image }) =>
+          existsSync(
+            join(process.cwd(), "public", image.replace(/^\//, "")),
+          ),
+        ),
+      ).toBe(true);
+    }
+  });
+
+  it("uses only real V3 visual-work assets", () => {
+    for (const locale of ["hu", "en"] as const) {
+      for (const work of studioContent[locale].featuredWork) {
+        expect(
+          existsSync(
+            join(process.cwd(), "public", work.image.replace(/^\//, "")),
+          ),
+        ).toBe(true);
+        expect(work.imageWidth).toBeGreaterThan(0);
+        expect(work.imageHeight).toBeGreaterThan(0);
+      }
     }
   });
 
@@ -90,8 +111,8 @@ describe("Studio content", () => {
       const { contact } = studioContent[locale];
 
       expect(contact.href).toMatch(/^mailto:digitalactivision@gmail\.com/);
-      expect(contact.description).toMatch(/e-mailben|by email/i);
-      expect(contact.description).toMatch(/nincs|no /i);
+      expect(contact.description).toMatch(/e-mailben|email/i);
+      expect(contact.privacyNote).toMatch(/kizárólag|only/i);
     },
   );
 });
