@@ -1,0 +1,41 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1120 560"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g stroke="#D8D9D6" stroke-width="1" vector-effect="non-scaling-stroke">
+    <path d="M80 80H1040M80 160H1040M80 240H1040M80 320H1040M80 400H1040M80 480H1040" />
+    <path d="M160 40V520M320 40V520M480 40V520M640 40V520M800 40V520M960 40V520" />
+  </g>
+  <g fill="#FFFFFF" stroke="#1F4B99" stroke-width="3" vector-effect="non-scaling-stroke">
+    <rect x="92" y="112" width="252" height="136" rx="16" />
+    <rect x="434" y="72" width="252" height="136" rx="16" />
+    <rect x="776" y="112" width="252" height="136" rx="16" />
+  </g>
+  <g fill="#FFFFFF" stroke="#0097B5" stroke-width="3" vector-effect="non-scaling-stroke">
+    <rect x="264" y="344" width="252" height="136" rx="16" />
+    <rect x="606" y="344" width="252" height="136" rx="16" />
+  </g>
+  <g
+    stroke="#6B5CF6"
+    stroke-width="4"
+    stroke-linecap="round"
+    stroke-linejoin="round"
+    vector-effect="non-scaling-stroke"
+  >
+    <path d="M344 180H434" />
+    <path d="M686 140L776 180" />
+    <path d="M902 248L732 344" />
+    <path d="M606 412H516" />
+    <path d="M390 344L218 248" />
+  </g>
+  <g fill="#6B5CF6">
+    <circle cx="389" cy="180" r="7" />
+    <circle cx="731" cy="160" r="7" />
+    <circle cx="817" cy="296" r="7" />
+    <circle cx="561" cy="412" r="7" />
+    <circle cx="304" cy="296" r="7" />
+  </g>
+</svg>

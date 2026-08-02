@@ -16,7 +16,7 @@
   /* akcentusok az SVG-ből */
   --violet:#3e22cd;      /* ibolya (pill, fejlécek) */
   --blue:#408fec;        /* gomb / link */
-  --green:#74dd30;       /* “online” pont */
+  --green:#7d8597;       /* statikus státuszjelzés */
 
   /* méretek */
   --wrap:max(68ch, min(1240px, 92vw));
@@ -49,7 +49,7 @@ a{color:inherit;text-decoration:none}
 .hero-card{background:var(--bg-700);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
 .hero-card img{width:100%;height:auto;display:block}
 
-/* ========== APP (card_chat.svg UI – élő) ========== */
+/* ========== APP (statikus UI-prototípus) ========== */
 .app{padding:30px 0 90px;background:linear-gradient(180deg,var(--bg-800),var(--bg-900) 40%)}
 .app-grid{display:grid;grid-template-columns:360px 1fr;gap:18px}
 

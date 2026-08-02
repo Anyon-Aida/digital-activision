@@ -2,6 +2,27 @@
   "nav": {
     "contact": "Kapcsolat"
   },
+  "accessibility": {
+    "skipToContent": "Ugrás a tartalomra"
+  },
+  "boundaries": {
+    "loading": {
+      "label": "Az oldal betöltése folyamatban…"
+    },
+    "notFound": {
+      "eyebrow": "404",
+      "title": "Ez az oldal nem található",
+      "description": "A hivatkozás elavult lehet, vagy az oldal még nem érhető el.",
+      "action": "Vissza a főoldalra"
+    },
+    "error": {
+      "eyebrow": "Hiba",
+      "title": "Az oldalt most nem sikerült betölteni",
+      "description": "Próbáld újra. Ha a hiba továbbra is fennáll, térj vissza a főoldalra.",
+      "retry": "Újrapróbálom",
+      "home": "Vissza a főoldalra"
+    }
+  },
   "hero": {
     "title": "Weboldalak, amik ügyfelet hoznak",
     "subtitle": "Gyors, átlátható és szép oldalak. Kézzelfogható eredmény: több megkeresés, jobb Google-pozíció.",

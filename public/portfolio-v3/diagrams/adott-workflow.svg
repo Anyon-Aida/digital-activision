@@ -1,0 +1,42 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  viewBox="0 0 1120 360"
+  fill="none"
+  aria-hidden="true"
+  focusable="false"
+>
+  <g stroke="#C6C9CC" stroke-width="2" vector-effect="non-scaling-stroke">
+    <path d="M236 144H316" />
+    <path d="M508 144H588" />
+    <path d="M780 144H860" />
+  </g>
+  <g fill="#F7F5F0" stroke="#1F4B99" stroke-width="3" vector-effect="non-scaling-stroke">
+    <rect x="44" y="88" width="192" height="112" rx="14" />
+    <rect x="316" y="88" width="192" height="112" rx="14" />
+    <rect x="588" y="88" width="192" height="112" rx="14" />
+    <rect x="860" y="88" width="216" height="112" rx="14" />
+  </g>
+  <g fill="#101418" font-family="Manrope, Segoe UI, sans-serif" font-size="20" font-weight="700">
+    <text x="140" y="151" text-anchor="middle">Inquiry</text>
+    <text x="412" y="151" text-anchor="middle">Specification</text>
+    <text x="684" y="151" text-anchor="middle">Quote / SoW</text>
+    <text x="968" y="151" text-anchor="middle">Project delivery</text>
+  </g>
+  <g fill="#67707C" font-family="IBM Plex Mono, Consolas, monospace" font-size="13" letter-spacing="1.5">
+    <text x="276" y="126" text-anchor="middle">REVIEW</text>
+    <text x="548" y="126" text-anchor="middle">APPROVAL</text>
+    <text x="820" y="126" text-anchor="middle">ACCEPTED</text>
+  </g>
+  <path
+    d="M92 268H1028"
+    stroke="#0097B5"
+    stroke-width="2"
+    stroke-dasharray="5 9"
+    vector-effect="non-scaling-stroke"
+  />
+  <g fill="#242A31" font-family="IBM Plex Mono, Consolas, monospace" font-size="14">
+    <text x="560" y="300" text-anchor="middle">
+      Roles · Comments · Attachments · Notifications · Audit
+    </text>
+  </g>
+</svg>

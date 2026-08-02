@@ -1,0 +1,195 @@
+:root {
+  color-scheme: light;
+
+  /* Editorial Industrial palette. Components consume semantic roles below. */
+  --palette-paper-50: #f7f5f0;
+  --palette-paper-100: #f0ede6;
+  --palette-white: #ffffff;
+  --palette-ink-950: #101418;
+  --palette-ink-800: #242a31;
+  --palette-slate-600: #626b76;
+  --palette-line-200: #d8d9d6;
+  --palette-line-300: #c6c9cc;
+  --palette-industrial-blue: #1f4b99;
+  --palette-electric-violet: #5f50e8;
+  --palette-electric-violet-700: #4938cc;
+  --palette-signal-cyan: #0097b5;
+  --palette-signal-cyan-700: #006b80;
+  --palette-signal-cyan-soft: #ddf4f6;
+  --palette-warm-sand: #d9c7a2;
+  --palette-success: #167a58;
+  --palette-warning: #9a6200;
+  --palette-danger: #b42318;
+  --palette-dark-panel: #111923;
+  --palette-dark-surface: #17222e;
+  --palette-dark-surface-elevated: #1d2a38;
+
+  /* Semantic color roles. */
+  --color-page: var(--palette-paper-50);
+  --color-surface: var(--palette-white);
+  --color-surface-subtle: var(--palette-paper-100);
+  --color-surface-elevated: var(--palette-white);
+  --color-surface-warm: color-mix(
+    in srgb,
+    var(--palette-warm-sand) 24%,
+    var(--palette-paper-50)
+  );
+  --color-text-primary: var(--palette-ink-950);
+  --color-text-secondary: var(--palette-slate-600);
+  --color-text-muted: var(--palette-ink-800);
+  --color-border-subtle: var(--palette-line-200);
+  --color-border-strong: var(--palette-line-300);
+  --color-accent: var(--palette-electric-violet);
+  --color-accent-hover: var(--palette-electric-violet-700);
+  --color-accent-soft: color-mix(
+    in srgb,
+    var(--palette-electric-violet) 10%,
+    var(--palette-white)
+  );
+  --color-accent-secondary: var(--palette-signal-cyan-700);
+  --color-signal: var(--palette-signal-cyan);
+  --color-signal-soft: var(--palette-signal-cyan-soft);
+  --color-industrial: var(--palette-industrial-blue);
+  --color-diagram-surface: var(--palette-dark-panel);
+  --color-success: var(--palette-success);
+  --color-warning: var(--palette-warning);
+  --color-danger: var(--palette-danger);
+  --color-focus-ring: var(--palette-industrial-blue);
+  --color-selection: var(--palette-signal-cyan-soft);
+  --color-on-accent: var(--palette-white);
+
+  /* Type is supplied by next/font in the locale layout. */
+  --font-family-sans: var(--font-manrope, "Segoe UI"), Arial, sans-serif;
+  --font-family-serif: var(--font-instrument-serif, Georgia), serif;
+  --font-family-mono: var(--font-ibm-plex-mono, Consolas), monospace;
+  --font-size-body: clamp(1rem, 0.98rem + 0.12vw, 1.075rem);
+  --font-size-small: 0.875rem;
+  --font-size-meta: clamp(0.75rem, 0.73rem + 0.08vw, 0.8rem);
+  --font-size-display: clamp(2.75rem, 1.65rem + 5vw, 5.25rem);
+  --font-size-section: clamp(2.1rem, 1.45rem + 3vw, 4.75rem);
+  --font-size-project: clamp(1.8rem, 1.45rem + 1.7vw, 3.5rem);
+  --line-height-body: 1.65;
+  --line-height-heading: 1.02;
+  --letter-spacing-heading: -0.045em;
+
+  /* A 12-column-ready 1280–1440px editorial canvas. */
+  --layout-content-max: 82rem;
+  --layout-wide-max: 90rem;
+  --layout-readable-max: 46rem;
+  --layout-gutter: clamp(1.125rem, 3.5vw, 4rem);
+  --section-space-compact: clamp(4rem, 7vw, 5.5rem);
+  --section-space-default: clamp(5rem, 9vw, 8rem);
+  --section-space-spacious: clamp(5.5rem, 10vw, 9rem);
+  --space-control-x: 1.125rem;
+  --space-control-y: 0.75rem;
+  --target-min: 3rem;
+
+  /* Restrained shape and elevation. */
+  --radius-control: 0.75rem;
+  --radius-surface: 1.125rem;
+  --radius-card: 1rem;
+  --radius-pill: 999px;
+  --shadow-surface: 0 1px 2px rgb(16 20 24 / 0.04),
+    0 18px 48px rgb(16 20 24 / 0.08);
+  --shadow-focus: 0 0 0 4px
+    color-mix(in srgb, var(--color-focus-ring) 22%, transparent);
+
+  /* Motion explains hierarchy and remains easy to disable. */
+  --motion-duration-fast: 160ms;
+  --motion-duration-default: 240ms;
+  --motion-duration-slow: 420ms;
+  --motion-ease-standard: cubic-bezier(0.2, 0, 0, 1);
+  --motion-ease-emphasized: cubic-bezier(0.2, 0.8, 0.2, 1);
+  --motion-distance: 0.5rem;
+}
+
+[data-tone="dark"] {
+  color-scheme: dark;
+  --color-page: var(--palette-dark-panel);
+  --color-surface: var(--palette-dark-surface);
+  --color-surface-subtle: var(--palette-dark-surface-elevated);
+  --color-surface-elevated: var(--palette-dark-surface-elevated);
+  --color-surface-warm: var(--palette-dark-surface);
+  --color-text-primary: #f7f5f0;
+  --color-text-secondary: #b9c0c8;
+  --color-text-muted: #d9dde2;
+  --color-border-subtle: #2d3a48;
+  --color-border-strong: #526171;
+  --color-accent: #9389ff;
+  --color-accent-hover: #afa8ff;
+  --color-accent-soft: #292651;
+  --color-accent-secondary: #65d8e8;
+  --color-signal: #65d8e8;
+  --color-signal-soft: #183d46;
+  --color-industrial: #8cace7;
+  --color-diagram-surface: var(--palette-dark-panel);
+  --color-success: #6fd7aa;
+  --color-warning: #f2bf63;
+  --color-danger: #fda29b;
+  --color-focus-ring: #65d8e8;
+  --color-selection: #214b55;
+  --color-on-accent: var(--palette-dark-panel);
+  --shadow-surface: 0 1px 2px rgb(0 0 0 / 0.2),
+    0 20px 48px rgb(0 0 0 / 0.28);
+}
+
+[data-tone="light"] {
+  color-scheme: light;
+  --color-page: var(--palette-paper-50);
+  --color-surface: var(--palette-white);
+  --color-surface-subtle: var(--palette-paper-100);
+  --color-surface-elevated: var(--palette-white);
+  --color-surface-warm: color-mix(
+    in srgb,
+    var(--palette-warm-sand) 24%,
+    var(--palette-paper-50)
+  );
+  --color-text-primary: var(--palette-ink-950);
+  --color-text-secondary: var(--palette-slate-600);
+  --color-text-muted: var(--palette-ink-800);
+  --color-border-subtle: var(--palette-line-200);
+  --color-border-strong: var(--palette-line-300);
+  --color-accent: var(--palette-electric-violet);
+  --color-accent-hover: var(--palette-electric-violet-700);
+  --color-accent-soft: color-mix(
+    in srgb,
+    var(--palette-electric-violet) 10%,
+    var(--palette-white)
+  );
+  --color-accent-secondary: var(--palette-signal-cyan-700);
+  --color-signal: var(--palette-signal-cyan);
+  --color-signal-soft: var(--palette-signal-cyan-soft);
+  --color-industrial: var(--palette-industrial-blue);
+  --color-diagram-surface: var(--palette-dark-panel);
+  --color-success: var(--palette-success);
+  --color-warning: var(--palette-warning);
+  --color-danger: var(--palette-danger);
+  --color-focus-ring: var(--palette-industrial-blue);
+  --color-selection: var(--palette-signal-cyan-soft);
+  --color-on-accent: var(--palette-white);
+  --shadow-surface: 0 1px 2px rgb(16 20 24 / 0.04),
+    0 18px 48px rgb(16 20 24 / 0.08);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --motion-duration-fast: 1ms;
+    --motion-duration-default: 1ms;
+    --motion-duration-slow: 1ms;
+    --motion-distance: 0px;
+  }
+
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 1ms !important;
+    animation-iteration-count: 1 !important;
+    transition-delay: 0ms !important;
+    transition-duration: 1ms !important;
+  }
+}

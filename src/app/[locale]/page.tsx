@@ -1,10 +1,21 @@
-import HomePage from '../Homepage'
+import { hasLocale } from "next-intl";
+import { setRequestLocale } from "next-intl/server";
+import { notFound } from "next/navigation";
+import { DeveloperHomepage } from "@/components/home/DeveloperHomepage";
+import { homeContent } from "@/content/home";
+import { routing } from "@/i18n/routing";
 
-export function generateStaticParams() {
-  return [{ locale: 'hu' }, { locale: 'en' }]
-}
+export default async function Page({
+  params,
+}: {
+  params: Promise<{ locale: string }>;
+}) {
+  const { locale } = await params;
 
-export default function Page({ params }: { params: { locale: string } }) {
-  const locale = params.locale === 'en' ? 'en' : 'hu'
-  return <HomePage locale={locale} />
+  if (!hasLocale(routing.locales, locale)) {
+    notFound();
+  }
+
+  setRequestLocale(locale);
+  return <DeveloperHomepage content={homeContent[locale]} locale={locale} />;
 }
