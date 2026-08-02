@@ -1,12 +1,12 @@
 "use client";
 
 import { useId, useState } from "react";
-import type { HomeContent } from "@/content/home";
+import type { SystemMapContent } from "@/content/home";
 import { cn } from "@/lib/cn";
 import { Section, Surface } from "@/components/ui";
 
 export type SystemMapProps = {
-  content: HomeContent["systemMap"];
+  content: SystemMapContent;
 };
 
 export function SystemMap({ content }: SystemMapProps) {

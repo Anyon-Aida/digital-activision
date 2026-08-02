@@ -2,7 +2,6 @@ import { hasLocale } from "next-intl";
 import { setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
 import { DeveloperHomepage } from "@/components/home/DeveloperHomepage";
-import { getFeaturedCaseStudies } from "@/content/case-studies";
 import { homeContent } from "@/content/home";
 import { routing } from "@/i18n/routing";
 
@@ -18,11 +17,5 @@ export default async function Page({
   }
 
   setRequestLocale(locale);
-  return (
-    <DeveloperHomepage
-      content={homeContent[locale]}
-      featuredProjects={getFeaturedCaseStudies(locale)}
-      locale={locale}
-    />
-  );
+  return <DeveloperHomepage content={homeContent[locale]} locale={locale} />;
 }

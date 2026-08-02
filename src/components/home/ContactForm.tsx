@@ -28,8 +28,11 @@ type ContactFormValues = z.infer<typeof contactFormSchema>;
 
 type SubmissionStatus =
   | { kind: "idle" }
-  | { kind: "success"; requestId?: string }
-  | { kind: "generic-error" | "rate-limit" | "disabled" };
+  | { kind: "success" }
+  | {
+      kind: "generic-error" | "rate-limit" | "disabled";
+      requestId?: string;
+    };
 
 type ContactFormProps = {
   content: HomeContent["contact"];
@@ -141,10 +144,7 @@ export function ContactForm({ content, locale }: ContactFormProps) {
       const body = await readResponseBody(response);
 
       if (response.status === 202) {
-        setStatus({
-          kind: "success",
-          requestId: getSafeRequestId(response, body),
-        });
+        setStatus({ kind: "success" });
         reset({
           ...createDefaultValues(locale),
           startedAt: Date.now(),
@@ -154,16 +154,25 @@ export function ContactForm({ content, locale }: ContactFormProps) {
       }
 
       if (response.status === 429) {
-        setStatus({ kind: "rate-limit" });
+        setStatus({
+          kind: "rate-limit",
+          requestId: getSafeRequestId(response, body),
+        });
         return;
       }
 
       if (response.status === 503) {
-        setStatus({ kind: "disabled" });
+        setStatus({
+          kind: "disabled",
+          requestId: getSafeRequestId(response, body),
+        });
         return;
       }
 
-      setStatus({ kind: "generic-error" });
+      setStatus({
+        kind: "generic-error",
+        requestId: getSafeRequestId(response, body),
+      });
     } catch {
       setStatus({ kind: "generic-error" });
     } finally {
@@ -352,7 +361,9 @@ export function ContactForm({ content, locale }: ContactFormProps) {
               }
             >
               {statusMessage}
-              {status.kind === "success" && status.requestId ? (
+              {status.kind !== "success" &&
+              status.kind !== "idle" &&
+              status.requestId ? (
                 <span className="mt-2 block font-mono text-xs font-normal text-[var(--color-text-secondary)]">
                   {content.requestIdLabel}: {status.requestId}
                 </span>

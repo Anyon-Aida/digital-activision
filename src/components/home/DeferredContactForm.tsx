@@ -60,12 +60,16 @@ export function DeferredContactForm({
   }, []);
 
   return (
-    <div className="min-h-[38rem]" ref={boundaryRef}>
+    <div
+      className="min-h-[939px] sm:min-h-[825px]"
+      data-testid="contact-form-boundary"
+      ref={boundaryRef}
+    >
       {shouldLoadForm ? (
         <LazyContactForm content={content} locale={locale} />
       ) : (
         <Surface
-          className="grid min-h-[38rem] content-center"
+          className="grid min-h-[939px] content-center sm:min-h-[825px]"
           data-testid="contact-form-fallback"
           padding="large"
           variant="elevated"
