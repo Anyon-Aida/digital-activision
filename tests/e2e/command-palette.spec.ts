@@ -29,7 +29,7 @@ test("the command palette opens by trigger and both platform shortcuts", async (
   await expect(input).toBeFocused();
 });
 
-test("project and technology search supports Arrow, Home, End and Enter", async ({
+test("project and V3 navigation search supports Arrow, Home, End and Enter", async ({
   page,
 }) => {
   await page.goto("/en");
@@ -41,29 +41,26 @@ test("project and technology search supports Arrow, Home, End and Enter", async 
     page.getByRole("option", { name: /Samsung – Smart Gate Analytics/ }),
   ).toBeVisible();
 
-  await input.fill("backend");
+  await input.fill("work");
   await input.press("End");
   expect(await input.getAttribute("aria-activedescendant")).toBeTruthy();
   await input.press("Home");
-  await expect(
-    page.getByRole("option", { name: /Show backend projects/ }),
-  ).toHaveAttribute("aria-selected", "true");
-  const firstBackendResult = await input.getAttribute(
+  const firstWorkResult = await input.getAttribute(
     "aria-activedescendant",
   );
   await input.press("ArrowDown");
   expect(await input.getAttribute("aria-activedescendant")).not.toBe(
-    firstBackendResult,
+    firstWorkResult,
   );
   await input.press("ArrowUp");
-  await expect(
-    page.getByRole("option", { name: /Show backend projects/ }),
-  ).toHaveAttribute("aria-selected", "true");
+  expect(await input.getAttribute("aria-activedescendant")).toBe(
+    firstWorkResult,
+  );
 
   await input.fill("RBAC");
   await expect(
     page.getByRole("option", {
-      name: /Adott Solution – Enterprise Project Workflow/,
+      name: /Adott Solution – Enterprise Workflow Platform/,
     }),
   ).toBeVisible();
   await input.press("End");
@@ -74,58 +71,50 @@ test("project and technology search supports Arrow, Home, End and Enter", async 
   );
 });
 
-test("the unavailable CV command never navigates", async ({ page }) => {
+test("the locale-specific CV command is active", async ({ page }) => {
+  await page.route("**/cv/kovacs-zalan-cv-en.pdf", async (route) => {
+    await route.fulfill({
+      body: "<!doctype html><title>CV</title>",
+      contentType: "text/html",
+      status: 200,
+    });
+  });
   await page.goto("/en/studio");
-  const originalUrl = page.url();
   await page.keyboard.press("Control+K");
 
-  const dialog = page.getByRole("dialog", { name: "Quick navigation" });
   const input = page.getByRole("combobox", { name: "Search commands" });
-  await input.fill("Open CV");
+  await input.fill("Open English CV");
 
-  const cv = page.getByRole("option", { name: /Open CV/ });
-  await expect(cv).toHaveAttribute("aria-disabled", "true");
+  const cv = page.getByRole("option", { name: /Open English CV/ });
+  await expect(cv).not.toHaveAttribute("aria-disabled", "true");
   await input.press("Enter");
-  await expect(dialog).toBeVisible();
-  expect(page.url()).toBe(originalUrl);
-  await cv.dispatchEvent("click");
-  await expect(dialog).toBeVisible();
-  expect(page.url()).toBe(originalUrl);
+  await expect(page).toHaveURL(/\/cv\/kovacs-zalan-cv-en\.pdf$/);
 });
 
-test("backend and security shortcuts resolve to honest registry work", async ({
+test("homepage section commands resolve to existing V3 anchors", async ({
   page,
 }) => {
   await page.goto("/en");
   await page.keyboard.press("Control+K");
 
   const input = page.getByRole("combobox", { name: "Search commands" });
-  await input.fill("Show backend projects");
-  await page.getByRole("option", { name: /Show backend projects/ }).click();
-  await expect(page).toHaveURL(
-    /\/en\/work\/adott-enterprise-project-workflow$/,
-  );
-
-  await page.keyboard.press("Control+K");
-  await input.fill("Show security-related work");
-  const security = page.getByRole("option", {
-    name: /Show security-related work/,
+  await input.fill("Selected work");
+  const selectedWork = page.getByRole("option", {
+    name: /Selected work/,
   });
-  await expect(security).toContainText("Adott Solution");
-  await security.click();
+  await selectedWork.click();
   await expect(
     page.getByRole("dialog", { name: "Quick navigation" }),
   ).toBeHidden();
-  await expect(page).toHaveURL(
-    /\/en\/work\/adott-enterprise-project-workflow$/,
-  );
+  await expect(page).toHaveURL(/\/en#featured-work$/);
+  await expect(page.locator("#featured-work")).toBeVisible();
 });
 
 test("locale switching preserves a case-study route, query and hash", async ({
   page,
 }) => {
   await page.goto(
-    "/en/work/samsung-smart-gate-analytics?visibility=anonymized#case-study-security",
+    "/en/work/samsung-smart-gate-analytics?visibility=anonymized#context",
   );
   await page.keyboard.press("Control+K");
 
@@ -134,7 +123,7 @@ test("locale switching preserves a case-study route, query and hash", async ({
   await input.press("Enter");
 
   await expect(page).toHaveURL(
-    /\/hu\/work\/samsung-smart-gate-analytics\?visibility=anonymized#case-study-security$/,
+    /\/hu\/work\/samsung-smart-gate-analytics\?visibility=anonymized#context$/,
   );
   await expect(page.locator("html")).toHaveAttribute("lang", "hu");
 });

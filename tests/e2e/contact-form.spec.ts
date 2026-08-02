@@ -89,7 +89,7 @@ test("contact form sends one strict JSON payload and resets after a 202 response
   await expect(submitButton).toBeDisabled();
   releaseResponse?.();
   await expect(page.getByText(content.successMessage, { exact: false })).toBeVisible();
-  await expect(page.getByText(`${content.requestIdLabel}: ${requestId}`)).toBeVisible();
+  await expect(page.getByText(`${content.requestIdLabel}: ${requestId}`)).toHaveCount(0);
   expect(requestCount).toBe(1);
   expect(capturedContentType).toBe("application/json");
 
@@ -162,9 +162,13 @@ for (const locale of ["hu", "en"] as const) {
         .getByRole("button", { name: content.submitLabel, exact: true })
         .click();
 
-      await expect(page.getByText(content[copyKey], { exact: true })).toBeVisible();
+      await expect(
+        page.getByRole("status").locator("p"),
+      ).toContainText(content[copyKey]);
       await expect(page.getByText("INTERNAL_DETAIL_MUST_NOT_RENDER")).toHaveCount(0);
-      await expect(page.getByText("error-request-id")).toHaveCount(0);
+      await expect(
+        page.getByText(`${content.requestIdLabel}: error-request-id`),
+      ).toBeVisible();
     });
   }
 }

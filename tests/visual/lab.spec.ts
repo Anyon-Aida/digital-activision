@@ -42,20 +42,12 @@ for (const visualCase of visualCases) {
     }
 
     if (visualCase.target === "architecture") {
-      await page
-        .getByRole("group", { name: "Select an architecture view" })
-        .getByRole("button", { name: /Offline sync/ })
-        .click();
-      await page
+      const section = page.locator("#offline-sync");
+      await section
         .getByRole("group", { name: "Select a node" })
         .getByRole("button", { name: /Conflict policy/ })
         .click();
 
-      const section = page
-        .getByRole("heading", {
-          name: "Three system flows with shared responsibility principles",
-        })
-        .locator("xpath=ancestor::section[1]");
       await section.scrollIntoViewIfNeeded();
       await expect(section).toHaveScreenshot(`${visualCase.name}.png`);
       return;

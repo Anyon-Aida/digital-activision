@@ -64,6 +64,8 @@ test("Preview-safe robots, locale sitemap and social images are served", async (
   expect(sitemapBody).toContain("/en/privacy");
   expect(sitemapBody).toContain("/hu/lab");
   expect(sitemapBody).toContain("/en/lab");
+  expect(sitemapBody).toContain("/hu/work/sanjiwani-booking-experience");
+  expect(sitemapBody).toContain("/en/work/sanjiwani-booking-experience");
   expect(sitemapBody).toContain('hreflang="x-default"');
   expect(sitemapBody).not.toContain("questlog-offline-first-pwa");
 

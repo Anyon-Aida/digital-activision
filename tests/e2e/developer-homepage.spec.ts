@@ -1,7 +1,7 @@
 import { expect, test } from "@playwright/test";
 
 for (const locale of ["hu", "en"] as const) {
-  test(`${locale.toUpperCase()} developer homepage exposes the complete information architecture`, async ({
+  test(`${locale.toUpperCase()} homepage exposes the V3 editorial information architecture`, async ({
     page,
   }) => {
     const consoleErrors: string[] = [];
@@ -16,27 +16,38 @@ for (const locale of ["hu", "en"] as const) {
     await expect(page.locator("h1")).toHaveCount(1);
     for (const id of [
       "hero",
-      "system-map",
       "featured-work",
-      "capabilities",
+      "samsung-impact",
       "experience",
-      "standards",
+      "capabilities",
+      "lab",
       "studio",
       "contact",
     ]) {
       await expect(page.locator(`#${id}`)).toBeVisible();
     }
-    await expect(page.locator("#featured-work article")).toHaveCount(4);
-    const capabilityEvidenceLinks = page.locator("#capabilities article > a");
-    await expect(capabilityEvidenceLinks).toHaveCount(4);
-    for (const link of await capabilityEvidenceLinks.all()) {
-      await expect(link).toHaveAttribute(
-        "href",
-        new RegExp(`^/${locale}/work/[a-z0-9-]+$`),
-      );
-    }
-    await expect(page.locator("#experience > div > ol > li")).toHaveCount(6);
-    await expect(page.getByRole("button", { name: /CV/i }).first()).toBeDisabled();
+
+    const showcases = page.locator("#featured-work article");
+    await expect(showcases).toHaveCount(3);
+    await expect(
+      showcases.getByRole("link", {
+        name:
+          locale === "hu"
+            ? "Esettanulmány megnyitása"
+            : "Open case study",
+      }),
+    ).toHaveCount(3);
+    await expect(page.locator("#experience ol > li")).toHaveCount(4);
+    await expect(page.locator("#capabilities h4")).toHaveCount(4);
+
+    const cvHref =
+      locale === "hu"
+        ? "/cv/kovacs-zalan-cv-hu.pdf"
+        : "/cv/kovacs-zalan-cv-en.pdf";
+    const cvLinks = page.locator(`a[href="${cvHref}"]`);
+    expect(await cvLinks.count()).toBeGreaterThanOrEqual(2);
+    await expect(cvLinks.first()).toHaveAttribute("download");
+
     expect(consoleErrors).toEqual([]);
   });
 }
@@ -55,6 +66,38 @@ for (const width of [320, 390] as const) {
   });
 }
 
+test("desktop hero uses the V3 type system and stays within three headline lines", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1_440, height: 1_000 });
+  await page.goto("/hu");
+  await page.evaluate(() => document.fonts.ready);
+
+  const headline = page.locator("#hero h1");
+  const headlineMetrics = await headline.evaluate((element) => {
+    const styles = getComputedStyle(element);
+    const lineHeight = Number.parseFloat(styles.lineHeight);
+
+    return {
+      fontFamily: styles.fontFamily,
+      fontSize: Number.parseFloat(styles.fontSize),
+      lineCount: Math.round(element.getBoundingClientRect().height / lineHeight),
+    };
+  });
+
+  expect(headlineMetrics.fontFamily).toContain("Manrope");
+  expect(headlineMetrics.fontSize).toBeGreaterThanOrEqual(80);
+  expect(headlineMetrics.lineCount).toBeLessThanOrEqual(3);
+  await expect(headline.locator(".font-serif")).toHaveCSS(
+    "font-family",
+    /Instrument Serif/u,
+  );
+  await expect(page.locator("#hero .font-mono").first()).toHaveCSS(
+    "font-family",
+    /IBM Plex Mono/u,
+  );
+});
+
 test("contact form code loads only when the contact section is near the viewport", async ({
   page,
 }) => {
@@ -70,20 +113,135 @@ test("contact form code loads only when the contact section is near the viewport
   await expect(page.getByTestId("contact-form-fallback")).toHaveCount(0);
 });
 
-test("reduced-motion preference disables non-essential motion", async ({ page }) => {
+test("deferred contact form preserves the document layout when it loads", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.goto("/en");
+
+  const boundary = page.getByTestId("contact-form-boundary");
+  await expect(page.getByTestId("contact-form-fallback")).toBeVisible();
+  const before = await page.evaluate(() => ({
+    boundaryHeight: document
+      .querySelector<HTMLElement>("[data-testid='contact-form-boundary']")
+      ?.getBoundingClientRect().height,
+    footerTop:
+      (document.querySelector("footer")?.getBoundingClientRect().top ?? 0) +
+      window.scrollY,
+  }));
+
+  await boundary.scrollIntoViewIfNeeded();
+  await expect(page.locator("#contact-submit")).toBeEnabled();
+  const after = await page.evaluate(() => ({
+    boundaryHeight: document
+      .querySelector<HTMLElement>("[data-testid='contact-form-boundary']")
+      ?.getBoundingClientRect().height,
+    footerTop:
+      (document.querySelector("footer")?.getBoundingClientRect().top ?? 0) +
+      window.scrollY,
+  }));
+  const shift = Math.abs(after.footerTop - before.footerTop);
+
+  expect(shift, JSON.stringify({ after, before, shift })).toBeLessThanOrEqual(1);
+});
+
+test("desktop deferred contact form preserves the document layout when it loads", async ({
+  page,
+}) => {
+  await page.setViewportSize({ width: 1_440, height: 1_000 });
+  await page.goto("/en");
+
+  const boundary = page.getByTestId("contact-form-boundary");
+  await expect(page.getByTestId("contact-form-fallback")).toBeVisible();
+  const before = await page.evaluate(() => ({
+    boundaryHeight: document
+      .querySelector<HTMLElement>("[data-testid='contact-form-boundary']")
+      ?.getBoundingClientRect().height,
+    footerTop:
+      (document.querySelector("footer")?.getBoundingClientRect().top ?? 0) +
+      window.scrollY,
+  }));
+
+  await boundary.scrollIntoViewIfNeeded();
+  await expect(page.locator("#contact-submit")).toBeEnabled();
+  const after = await page.evaluate(() => ({
+    boundaryHeight: document
+      .querySelector<HTMLElement>("[data-testid='contact-form-boundary']")
+      ?.getBoundingClientRect().height,
+    footerTop:
+      (document.querySelector("footer")?.getBoundingClientRect().top ?? 0) +
+      window.scrollY,
+  }));
+  const shift = Math.abs(after.footerTop - before.footerTop);
+
+  expect(shift, JSON.stringify({ after, before, shift })).toBeLessThanOrEqual(1);
+});
+
+test("reduced-motion preference disables the blueprint motion", async ({
+  page,
+}) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.goto("/en");
 
-  const motion = await page.locator("#system-map button").first().evaluate((element) => {
-    const styles = getComputedStyle(element);
-    return {
-      animationDuration: styles.animationDuration,
-      transitionDuration: styles.transitionDuration,
-    };
-  });
+  const motion = await page.locator(".blueprint-reveal").first().evaluate(
+    (element) => {
+      const styles = getComputedStyle(element);
+      return {
+        animationDuration: styles.animationDuration,
+        transitionDuration: styles.transitionDuration,
+      };
+    },
+  );
 
   expect(motion.animationDuration).toBe("0.001s");
   expect(motion.transitionDuration).toBe("0.001s");
+});
+
+test("Lab teaser selector exposes complete flows and supports arrow keys", async ({
+  page,
+}) => {
+  await page.goto("/en");
+
+  const teaser = page.getByTestId("lab-teaser-flow");
+  const requestTab = teaser.getByRole("tab", { name: "Request" });
+  const approvalTab = teaser.getByRole("tab", { name: "Approval" });
+  const offlineTab = teaser.getByRole("tab", { name: "Offline" });
+
+  await expect(requestTab).toHaveAttribute("aria-selected", "true");
+  await expect(
+    teaser.getByRole("tabpanel").locator("ol > li > span:last-child"),
+  ).toHaveText(["Input", "Validate", "Authorize", "Persist"]);
+
+  await approvalTab.click();
+  await expect(approvalTab).toHaveAttribute("aria-selected", "true");
+  await expect(
+    teaser.getByRole("tabpanel").locator("ol > li > span:last-child"),
+  ).toHaveText(["Identity", "Permission", "Decision", "Audit"]);
+
+  await approvalTab.press("ArrowRight");
+  await expect(offlineTab).toBeFocused();
+  await expect(offlineTab).toHaveAttribute("aria-selected", "true");
+  await expect(
+    teaser.getByRole("tabpanel").locator("ol > li > span:last-child"),
+  ).toHaveText(["Local state", "Outbox", "Sync", "Conflict"]);
+
+  await offlineTab.press("Home");
+  await expect(requestTab).toBeFocused();
+  await expect(requestTab).toHaveAttribute("aria-selected", "true");
+});
+
+test("Lab teaser selector removes transition motion when requested", async ({
+  page,
+}) => {
+  await page.emulateMedia({ reducedMotion: "reduce" });
+  await page.goto("/en");
+
+  const transitionDuration = await page
+    .getByTestId("lab-teaser-flow")
+    .getByRole("tab", { name: "Request" })
+    .evaluate((element) => getComputedStyle(element).transitionDuration);
+
+  expect(transitionDuration).toBe("0.001s");
 });
 
 test("public GitHub and LinkedIn links use safe external-link semantics", async ({

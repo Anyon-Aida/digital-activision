@@ -1,5 +1,9 @@
 import { expect, test } from "@playwright/test";
-import { caseStudySlugs } from "../../src/content/case-studies";
+import {
+  caseStudySlugs,
+  getCaseStudy,
+  workCaseStudyOrder,
+} from "../../src/content/case-studies";
 
 for (const locale of ["hu", "en"] as const) {
   test(`${locale.toUpperCase()} work index is registry-backed`, async ({ page }) => {
@@ -7,22 +11,28 @@ for (const locale of ["hu", "en"] as const) {
 
     expect(response?.status()).toBe(200);
     await expect(page.locator("h1")).toBeVisible();
-    await expect(page.locator("main article")).toHaveCount(4);
-    await expect(page.locator("main article h2").first()).toContainText(
+    const projectArticles = page.locator(
+      `main article:has(a[href^="/${locale}/work/"])`,
+    );
+    await expect(projectArticles).toHaveCount(workCaseStudyOrder.length);
+    await expect(projectArticles.locator("h2").first()).toContainText(
       "Adott Solution",
     );
 
     const caseLinks = await page
       .locator(`a[href^="/${locale}/work/"]`)
       .evaluateAll((links) => [...new Set(links.map((link) => link.getAttribute("href")))]);
-    expect(caseLinks).toHaveLength(4);
+    expect(caseLinks).toEqual(
+      workCaseStudyOrder.map((slug) => `/${locale}/work/${slug}`),
+    );
   });
 
   for (const slug of caseStudySlugs) {
-    test(`${locale.toUpperCase()} case study ${slug} exposes all validated sections`, async ({
+    test(`${locale.toUpperCase()} case study ${slug} exposes its V3 narrative`, async ({
       page,
     }) => {
       const consoleErrors: string[] = [];
+      const storySections = getCaseStudy(slug).presentation.storySections;
       page.on("console", (message) => {
         if (message.type() === "error") consoleErrors.push(message.text());
       });
@@ -31,9 +41,22 @@ for (const locale of ["hu", "en"] as const) {
 
       expect(response?.status()).toBe(200);
       await expect(page.locator("h1")).toBeVisible();
-      await expect(page.locator("[data-case-study-section]")).toHaveCount(16);
-      await expect(page.locator("[data-case-study-section='summary']")).toBeVisible();
-      await expect(page.locator("[data-case-study-section='related']")).toBeVisible();
+      expect(storySections.length).toBeGreaterThanOrEqual(5);
+      expect(storySections.length).toBeLessThanOrEqual(7);
+      await expect(page.locator("[data-case-study-section]")).toHaveCount(
+        storySections.length,
+      );
+      for (const section of storySections) {
+        const renderedSection = page.locator(
+          `[data-case-study-section="${section.id}"]`,
+        );
+        await expect(renderedSection).toBeVisible();
+        await expect(
+          renderedSection.getByRole("heading", { level: 2 }),
+        ).toBeVisible();
+        await expect(renderedSection.locator("p").first()).toBeVisible();
+      }
+      await expect(page.locator("#related-work-title")).toBeVisible();
       await expect(page).toHaveTitle(/\S+/);
 
       const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
@@ -56,33 +79,39 @@ for (const locale of ["hu", "en"] as const) {
   }
 }
 
-test("Work index filters projects without losing accessible state", async ({
+test("Work index separates five projects from secondary experiments without filters", async ({
   page,
 }) => {
   await page.goto("/en/work");
 
-  const anonymized = page.getByRole("button", {
-    name: "Anonymized",
-    exact: true,
-  });
-  await anonymized.click();
-  await expect(anonymized).toHaveAttribute("aria-pressed", "true");
-  await expect(page.locator("main article")).toHaveCount(2);
-  await expect(page.getByText("2 projects shown")).toBeVisible();
-
-  await page.getByRole("button", { name: "In progress", exact: true }).click();
-  await expect(page.locator("main article")).toHaveCount(1);
-  await expect(page.locator("main article h2")).toContainText("QuestLog");
+  await expect(
+    page.locator('main article:has(a[href^="/en/work/"])'),
+  ).toHaveCount(5);
+  await expect(
+    page.locator('main article:has(a[href^="/projects/"])'),
+  ).toHaveCount(3);
+  await expect(page.locator("main button[aria-pressed]")).toHaveCount(0);
 });
 
-test("anonymized studies do not expose internal media or project links", async ({
+test("anonymized studies expose only portfolio-safe media and no project link", async ({
   page,
 }) => {
   await page.goto("/en/work/samsung-smart-gate-analytics");
 
-  await expect(page.getByText("Anonymized", { exact: true }).first()).toBeVisible();
-  await expect(page.locator("main img")).toHaveCount(0);
-  await expect(page.locator('main a[href*="samsung"]')).toHaveCount(0);
+  await expect(
+    page.getByText("Presentation context", { exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByText(/portfolio reconstructions or references using test data/i),
+  ).toBeVisible();
+  await expect(
+    page.locator('main img[src*="samsung-gate-flow.svg"]'),
+  ).toHaveCount(1);
+  await expect(
+    page.locator(
+      'main img:not([src*="/portfolio-v3/"]), main a[href^="http://"], main a[href^="https://"]',
+    ),
+  ).toHaveCount(0);
 });
 
 test("public case-study media uses the Next.js image optimizer", async ({
@@ -92,18 +121,25 @@ test("public case-study media uses the Next.js image optimizer", async ({
   await page.goto("/en/work/alba-medence-3d-configurator");
 
   const image = page.getByAltText(
-    "Screenshot stored in the public repository for the Alba Pool project",
-  );
+    "Interactive 3D pool configurator on desktop with an options sidebar.",
+  ).first();
   await expect(image).toBeVisible();
 
   const optimizedSource = await image.getAttribute("src");
   expect(optimizedSource).toMatch(/^\/_next\/image\?/u);
+  const originalSource = new URL(
+    optimizedSource!,
+    "http://127.0.0.1:3100",
+  ).searchParams.get("url");
+  expect(originalSource).toBe(
+    "/portfolio-v3/projects/alba/alba-configurator-desktop.avif",
+  );
 
   const [optimizedResponse, originalResponse] = await Promise.all([
     request.get(optimizedSource!, {
       headers: { accept: "image/avif,image/webp,image/*" },
     }),
-    request.get("/projects/alba_pool.png"),
+    request.get(originalSource!),
   ]);
 
   expect(optimizedResponse.ok()).toBe(true);

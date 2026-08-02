@@ -4,12 +4,12 @@ const localeExpectations = {
   hu: {
     heading: "Rendszerhatárok, amelyeket végig lehet követni",
     description: /Hozzáférhető, koncepcionális architektúra/,
-    viewSelector: "Architektúranézet kiválasztása",
+    panelHeadings: ["Validált request", "Approval workflow", "Offline sync"],
   },
   en: {
     heading: "System boundaries you can inspect end to end",
     description: /Accessible conceptual demonstrations of architecture/,
-    viewSelector: "Select an architecture view",
+    panelHeadings: ["Validated request", "Approval workflow", "Offline sync"],
   },
 } as const;
 
@@ -34,10 +34,12 @@ for (const locale of ["hu", "en"] as const) {
       page.locator('[data-lab-status="conceptual-demonstration"]'),
     ).toHaveCount(1);
 
-    const views = page.getByRole("group", {
-      name: expected.viewSelector,
-    });
-    await expect(views.getByRole("button")).toHaveCount(3);
+    for (const panelHeading of expected.panelHeadings) {
+      await expect(
+        page.getByRole("heading", { level: 2, name: panelHeading }),
+      ).toBeVisible();
+    }
+    await expect(page.locator("main [role='note']")).toHaveCount(1);
 
     const canonical = await page.locator('link[rel="canonical"]').getAttribute("href");
     expect(new URL(canonical!).pathname).toBe(`/${locale}/lab`);
@@ -53,7 +55,7 @@ for (const locale of ["hu", "en"] as const) {
   });
 }
 
-test("all architecture views are present in the server HTML fallback", async ({
+test("all architecture panels and text fallbacks are present in the server HTML", async ({
   page,
   request,
 }) => {
@@ -67,76 +69,75 @@ test("all architecture views are present in the server HTML fallback", async ({
   expect(html).toContain("Offline sync");
 
   await page.goto("/en/lab");
-  const fallback = page.locator(
-    'section[aria-labelledby="architecture-text-fallback-title"]',
+  const panels = page.locator(
+    "#validated-request, #approval-workflow, #offline-sync",
   );
+  const fallbacks = panels.locator("details");
 
-  await expect(fallback).toBeVisible();
-  await expect(fallback.locator("details")).toHaveCount(3);
-  await expect(fallback.locator("summary")).toHaveText([
-    "Validated request",
-    "Approval workflow",
-    "Offline sync",
+  await expect(panels).toHaveCount(3);
+  await expect(fallbacks).toHaveCount(3);
+  await expect(fallbacks.locator("summary")).toHaveText([
+    "Complete architecture text view",
+    "Complete architecture text view",
+    "Complete architecture text view",
   ]);
 });
 
-test("architecture views and nodes support pointer, Enter and Space selection", async ({
+test("architecture panels support pointer, Enter and Space node selection", async ({
   page,
 }) => {
   await page.goto("/en/lab");
 
-  const viewSelector = page.getByRole("group", {
-    name: "Select an architecture view",
-  });
-  const approvalView = viewSelector.getByRole("button", {
-    name: /Approval workflow/,
-  });
-  await approvalView.click();
-  await expect(approvalView).toHaveAttribute("aria-pressed", "true");
+  const validatedPanel = page.locator("#validated-request");
+  const authorizationNode = validatedPanel
+    .getByRole("group", { name: "Select a node" })
+    .getByRole("button", { name: /Authorization policy/ });
+  await authorizationNode.click();
+  await expect(authorizationNode).toHaveAttribute("aria-pressed", "true");
+  await expect(
+    validatedPanel
+      .locator('article[aria-live="polite"]')
+      .getByRole("heading", { name: "Authorization policy" }),
+  ).toBeVisible();
 
-  const nodeSelector = page.getByRole("group", { name: "Select a node" });
-  const permissionNode = nodeSelector.getByRole("button", {
-    name: /Permission policy/,
-  });
-  await permissionNode.click();
+  const approvalPanel = page.locator("#approval-workflow");
+  const permissionNode = approvalPanel
+    .getByRole("group", { name: "Select a node" })
+    .getByRole("button", { name: /Permission policy/ });
+  await permissionNode.focus();
+  await permissionNode.press("Enter");
   await expect(permissionNode).toHaveAttribute("aria-pressed", "true");
   await expect(
-    page
+    approvalPanel
       .locator('article[aria-live="polite"]')
       .getByRole("heading", { name: "Permission policy" }),
   ).toBeVisible();
 
-  const offlineView = viewSelector.getByRole("button", {
-    name: /Offline sync/,
-  });
-  await offlineView.focus();
-  await offlineView.press("Enter");
-  await expect(offlineView).toHaveAttribute("aria-pressed", "true");
-  await expect(
-    page
-      .locator('article[aria-live="polite"]')
-      .getByRole("heading", { name: "PWA shell" }),
-  ).toBeVisible();
-
-  const conflictNode = nodeSelector.getByRole("button", {
-    name: /Conflict policy/,
-  });
+  const offlinePanel = page.locator("#offline-sync");
+  const conflictNode = offlinePanel
+    .getByRole("group", { name: "Select a node" })
+    .getByRole("button", {
+      name: /Conflict policy/,
+    });
   await conflictNode.focus();
   await conflictNode.press("Space");
   await expect(conflictNode).toHaveAttribute("aria-pressed", "true");
   await expect(
-    page
+    offlinePanel
       .locator('article[aria-live="polite"]')
       .getByRole("heading", { name: "Conflict policy" }),
   ).toBeVisible();
 });
 
-test("RBAC demonstration exposes role state, full matrix and backend boundary", async ({
+test("RBAC demonstration exposes compact role state and a complete disclosure matrix", async ({
   page,
 }) => {
   await page.goto("/en/lab");
 
-  const roleSelector = page.getByRole("group", { name: "Select a role" });
+  const permissionSection = page.locator("#permissions");
+  const roleSelector = permissionSection.getByRole("group", {
+    name: "Select a role",
+  });
   await expect(roleSelector.getByRole("button")).toHaveCount(4);
 
   const guestRole = roleSelector.getByRole("button", {
@@ -146,20 +147,27 @@ test("RBAC demonstration exposes role state, full matrix and backend boundary", 
   await guestRole.click();
   await expect(guestRole).toHaveAttribute("aria-pressed", "true");
   await expect(
-    page.getByRole("heading", { name: "Selected role: Guest customer" }),
+    permissionSection.getByRole("heading", {
+      name: "Selected role: Guest customer",
+    }),
   ).toBeVisible();
 
-  const editStructure = page
-    .getByRole("heading", { name: "Edit structure", exact: true })
-    .locator("..");
-  const approveSpecification = page
-    .getByRole("heading", { name: "Approve specification", exact: true })
-    .locator("..");
+  const editStructure = permissionSection
+    .locator("li")
+    .filter({ hasText: "Edit structure" });
+  const approveSpecification = permissionSection
+    .locator("li")
+    .filter({ hasText: "Approve specification" });
   await expect(editStructure).toContainText("Denied");
   await expect(approveSpecification).toContainText("Allowed");
 
-  const matrix = page.locator("table");
+  await permissionSection
+    .getByText("Complete permission matrix", { exact: true })
+    .click();
+
+  const matrix = permissionSection.locator("table");
   await expect(matrix).toHaveCount(1);
+  await expect(matrix).toBeVisible();
   await expect(matrix.locator("thead th")).toHaveCount(5);
   await expect(matrix.locator("tbody tr")).toHaveCount(8);
   await expect(matrix.getByRole("cell")).toHaveCount(32);
@@ -175,9 +183,7 @@ test("RBAC demonstration exposes role state, full matrix and backend boundary", 
       exact: true,
     }),
   ).toHaveCount(4);
-  await expect(
-    page.getByText(/A real system must recheck every decision on the backend/),
-  ).toBeVisible();
+  await expect(page.locator("main [role='note']")).toHaveCount(1);
 });
 
 test("synthetic API contract documents its stable validation and conflict surface", async ({
@@ -200,7 +206,7 @@ test("synthetic API contract documents its stable validation and conflict surfac
 
   await expect(
     page.getByText(/This portfolio does not serve the endpoint/),
-  ).toBeVisible();
+  ).toHaveCount(0);
 });
 
 test("Lab respects reduced motion and contains wide demos without page overflow", async ({
@@ -211,7 +217,8 @@ test("Lab respects reduced motion and contains wide demos without page overflow"
   await page.goto("/en/lab");
 
   const motion = await page
-    .getByRole("group", { name: "Select an architecture view" })
+    .locator("#validated-request")
+    .getByRole("group", { name: "Select a node" })
     .getByRole("button")
     .first()
     .evaluate((element) => {

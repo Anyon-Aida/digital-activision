@@ -9,10 +9,7 @@ for (const locale of ["hu", "en"] as const) {
 
     if (locale === "en") {
       await page
-        .getByRole("group", { name: "Select an architecture view" })
-        .getByRole("button", { name: /Offline sync/ })
-        .click();
-      await page
+        .locator("#offline-sync")
         .getByRole("group", { name: "Select a node" })
         .getByRole("button", { name: /Conflict policy/ })
         .click();
@@ -21,10 +18,7 @@ for (const locale of ["hu", "en"] as const) {
         .getByRole("button", { name: "Guest customer", exact: true })
         .click();
       await page
-        .locator(
-          'section[aria-labelledby="architecture-text-fallback-title"] details',
-        )
-        .first()
+        .locator("#validated-request details")
         .locator("summary")
         .click();
     }

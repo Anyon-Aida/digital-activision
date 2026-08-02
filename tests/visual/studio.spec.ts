@@ -18,13 +18,14 @@ test("Hungarian Studio desktop hero matches its baseline", async ({ page }) => {
   await expect(page).toHaveScreenshot("studio-hu-desktop.png", { fullPage: false });
 });
 
-test("Studio pricing warning and packages match their baseline", async ({ page }) => {
+test("Studio scope-led collaboration matches its baseline", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/hu/studio");
+  await page.evaluate(() => document.fonts.ready);
 
-  await expect(page.locator("#pricing")).toHaveScreenshot(
-    "studio-pricing-hu.png",
+  await expect(page.locator("#scope")).toHaveScreenshot(
+    "studio-scope-hu.png",
   );
 });
 
@@ -32,6 +33,7 @@ test("Studio experiments remain visually subordinate", async ({ page }) => {
   await page.emulateMedia({ reducedMotion: "reduce" });
   await page.setViewportSize({ width: 1440, height: 1000 });
   await page.goto("/en/studio");
+  await page.evaluate(() => document.fonts.ready);
 
   await expect(page.locator("#experiments")).toHaveScreenshot(
     "studio-experiments-en.png",

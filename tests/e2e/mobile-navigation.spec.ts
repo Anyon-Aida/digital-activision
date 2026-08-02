@@ -17,6 +17,9 @@ test("the mobile navigation is keyboard-operable and restores focus", async ({
   await expect(trigger).toHaveAttribute("aria-expanded", "true");
   await expect(sheet).toBeVisible();
   await expect(closeButton).toBeFocused();
+  await expect(
+    sheet.getByRole("link", { name: "Download CV", exact: true }),
+  ).toHaveAttribute("href", "/cv/kovacs-zalan-cv-en.pdf");
 
   await page.keyboard.press("Tab");
   await expect(page.locator("#mobile-navigation :focus")).toHaveCount(1);
