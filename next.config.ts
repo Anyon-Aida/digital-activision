@@ -7,6 +7,9 @@ const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
 const nextConfig: NextConfig = {
   skipTrailingSlashRedirect: true,
+  images: {
+    formats: ["image/avif", "image/webp"],
+  },
   async headers() {
     return [
       {
